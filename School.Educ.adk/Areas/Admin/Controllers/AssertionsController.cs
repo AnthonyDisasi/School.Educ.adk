@@ -20,142 +20,37 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/Assertions
-        public async Task<IActionResult> Index()
+        public IActionResult Create(string idQuestion, string intituler)
         {
-            var inspecteurDb = _context.Assertions.Include(a => a.Question);
-            return View(await inspecteurDb.ToListAsync());
-        }
-
-        // GET: Admin/Assertions/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
+            if (intituler != null)
             {
-                return NotFound();
-            }
-
-            var assertion = await _context.Assertions
-                .Include(a => a.Question)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (assertion == null)
-            {
-                return NotFound();
-            }
-
-            return View(assertion);
-        }
-
-        // GET: Admin/Assertions/Create
-        public IActionResult Create()
-        {
-            ViewData["QuestionID"] = new SelectList(_context.Questions, "ID", "ID");
-            return View();
-        }
-
-        // POST: Admin/Assertions/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,QuestionID,Intituler")] Assertion assertion)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(assertion);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["QuestionID"] = new SelectList(_context.Questions, "ID", "ID", assertion.QuestionID);
-            return View(assertion);
-        }
-
-        // GET: Admin/Assertions/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var assertion = await _context.Assertions.FindAsync(id);
-            if (assertion == null)
-            {
-                return NotFound();
-            }
-            ViewData["QuestionID"] = new SelectList(_context.Questions, "ID", "ID", assertion.QuestionID);
-            return View(assertion);
-        }
-
-        // POST: Admin/Assertions/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,QuestionID,Intituler")] Assertion assertion)
-        {
-            if (id != assertion.ID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                Assertion model = new Assertion
                 {
-                    _context.Update(assertion);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
+                    QuestionID = idQuestion,
+                    Intituler = intituler
+                };
+                if (ModelState.IsValid)
                 {
-                    if (!AssertionExists(assertion.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    _context.Add(model);
+                    _context.SaveChangesAsync();
+                    return RedirectToAction("Details", "Questions", new { id = idQuestion });
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["QuestionID"] = new SelectList(_context.Questions, "ID", "ID", assertion.QuestionID);
-            return View(assertion);
+            return RedirectToAction("Details", "Questions", new { id = idQuestion });
         }
 
-        // GET: Admin/Assertions/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public IActionResult Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var assertion = await _context.Assertions
-                .Include(a => a.Question)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (assertion == null)
-            {
-                return NotFound();
-            }
+            Assertion model = _context.Assertions.Find(id);
+            _context.Remove(model);
+            _context.SaveChanges();
 
-            return View(assertion);
-        }
-
-        // POST: Admin/Assertions/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var assertion = await _context.Assertions.FindAsync(id);
-            _context.Assertions.Remove(assertion);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool AssertionExists(string id)
-        {
-            return _context.Assertions.Any(e => e.ID == id);
+            return RedirectToAction("Details", "Questions", new { id = model.QuestionID });
         }
     }
 }

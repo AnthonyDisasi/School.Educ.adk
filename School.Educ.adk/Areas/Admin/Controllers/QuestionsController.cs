@@ -41,7 +41,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
         public IActionResult Create(string idExamen, string enoncer, string bonneReponse, string cote, string lettre)
         {
-            string message;
             if ((enoncer != null) & (bonneReponse != null) & (cote != null) & (lettre != null))
             {
                 Question model = new Question
@@ -57,10 +56,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                     _context.Add(model);
                     _context.SaveChangesAsync();
                     return RedirectToAction("Details", "Examen", new { id = idExamen });
-                }
-                else
-                {
-                    message = "Respectez le model";
                 }
             }
             return RedirectToAction("Details", "Examen", new { id = idExamen });
