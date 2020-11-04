@@ -1,4 +1,4 @@
-﻿@model IEnumerable<School.Educ.adk.Areas.Admin.Models.Question>
+﻿@model IEnumerable<School.Educ.adk.Areas.Admin.Models.Assertion>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,16 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Enoncer)
+                @Html.DisplayNameFor(model => model.Intituler)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BonneReponse)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cote)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Examen)
+                @Html.DisplayNameFor(model => model.Question)
             </th>
             <th></th>
         </tr>
@@ -31,16 +25,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Enoncer)
+                @Html.DisplayFor(modelItem => item.Intituler)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BonneReponse)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cote)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Examen.ID)
+                @Html.DisplayFor(modelItem => item.Question.ID)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

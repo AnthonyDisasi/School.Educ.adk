@@ -20,14 +20,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/Questions
-        public async Task<IActionResult> Index()
-        {
-            var inspecteurDb = _context.Questions.Include(q => q.Examen);
-            return View(await inspecteurDb.ToListAsync());
-        }
-
-        // GET: Admin/Questions/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -37,6 +29,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
             var question = await _context.Questions
                 .Include(q => q.Examen)
+                .Include(a => a.Assertions)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (question == null)
             {
@@ -91,7 +84,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,ExamenID,Enoncer,BonneReponse,Cote")] Question question)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,ExamenID,Enoncer,BonneReponse,Lettre,Cote")] Question question)
         {
             if (id != question.ID)
             {
@@ -116,7 +109,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Examen", new { id = question.ExamenID });
             }
             ViewData["ExamenID"] = new SelectList(_context.Examens, "ID", "ID", question.ExamenID);
             return View(question);
@@ -147,7 +140,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             var question = await _context.Questions.FindAsync(id);
             _context.Questions.Remove(question);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Examen", new { id = question.ExamenID });
         }
 
         private bool QuestionExists(string id)

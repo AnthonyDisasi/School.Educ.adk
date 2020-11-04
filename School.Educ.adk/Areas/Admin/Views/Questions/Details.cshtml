@@ -4,39 +4,163 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>La question</h1>
 
 <div>
-    <h4>Question</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Enoncer)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Enoncer)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BonneReponse)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BonneReponse)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cote)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cote)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Examen)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Examen.ID)
-        </dd>
-    </dl>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-outline-info btn-xs"><i class="fa fa-pencil"></i> Modifier</a>
+                        </li>
+                        <li>
+                            <a asp-action="Details" asp-area="Admin" asp-controller="Examen" asp-route-id="@Model.ExamenID" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+                    <h4>Informations</h4>
+                    <dl class="row">
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Examen)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Examen.Description)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Enoncer)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Enoncer)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.BonneReponse)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.BonneReponse)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Lettre)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Lettre)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Cote)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Cote)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<!-- Datatables -->
+
+<link href="~/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<link href="~/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+<link href="~/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+<link href="~/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+<link href="~/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+
+<h2>Les questions</h2>
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+
+                <div class="col-md-12 col-sm-12">
+                    <div class="x_panel">
+                        <div class="x_content">
+                            <form class="" asp-area="Admin" asp-controller="Questions" asp-action="Create" method="get">
+
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                <input name="idExamen" value="@Model.ID" type="hidden" />
+
+                                <div class="field item form-group">
+                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Intituler</label>
+                                    <div class="col-md-6 col-sm-6">
+                                        <input class="form-control has-feedback-left" type="text" name="intituler" />
+                                        <span class="fa fa-pencil form-control-feedback left" aria-hidden="true"></span>
+                                    </div>
+                                </div>
+
+                                <div class="ln_solid">
+                                    <div class="form-group">
+                                        <br />
+                                        <div class="col-md-6 offset-md-3 text-center">
+                                            <button type='submit' class="btn btn-primary">Enregistrer</button>
+                                            <button type='reset' class="btn btn-success">Recommencer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                            <p class="text-muted font-13 m-b-30">
+
+                            </p>
+                            <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Intituler</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+
+
+                                <tbody>
+                                    @if (Model.Assertions.Count() == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="8">Aucune assertion enregistrée!</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var item in Model.Assertions)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Intituler)
+                                                </td>
+                                                <td style="text-align:center">
+                                                    <a asp-area="Admin" asp-controller="Assertions" asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> </a>
+                                                    <a asp-area="Admin" asp-controller="Assertions" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> </a>
+                                                    <a asp-area="Admin" asp-controller="Assertions" asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
