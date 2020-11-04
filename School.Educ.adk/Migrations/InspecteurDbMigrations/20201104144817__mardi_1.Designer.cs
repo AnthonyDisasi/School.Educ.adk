@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Educ.adk.Areas.Admin.Data;
 
 namespace School.Educ.adk.Migrations.InspecteurDbMigrations
 {
     [DbContext(typeof(InspecteurDb))]
-    partial class InspecteurDbModelSnapshot : ModelSnapshot
+    [Migration("20201104144817__mardi_1")]
+    partial class _mardi_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -161,8 +163,6 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
 
                     b.Property<string>("Intituler")
                         .IsRequired();
-
-                    b.Property<string>("Lettre");
 
                     b.Property<string>("QuestionID");
 

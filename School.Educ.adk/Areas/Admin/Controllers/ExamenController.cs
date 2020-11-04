@@ -32,7 +32,10 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var examen = await _context.Examens.Include(q => q.Questions)
+            var examen = await _context
+                .Examens
+                .Include(q => q.Questions)
+                .ThenInclude(a => a.Assertions)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (examen == null)
             {

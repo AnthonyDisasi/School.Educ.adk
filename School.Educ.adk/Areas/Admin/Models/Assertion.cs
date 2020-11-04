@@ -17,6 +17,7 @@ namespace School.Educ.adk.Areas.Admin.Models
 
         [Required(ErrorMessage = "L'intituler est obligatoire"), Display(Name = "Intituler")]
         public string Intituler { get; set; }
+        public string Lettre { get; set; }
 
         public Question Question { get; set; }
     }

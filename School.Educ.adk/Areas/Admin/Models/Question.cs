@@ -18,15 +18,8 @@ namespace School.Educ.adk.Areas.Admin.Models
 
         public string Enoncer { get; set; }
         public string BonneReponse { get; set; }
+        public string Lettre { get; set; }
         public double Cote { get; set; }
-
-        public int NombreAssertion
-        {
-            get
-            {
-                return Assertions.Count();
-            }
-        }
 
         public Examen Examen { get; set; }
         public ICollection<Reponse> Reponse { get; set; }
