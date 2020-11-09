@@ -31,8 +31,8 @@ namespace School.Educ.adk.Areas.Ecole.Models
             }
         }
 
-        public Directeur Directeur { get; set; }
+        public virtual Directeur Directeur { get; set; }
         public ICollection<Classe> Classes { get; set; }
-        public ICollection<Professeur> Professeurs { get; set; }
+        //public ICollection<Professeur> Professeurs { get; set; }
     }
 }
