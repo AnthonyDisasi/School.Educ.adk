@@ -37,6 +37,6 @@ namespace School.Educ.adk.Areas.Ecole.Models
             }
         }
 
-        public Ecole Ecole { get; set; }
+        public virtual Ecole Ecole { get; set; }
     }
 }
