@@ -9,9 +9,10 @@ namespace School.Educ.adk.Areas.Ecole.Models
 {
     public class Ecole
     {
-        [Key, ForeignKey("Directeur")]
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string ID { get; set; }
+        public string DirecteurID { get; set; }
 
         [Display(Name = "Nom"), Required(ErrorMessage = "Le nom est obligatoire")]
         public string Nom { get; set; }
