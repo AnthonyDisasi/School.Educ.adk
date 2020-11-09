@@ -9,10 +9,9 @@ namespace School.Educ.adk.Areas.Ecole.Models
 {
     public class Ecole
     {
-        [Key]
+        [Key, ForeignKey("Directeur")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string ID { get; set; }
-        public string DirecteurID { get; set; }
 
         [Display(Name = "Nom"), Required(ErrorMessage = "Le nom est obligatoire")]
         public string Nom { get; set; }
@@ -33,6 +32,6 @@ namespace School.Educ.adk.Areas.Ecole.Models
 
         public virtual Directeur Directeur { get; set; }
         public ICollection<Classe> Classes { get; set; }
-        //public ICollection<Professeur> Professeurs { get; set; }
+        public ICollection<Professeur> Professeurs { get; set; }
     }
 }
