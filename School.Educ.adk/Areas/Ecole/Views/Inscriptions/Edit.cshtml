@@ -1,0 +1,49 @@
+﻿@model School.Educ.adk.Areas.Ecole.Models.Inscription
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Inscription</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="EleveId" class="control-label"></label>
+                <select asp-for="EleveId" class="form-control" asp-items="ViewBag.EleveId"></select>
+                <span asp-validation-for="EleveId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClasseID" class="control-label"></label>
+                <select asp-for="ClasseID" class="form-control" asp-items="ViewBag.ClasseID"></select>
+                <span asp-validation-for="ClasseID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateInscription" class="control-label"></label>
+                <input asp-for="DateInscription" class="form-control" />
+                <span asp-validation-for="DateInscription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnneeScolaire" class="control-label"></label>
+                <input asp-for="AnneeScolaire" class="form-control" />
+                <span asp-validation-for="AnneeScolaire" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
