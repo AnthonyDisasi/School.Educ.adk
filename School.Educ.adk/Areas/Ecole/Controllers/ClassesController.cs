@@ -15,6 +15,18 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
     {
         private readonly DbEcole _context;
 
+        private void ListSect()
+        {
+            List<SelectListItem> Sections = (from s in _context.Sections orderby s.Nom ascending select new SelectListItem() { Text = s.Nom, Value = s.Nom }).ToList();
+            ViewBag.Sections = Sections;
+        }
+
+        private void ListOpt()
+        {
+            List<SelectListItem> Options = (from o in _context.Options orderby o.Nom ascending select new SelectListItem() { Text = o.Nom, Value = o.Nom }).ToList();
+            ViewBag.Options = Options;
+        }
+
         public ClassesController(DbEcole context)
         {
             _context = context;
@@ -47,6 +59,8 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
         public IActionResult Create()
         {
             ViewData["EcoleID"] = new SelectList(_context.Ecoles, "ID", "ID");
+            ListOpt();
+            ListSect();
             return View();
         }
 
@@ -61,6 +75,8 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["EcoleID"] = new SelectList(_context.Ecoles, "ID", "ID", classe.EcoleID);
+            ListOpt();
+            ListSect();
             return View(classe);
         }
 
@@ -77,6 +93,8 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 return NotFound();
             }
             ViewData["EcoleID"] = new SelectList(_context.Ecoles, "ID", "ID", classe.EcoleID);
+            ListOpt();
+            ListSect();
             return View(classe);
         }
 
@@ -110,6 +128,8 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["EcoleID"] = new SelectList(_context.Ecoles, "ID", "ID", classe.EcoleID);
+            ListOpt();
+            ListSect();
             return View(classe);
         }
 
