@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-area="Ecole" asp-controller="Cours" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ClasseID" class="control-label"></label>
@@ -34,7 +34,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-area="Ecole" asp-controller="Cours" asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
