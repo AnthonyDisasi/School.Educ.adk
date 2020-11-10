@@ -14,21 +14,26 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="EcoleID" class="control-label"></label>
-                <select asp-for="EcoleID" class ="form-control" asp-items="ViewBag.EcoleID"></select>
+                <select asp-for="EcoleID" class="form-control" asp-items="ViewBag.EcoleID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Niveau" class="control-label"></label>
                 <input asp-for="Niveau" class="form-control" />
                 <span asp-validation-for="Niveau" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
                 <label asp-for="Section" class="control-label"></label>
-                <input asp-for="Section" class="form-control" />
+                <select asp-for="Section" asp-items="@ViewBag.Sections">
+                    <option value="">Selectionner une section</option>
+                </select>
                 <span asp-validation-for="Section" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Option" class="control-label"></label>
-                <input asp-for="Option" class="form-control" />
+                <select asp-for="Option" asp-items="@ViewBag.Options">
+                    <option value="">Selectionner une option</option>
+                </select>
                 <span asp-validation-for="Option" class="text-danger"></span>
             </div>
             <div class="form-group">
