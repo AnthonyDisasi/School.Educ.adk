@@ -37,9 +37,9 @@
         </dd class>
     </dl>
     
-    <form asp-action="Delete">
+    <form  asp-area="Ecole" asp-controller="Classes" asp-action="Delete">
         <input type="hidden" asp-for="ID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a  asp-area="Ecole" asp-controller="Classes" asp-action="Index">Back to List</a>
     </form>
 </div>
