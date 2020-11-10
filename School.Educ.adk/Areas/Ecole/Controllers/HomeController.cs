@@ -9,9 +9,9 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
     [Area("Ecole")]
     public class HomeController : Controller
     {
-        public string Index()
+        public IActionResult Index()
         {
-            return "Salut";
+            return RedirectToAction("Index", "Ecoles");
         }
     }
 }

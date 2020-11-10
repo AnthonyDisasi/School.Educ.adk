@@ -20,14 +20,12 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             _context = context;
         }
 
-        // GET: Ecole/Professeurs
         public async Task<IActionResult> Index()
         {
             var dbEcole = _context.Professeurs.Include(p => p.Ecole);
             return View(await dbEcole.ToListAsync());
         }
 
-        // GET: Ecole/Professeurs/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -46,16 +44,12 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(professeur);
         }
 
-        // GET: Ecole/Professeurs/Create
         public IActionResult Create()
         {
             ViewData["EcoleID"] = new SelectList(_context.Ecoles, "ID", "ID");
             return View();
         }
 
-        // POST: Ecole/Professeurs/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,EcoleID,Nom,Postnom,Prenom,Genre,Matricule,Email,DateNaissance")] Professeur professeur)
@@ -70,7 +64,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(professeur);
         }
 
-        // GET: Ecole/Professeurs/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -87,9 +80,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(professeur);
         }
 
-        // POST: Ecole/Professeurs/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("ID,EcoleID,Nom,Postnom,Prenom,Genre,Matricule,Email,DateNaissance")] Professeur professeur)
@@ -123,7 +113,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(professeur);
         }
 
-        // GET: Ecole/Professeurs/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -142,7 +131,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(professeur);
         }
 
-        // POST: Ecole/Professeurs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

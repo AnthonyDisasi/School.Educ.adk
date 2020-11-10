@@ -20,13 +20,11 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             _context = context;
         }
 
-        // GET: Ecole/Eleves
         public async Task<IActionResult> Index()
         {
             return View(await _context.Eleves.ToListAsync());
         }
 
-        // GET: Ecole/Eleves/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -44,15 +42,11 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
-        // GET: Ecole/Eleves/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Ecole/Eleves/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,DateNaissance")] Eleve eleve)
@@ -66,7 +60,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
-        // GET: Ecole/Eleves/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -82,9 +75,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
-        // POST: Ecole/Eleves/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,DateNaissance")] Eleve eleve)
@@ -117,7 +107,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
-        // GET: Ecole/Eleves/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -135,7 +124,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
-        // POST: Ecole/Eleves/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
