@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using School.Educ.adk.Areas.Ecole.DataContext;
+using School.Educ.adk.Data;
 
 namespace School.Educ.adk
 {
@@ -34,6 +35,7 @@ namespace School.Educ.adk
             });
 
             services.AddDbContext<DbEcole>(options => options.UseSqlServer(this.Configuration.GetConnectionString("EcoleDb_")));
+            services.AddDbContext<UserAuthent>(options => options.UseSqlServer(this.Configuration.GetConnectionString("USerDb_")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
