@@ -54,5 +54,13 @@ namespace School.Educ.adk.Controllers
         {
             return View();
         }
+
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("Login");
+        }
+
     }
 }
