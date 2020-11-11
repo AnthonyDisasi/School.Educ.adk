@@ -49,7 +49,8 @@ namespace School.Educ.adk.Controllers
             return View(model);
         }
 
-        public IActionResult Index()
+        [AllowAnonymous]
+        public IActionResult AccessDenied()
         {
             return View();
         }
