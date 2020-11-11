@@ -1,12 +1,11 @@
 ﻿@model School.Educ.adk.Areas.Ecole.Models.Classe
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Nouvelle classe";
 }
 
-<h1>Create</h1>
+<h1>Nouvelle classe</h1>
 
-<h4>Classe</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -37,16 +36,12 @@
                 <span asp-validation-for="Option" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Ajouter" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Retour aux classes</a>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
