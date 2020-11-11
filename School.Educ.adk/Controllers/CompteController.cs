@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using School.Educ.adk.Models;
@@ -18,6 +19,36 @@ namespace School.Educ.adk.Controllers
             userManager = _userManager;
             signInManager = _signInManager;
         }
+
+        [AllowAnonymous]
+        public IActionResult Login(string returnUrl)
+        {
+            ViewBag.returnUrl = returnUrl;
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(Models.Login model, string returnUrl)
+        {
+            if(ModelState.IsValid)
+            {
+                ApplicationUser user = await userManager.FindByNameAsync(model.UserName);
+                if(user != null)
+                {
+                    await signInManager.SignOutAsync();
+                    Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                    ModelState.AddModelError(nameof(Models.Login.UserName), "Mot de passe ou identifiant incorrect");
+            }
+            return View(model);
+        }
+
         public IActionResult Index()
         {
             return View();
