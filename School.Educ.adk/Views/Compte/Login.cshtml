@@ -1,5 +1,75 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Login
+
+
+<link href="~/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link href="~/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<!-- NProgress -->
+<link href="~/vendors/nprogress/nprogress.css" rel="stylesheet">
+<!-- Animate.css -->
+<link href="~/vendors/animate.css/animate.min.css" rel="stylesheet">
+
+<!-- Custom Theme Style -->
+<link href="~/build/css/custom.min.css" rel="stylesheet">
+
+<div class="login">
+
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+
+            <section class="login_content">
+                <form asp-action="Login" method="post">
+                    <h1>Connexion</h1>
+
+                    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+                    <div>
+                        <input type="text" class="form-control" placeholder="Identifiant"  asp-for="UserName" />
+                    </div>
+                    <div>
+                        <input type="password" class="form-control" placeholder="Mot de passe"  asp-for="Password" />
+                    </div>
+                    <div>
+                        <input type="submit" name="" class="btn btn-outline-success" value="Se connecter">
+                        <a class="reset_pass btn btn-outline-dark" href="#">Mot de passe oublié ?</a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="separator">
+
+                        <div class="clearfix"></div>
+                        <br />
+
+                        <div>
+                            <h1><i class="fa fa-desktop"></i> Haut.Katanga.Educ</h1>
+                            <p>©2020 D.K.A</p>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
+<section>
+    <div>
+
+        <h1>Connexion</h1>
+
+        <form asp-action="Login" method="post">
+            <div class="contact-form row">
+                <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+                <div class="form-field col-lg-6">
+                    <input class="input-text" asp-for="UserName" />
+                    <label asp-for="UserName" class="label">E - mail <span asp-validation-for="UserName" class="text-danger"></span></label>
+                </div>
+                <div class="form-field col-lg-6">
+                    <input class="input-text" asp-for="Password" />
+                    <label asp-for="Password" class="label">Mot de passe <span asp-validation-for="Password" class="text-danger"></span></label>
+                </div>
+                <div class="form-field col-lg-12 text-center">
+                    <input type="submit" name="" class="submit-btn" value="Se connecter">
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
