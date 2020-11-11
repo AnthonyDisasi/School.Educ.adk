@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace School.Educ.adk.Controllers
 {
-    public class CompteController1 : Controller
+    public class CompteController : Controller
     {
+
         public IActionResult Index()
         {
             return View();
