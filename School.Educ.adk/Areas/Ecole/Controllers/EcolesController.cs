@@ -19,6 +19,10 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
         {
             _context = context;
         }
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Ecoles.ToListAsync());
+        }
 
         public async Task<IActionResult> Details(string id)
         {
