@@ -5,29 +5,28 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using School.Educ.adk.Areas.Ecole.DataContext;
+using School.Educ.adk.Areas.Inspection.Data;
 using School.Educ.adk.Areas.Inspection.Models;
 
 namespace School.Educ.adk.Areas.Inspection.Controllers
 {
     [Area("Inspection")]
-    public class AssertionsController : Controller
+    public class ExamenController : Controller
     {
-        private readonly DbEcole _context;
+        private readonly ExamenDb _context;
 
-        public AssertionsController(DbEcole context)
+        public ExamenController(ExamenDb context)
         {
             _context = context;
         }
 
-        // GET: Inspection/Assertions
+        // GET: Inspection/Examen
         public async Task<IActionResult> Index()
         {
-            var dbEcole = _context.Assertion.Include(a => a.Question);
-            return View(await dbEcole.ToListAsync());
+            return View(await _context.Examens.ToListAsync());
         }
 
-        // GET: Inspection/Assertions/Details/5
+        // GET: Inspection/Examen/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -35,42 +34,39 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                 return NotFound();
             }
 
-            var assertion = await _context.Assertion
-                .Include(a => a.Question)
+            var examen = await _context.Examens
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (assertion == null)
+            if (examen == null)
             {
                 return NotFound();
             }
 
-            return View(assertion);
+            return View(examen);
         }
 
-        // GET: Inspection/Assertions/Create
+        // GET: Inspection/Examen/Create
         public IActionResult Create()
         {
-            ViewData["QuestionID"] = new SelectList(_context.Set<Question>(), "ID", "ID");
             return View();
         }
 
-        // POST: Inspection/Assertions/Create
+        // POST: Inspection/Examen/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,QuestionID,Intituler")] Assertion assertion)
+        public async Task<IActionResult> Create([Bind("ID,Description,Periode,Serie,CodeAcces,IdInspecteur")] Examen examen)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(assertion);
+                _context.Add(examen);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["QuestionID"] = new SelectList(_context.Set<Question>(), "ID", "ID", assertion.QuestionID);
-            return View(assertion);
+            return View(examen);
         }
 
-        // GET: Inspection/Assertions/Edit/5
+        // GET: Inspection/Examen/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -78,23 +74,22 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                 return NotFound();
             }
 
-            var assertion = await _context.Assertion.FindAsync(id);
-            if (assertion == null)
+            var examen = await _context.Examens.FindAsync(id);
+            if (examen == null)
             {
                 return NotFound();
             }
-            ViewData["QuestionID"] = new SelectList(_context.Set<Question>(), "ID", "ID", assertion.QuestionID);
-            return View(assertion);
+            return View(examen);
         }
 
-        // POST: Inspection/Assertions/Edit/5
+        // POST: Inspection/Examen/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,QuestionID,Intituler")] Assertion assertion)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,Description,Periode,Serie,CodeAcces,IdInspecteur")] Examen examen)
         {
-            if (id != assertion.ID)
+            if (id != examen.ID)
             {
                 return NotFound();
             }
@@ -103,12 +98,12 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             {
                 try
                 {
-                    _context.Update(assertion);
+                    _context.Update(examen);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AssertionExists(assertion.ID))
+                    if (!ExamenExists(examen.ID))
                     {
                         return NotFound();
                     }
@@ -119,11 +114,10 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["QuestionID"] = new SelectList(_context.Set<Question>(), "ID", "ID", assertion.QuestionID);
-            return View(assertion);
+            return View(examen);
         }
 
-        // GET: Inspection/Assertions/Delete/5
+        // GET: Inspection/Examen/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -131,31 +125,30 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                 return NotFound();
             }
 
-            var assertion = await _context.Assertion
-                .Include(a => a.Question)
+            var examen = await _context.Examens
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (assertion == null)
+            if (examen == null)
             {
                 return NotFound();
             }
 
-            return View(assertion);
+            return View(examen);
         }
 
-        // POST: Inspection/Assertions/Delete/5
+        // POST: Inspection/Examen/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var assertion = await _context.Assertion.FindAsync(id);
-            _context.Assertion.Remove(assertion);
+            var examen = await _context.Examens.FindAsync(id);
+            _context.Examens.Remove(examen);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AssertionExists(string id)
+        private bool ExamenExists(string id)
         {
-            return _context.Assertion.Any(e => e.ID == id);
+            return _context.Examens.Any(e => e.ID == id);
         }
     }
 }
