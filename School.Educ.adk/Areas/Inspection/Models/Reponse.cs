@@ -12,7 +12,9 @@ namespace School.Educ.adk.Areas.Inspection.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string ID { get; set; }
+        [Required(ErrorMessage = "La question est obligatoire"), Display(Name = "Question")]
         public string QuestionID { get; set; }
+        [Required(ErrorMessage = "Le participant est obligatoire"), Display(Name = "Participant")]
         public string ParticipantID { get; set; }
 
         [Display(Name = "Réponse de l'école"), Required(ErrorMessage = "La réponse est obligatoire")]

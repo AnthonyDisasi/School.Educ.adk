@@ -14,7 +14,10 @@ namespace School.Educ.adk.Areas.Professeur.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string ID { get; set; }
 
-        public int EpreuveID { get; set; }
+        [Required(ErrorMessage = "Le cours est obligatoire"), Display(Name = "Cours")]
+        public string IdentifiantCours { get; set; }
+        [Required(ErrorMessage = "Le professeur est obligatoire"), Display(Name = "Professeur")]
+        public string IdentifiantProfesseur { get; set; }
 
         [Display(Name = "Description")]
         [StringLength(50, ErrorMessage = "La description doit être plus petit que 50 charactères")]

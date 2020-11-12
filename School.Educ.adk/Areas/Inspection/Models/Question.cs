@@ -14,6 +14,7 @@ namespace School.Educ.adk.Areas.Inspection.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string ID { get; set; }
 
+        [Required(ErrorMessage = "L'examen est obligatoire"), Display(Name = "Examen")]
         public string ExamenID { get; set; }
 
         public string Enoncer { get; set; }
