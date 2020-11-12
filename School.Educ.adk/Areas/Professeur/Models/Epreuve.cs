@@ -23,6 +23,15 @@ namespace School.Educ.adk.Areas.Professeur.Models
         [Required(ErrorMessage = "La période est obligatoire"), Display(Name = "Période")]
         public string Periode { get; set; }
 
+        [Display(Name = "Date d'épreuve")]
+        [Required(ErrorMessage = "La date d'épreuve est obligatoire")]
+        [DataType(DataType.Date)]
+        public DateTime DateEpreuve { get; set; }
+
+        [Display(Name = "Total")]
+        [Required(ErrorMessage = "Le total est obligatoire")]
+        public int Total { get; set; }
+
         public virtual Cotation Cotation { get; set; }
     }
 }

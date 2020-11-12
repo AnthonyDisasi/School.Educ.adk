@@ -18,15 +18,6 @@ namespace School.Educ.adk.Areas.Professeur.Models
         [Required(ErrorMessage = "L'identifiant de l'élève est obligatoire")]
         public string IdentifiantEleve { get; set; }
 
-        [Display(Name = "Date d'épreuve")]
-        [Required(ErrorMessage = "La date d'épreuve est obligatoire")]
-        [DataType(DataType.Date)]
-        public DateTime DateEpreuve { get; set; }
-
-        [Display(Name = "Total")]
-        [Required(ErrorMessage = "Le total est obligatoire")]
-        public int Total { get; set; }
-
         [Display(Name = "Point")]
         [Required(ErrorMessage = "Le point est obligatoire")]
         public double Point { get; set; }
