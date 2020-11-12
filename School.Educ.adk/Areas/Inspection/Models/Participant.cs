@@ -7,5 +7,10 @@ namespace School.Educ.adk.Areas.Inspection.Models
 {
     public class Participant
     {
+        public string ID { get; set; }
+
+        public string IdentifiantEleve { get; set; }
+
+        public ICollection<Reponse> Reponses { get; set; }
     }
 }
