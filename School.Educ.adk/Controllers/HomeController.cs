@@ -12,7 +12,7 @@ namespace School.Educ.adk.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Login", "Compte");
         }
 
         public IActionResult Privacy()
