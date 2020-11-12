@@ -15,14 +15,13 @@ namespace School.Educ.adk.Areas.Inspection.Models
         public string ID { get; set; }
 
         public string ExamenID { get; set; }
-        public string ReponseID { get; set; }
 
         public string Enoncer { get; set; }
         public string BonneReponse { get; set; }
         public double Cote { get; set; }
 
         public Examen Examen { get; set; }
-        public Reponse Reponse { get; set; }
+        public ICollection<Reponse> Reponse { get; set; }
         public ICollection<Assertion> Assertion { get; set; }
     }
 }
