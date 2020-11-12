@@ -26,6 +26,9 @@
 
 
   <ItemGroup>
+    <Folder Include="Areas\Admin\" />
+    <Folder Include="Areas\Eleve\" />
+    <Folder Include="Areas\Professeur\" />
     <Folder Include="wwwroot\Vendor\" />
   </ItemGroup>
 
