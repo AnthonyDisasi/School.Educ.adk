@@ -14,7 +14,9 @@ namespace School.Educ.adk.Areas.Ecole.Models
         public string ID { get; set; }
         public string ClasseID { get; set; }
 
+        [Required(ErrorMessage = "L'intituler est obligatoire")]
         public string Intituler { get; set; }
+        [Required(ErrorMessage = "La categorie est obligatoire")]
         public string Categorie { get; set; }
 
         public Classe Classe { get; set; }

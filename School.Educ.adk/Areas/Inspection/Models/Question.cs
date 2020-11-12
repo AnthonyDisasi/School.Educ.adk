@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization.Infrastructure;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,6 +10,8 @@ namespace School.Educ.adk.Areas.Inspection.Models
 {
     public class Question
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string ID { get; set; }
 
         public string ExamenID { get; set; }

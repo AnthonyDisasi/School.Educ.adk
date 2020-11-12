@@ -25,7 +25,7 @@ namespace School.Educ.adk.Areas.Ecole.Models
         [Required(ErrorMessage = "Le matricule est obligatoire")]
         public string Matricule { get; set; }
 
-        [Display(Name = "Date de naissance"), Required(ErrorMessage = "La date de naissance est obligatoire")]
+        [Display(Name = "Date de naissance"), Required(ErrorMessage = "La date de naissance est obligatoire"), DataType(DataType.Date)]
         public DateTime DateNaissance { get; set; }
 
         public string NomComplet

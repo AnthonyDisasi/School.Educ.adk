@@ -17,7 +17,9 @@ namespace School.Educ.adk.Areas.Ecole.Models
         [Display(Name = "Nom"), Required(ErrorMessage = "Le nom est obligatoire")]
         public string Nom { get; set; }
 
+        [Display(Name = "Latitude de l'école"), Required(ErrorMessage = "La latitude de l'école est obligatoire")]
         public string EcoleLatitude { get; set; }
+        [Display(Name = "Longitude de l'école"), Required(ErrorMessage = "La longitude de l'école est obligatoire")]
         public string EcoleLongitude { get; set; }
 
         [Display(Name = "Sous-division"), Required(ErrorMessage = "La sous division est obligatoire")]
