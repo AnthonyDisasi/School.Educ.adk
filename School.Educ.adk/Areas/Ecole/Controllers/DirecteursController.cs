@@ -42,24 +42,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(directeur);
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Email,DateNaissance")] Directeur directeur)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(directeur);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(directeur);
-        }
-
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -105,33 +87,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(directeur);
-        }
-
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var directeur = await _context.Directeurs
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (directeur == null)
-            {
-                return NotFound();
-            }
-
-            return View(directeur);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var directeur = await _context.Directeurs.FindAsync(id);
-            _context.Directeurs.Remove(directeur);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool DirecteurExists(string id)
