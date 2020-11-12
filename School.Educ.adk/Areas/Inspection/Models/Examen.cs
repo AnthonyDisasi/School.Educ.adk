@@ -9,5 +9,13 @@ namespace School.Educ.adk.Areas.Inspection.Models
     {
         public string ID { get; set; }
 
+        public string Description { get; set; }
+        public string Periode { get; set; }
+        public string Serie { get; set; }
+        public string CodeAcces { get; set; }
+
+        public string IdInspecteur { get; set; }
+
+        public ICollection<Question> Questions { get; set; }
     }
 }
