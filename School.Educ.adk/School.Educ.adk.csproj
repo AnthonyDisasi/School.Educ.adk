@@ -26,6 +26,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Areas\Inspcetion\Controllers\" />
     <Folder Include="wwwroot\Vendor\" />
   </ItemGroup>
 
