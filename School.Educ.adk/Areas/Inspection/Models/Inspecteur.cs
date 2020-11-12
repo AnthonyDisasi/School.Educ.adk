@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace School.Educ.adk.Areas.Inspcetion.Models
+namespace School.Educ.adk.Areas.Inspection.Models
 {
     public class Inspecteur
     {

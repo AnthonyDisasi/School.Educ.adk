@@ -10,7 +10,7 @@ using School.Educ.adk.Areas.Ecole.Models;
 
 namespace School.Educ.adk.Areas.Inspcetion.Controllers
 {
-    [Area("Inspcetion")]
+    [Area("Inspection")]
     public class DirecteursController : Controller
     {
         private readonly DbEcole _context;
