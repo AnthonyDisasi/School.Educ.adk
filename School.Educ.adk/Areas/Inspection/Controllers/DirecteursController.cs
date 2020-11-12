@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using School.Educ.adk.Areas.Ecole.DataContext;
 using School.Educ.adk.Areas.Ecole.Models;
 
-namespace School.Educ.adk.Areas.Inspcetion.Controllers
+namespace School.Educ.adk.Areas.Inspection.Controllers
 {
     [Area("Inspection")]
     public class DirecteursController : Controller
