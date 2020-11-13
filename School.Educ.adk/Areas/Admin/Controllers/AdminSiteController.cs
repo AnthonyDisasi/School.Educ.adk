@@ -32,7 +32,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             _context = context;
         }
 
-        public IActionResult Index => View(userManager.Users);
+        public IActionResult Index() => View(userManager.Users);
 
         public IActionResult Create() => View();
 
