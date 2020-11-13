@@ -43,7 +43,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             {
                 ApplicationUser user = new ApplicationUser
                 {
-                    UserName = model.ID,
+                    UserName = model.Matricule,
                     Email = model.Email
                 };
                 IdentityResult result = await userManager.CreateAsync(user, model.Password);
