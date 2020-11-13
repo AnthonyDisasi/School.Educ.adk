@@ -24,7 +24,10 @@ namespace School.Educ.adk.Areas.Admin.Models
         public Genre? Genre { get; set; }
         [Required(ErrorMessage = "Le matricule est obligatoire")]
         public string Matricule { get; set; }
+        [Required(ErrorMessage = "L'adresse mail est obligatoire")]
         public string Email { get; set; }
+        [Required(ErrorMessage = "Le mot de passe est obligatoire"), Display(Name = "Mot de passe")]
+        public string Password { get; set; }
 
         [Display(Name = "Date de naissance"), Required(ErrorMessage = "La date de naissance est obligatoire"), DataType(DataType.Date)]
         public DateTime DateNaissance { get; set; }
