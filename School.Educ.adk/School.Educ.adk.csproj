@@ -26,6 +26,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Areas\Admin\Views\AdminSite\" />
     <Folder Include="Areas\Eleve\Controllers\" />
     <Folder Include="wwwroot\Vendor\" />
   </ItemGroup>

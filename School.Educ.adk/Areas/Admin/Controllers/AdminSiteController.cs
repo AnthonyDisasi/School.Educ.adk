@@ -10,6 +10,7 @@ using School.Educ.adk.Models;
 
 namespace School.Educ.adk.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class AdminSiteController : Controller
     {
         private UserManager<ApplicationUser> userManager;
