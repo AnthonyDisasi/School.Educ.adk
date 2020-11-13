@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using School.Educ.adk.Areas.Admin.Data;
 using School.Educ.adk.Areas.Ecole.DataContext;
 using School.Educ.adk.Areas.Ecole.Models;
 using School.Educ.adk.Areas.Inspection.Data;
@@ -43,6 +44,7 @@ namespace School.Educ.adk
             services.AddDbContext<DbEcole>(options => options.UseSqlServer(this.Configuration.GetConnectionString("EcoleDb_")));
             services.AddDbContext<ExamenDb>(options => options.UseSqlServer(this.Configuration.GetConnectionString("ExamenDb_")));
             services.AddDbContext<ProfesseurDb>(options => options.UseSqlServer(this.Configuration.GetConnectionString("ProfesseurDb_")));
+            services.AddDbContext<InspecteurDb>(options => options.UseSqlServer(this.Configuration.GetConnectionString("InspecteurDb_")));
 
             services.AddTransient<IPasswordValidator<ApplicationUser>, CustomPasswordValidator>();
             services.AddTransient<IUserValidator<ApplicationUser>, CustomUserValidator>();
