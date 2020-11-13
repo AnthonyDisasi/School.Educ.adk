@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using School.Educ.adk.Areas.Admin.Data;
 using School.Educ.adk.Areas.Admin.Models;
 using School.Educ.adk.Models;
 
@@ -15,16 +16,19 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         private IUserValidator<ApplicationUser> userValidator;
         private IPasswordValidator<ApplicationUser> passwordValidator;
         private IPasswordHasher<ApplicationUser> passwordHasher;
+        private readonly InspecteurDb _context;
 
         public AdminSiteController(IPasswordHasher<ApplicationUser> _passwordHasher, 
             IPasswordValidator<ApplicationUser> _passwordValidator,
             IUserValidator<ApplicationUser> _userValidator,
-            UserManager<ApplicationUser> _userManager)
+            UserManager<ApplicationUser> _userManager,
+            InspecteurDb context)
         {
             userManager = _userManager;
             userValidator = _userValidator;
             passwordValidator = _passwordValidator;
             passwordHasher = _passwordHasher;
+            _context = context;
         }
 
         public IActionResult Index => View(userManager.Users);
