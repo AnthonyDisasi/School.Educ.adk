@@ -1,0 +1,42 @@
+﻿@model School.Educ.adk.Areas.Professeur.Models.Cotation
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Cotation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EpreuveID" class="control-label"></label>
+                <select asp-for="EpreuveID" class ="form-control" asp-items="ViewBag.EpreuveID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdentifiantEleve" class="control-label"></label>
+                <input asp-for="IdentifiantEleve" class="form-control" />
+                <span asp-validation-for="IdentifiantEleve" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Point" class="control-label"></label>
+                <input asp-for="Point" class="form-control" />
+                <span asp-validation-for="Point" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
