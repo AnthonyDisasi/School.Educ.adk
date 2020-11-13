@@ -12,7 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using School.Educ.adk.Areas.Ecole.DataContext;
+using School.Educ.adk.Areas.Ecole.Models;
 using School.Educ.adk.Areas.Inspection.Data;
+using School.Educ.adk.Areas.Professeur.Data;
 using School.Educ.adk.Data;
 using School.Educ.adk.Models;
 
@@ -39,6 +41,7 @@ namespace School.Educ.adk
 
             services.AddDbContext<DbEcole>(options => options.UseSqlServer(this.Configuration.GetConnectionString("EcoleDb_")));
             services.AddDbContext<ExamenDb>(options => options.UseSqlServer(this.Configuration.GetConnectionString("ExamenDb_")));
+            services.AddDbContext<ProfesseurDb>(options => options.UseSqlServer(this.Configuration.GetConnectionString("ProfesseurDb_")));
 
             services.AddDbContext<UserAuthent>(options => options.UseSqlServer(this.Configuration.GetConnectionString("USerDb_")));
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<UserAuthent>();
