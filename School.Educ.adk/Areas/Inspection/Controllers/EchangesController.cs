@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using School.Educ.adk.Areas.Inspection.Data;
+using School.Educ.adk.Areas.Professeur.Data;
 using School.Educ.adk.Areas.Professeur.Models;
 
 namespace School.Educ.adk.Areas.Inspection.Controllers
@@ -13,9 +13,9 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
     [Area("Inspection")]
     public class EchangesController : Controller
     {
-        private readonly ExamenDb _context;
+        private readonly ProfesseurDb _context;
 
-        public EchangesController(ExamenDb context)
+        public EchangesController(ProfesseurDb context)
         {
             _context = context;
         }
@@ -23,8 +23,8 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
         // GET: Inspection/Echanges
         public async Task<IActionResult> Index()
         {
-            var examenDb = _context.Echange.Include(e => e.Lecon);
-            return View(await examenDb.ToListAsync());
+            var professeurDb = _context.Echanges.Include(e => e.Lecon);
+            return View(await professeurDb.ToListAsync());
         }
 
         // GET: Inspection/Echanges/Details/5
@@ -35,7 +35,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                 return NotFound();
             }
 
-            var echange = await _context.Echange
+            var echange = await _context.Echanges
                 .Include(e => e.Lecon)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (echange == null)
@@ -49,7 +49,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
         // GET: Inspection/Echanges/Create
         public IActionResult Create()
         {
-            ViewData["LeconID"] = new SelectList(_context.Set<Lecon>(), "ID", "ID");
+            ViewData["LeconID"] = new SelectList(_context.Lecons, "ID", "ID");
             return View();
         }
 
@@ -66,7 +66,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LeconID"] = new SelectList(_context.Set<Lecon>(), "ID", "ID", echange.LeconID);
+            ViewData["LeconID"] = new SelectList(_context.Lecons, "ID", "ID", echange.LeconID);
             return View(echange);
         }
 
@@ -78,12 +78,12 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                 return NotFound();
             }
 
-            var echange = await _context.Echange.FindAsync(id);
+            var echange = await _context.Echanges.FindAsync(id);
             if (echange == null)
             {
                 return NotFound();
             }
-            ViewData["LeconID"] = new SelectList(_context.Set<Lecon>(), "ID", "ID", echange.LeconID);
+            ViewData["LeconID"] = new SelectList(_context.Lecons, "ID", "ID", echange.LeconID);
             return View(echange);
         }
 
@@ -119,7 +119,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LeconID"] = new SelectList(_context.Set<Lecon>(), "ID", "ID", echange.LeconID);
+            ViewData["LeconID"] = new SelectList(_context.Lecons, "ID", "ID", echange.LeconID);
             return View(echange);
         }
 
@@ -131,7 +131,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                 return NotFound();
             }
 
-            var echange = await _context.Echange
+            var echange = await _context.Echanges
                 .Include(e => e.Lecon)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (echange == null)
@@ -147,15 +147,15 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var echange = await _context.Echange.FindAsync(id);
-            _context.Echange.Remove(echange);
+            var echange = await _context.Echanges.FindAsync(id);
+            _context.Echanges.Remove(echange);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EchangeExists(string id)
         {
-            return _context.Echange.Any(e => e.ID == id);
+            return _context.Echanges.Any(e => e.ID == id);
         }
     }
 }
