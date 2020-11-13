@@ -49,7 +49,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
                 if (result.Succeeded)
                 {
-                    
+                    _context.Inspecteurs.Add(model);
                     return RedirectToAction("Index");
                 }
                 else
