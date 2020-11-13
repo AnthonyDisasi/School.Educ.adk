@@ -52,7 +52,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,EcoleID,Nom,Postnom,Prenom,Genre,Matricule,Email,DateNaissance")] Professeur professeur)
+        public async Task<IActionResult> Create([Bind("ID,EcoleID,Nom,Postnom,Prenom,Genre,Matricule,Email,DateNaissance")] Models.Professeur professeur)
         {
             if (ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,EcoleID,Nom,Postnom,Prenom,Genre,Matricule,Email,DateNaissance")] Professeur professeur)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,EcoleID,Nom,Postnom,Prenom,Genre,Matricule,Email,DateNaissance")] Models.Professeur professeur)
         {
             if (id != professeur.ID)
             {
