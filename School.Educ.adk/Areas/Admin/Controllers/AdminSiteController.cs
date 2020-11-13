@@ -45,6 +45,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
                 if (result.Succeeded)
                 {
+                    
                     return RedirectToAction("Index");
                 }
                 else
