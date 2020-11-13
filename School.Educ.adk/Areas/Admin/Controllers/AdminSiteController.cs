@@ -26,9 +26,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             passwordHasher = _passwordHasher;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index => View(userManager.Users);
     }
 }
