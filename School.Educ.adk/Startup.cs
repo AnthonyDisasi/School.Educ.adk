@@ -16,6 +16,7 @@ using School.Educ.adk.Areas.Ecole.Models;
 using School.Educ.adk.Areas.Inspection.Data;
 using School.Educ.adk.Areas.Professeur.Data;
 using School.Educ.adk.Data;
+using School.Educ.adk.Infrastructure;
 using School.Educ.adk.Models;
 
 namespace School.Educ.adk
@@ -42,6 +43,9 @@ namespace School.Educ.adk
             services.AddDbContext<DbEcole>(options => options.UseSqlServer(this.Configuration.GetConnectionString("EcoleDb_")));
             services.AddDbContext<ExamenDb>(options => options.UseSqlServer(this.Configuration.GetConnectionString("ExamenDb_")));
             services.AddDbContext<ProfesseurDb>(options => options.UseSqlServer(this.Configuration.GetConnectionString("ProfesseurDb_")));
+
+            services.AddTransient<IPasswordValidator<ApplicationUser>, CustomPasswordValidator>();
+            services.AddTransient<IUserValidator<ApplicationUser>, CustomUserValidator>();
 
             services.AddDbContext<UserAuthent>(options => options.UseSqlServer(this.Configuration.GetConnectionString("USerDb_")));
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<UserAuthent>();
