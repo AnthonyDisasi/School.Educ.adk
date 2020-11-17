@@ -43,7 +43,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             {
                 ApplicationUser user = new ApplicationUser
                 {
-                    UserName = model.Matricule,
+                    UserName = model.NomComplet,
                     Email = model.Email
                 };
                 IdentityResult result = await userManager.CreateAsync(user, model.Password);
@@ -65,6 +65,40 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                 }
             }
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            ApplicationUser user = await userManager.FindByEmailAsync(id);
+            Inspecteur model = _context.Inspecteurs.Find(id);
+            if((user != null) && (model != null))
+            {
+                IdentityResult result = await userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    _context.Inspecteurs.Remove(model);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    AddErrorsFromResult(result);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Erreur non trouvée");
+            }
+            return RedirectToAction("Index", userManager.Users);
+        }
+
+        private void AddErrorsFromResult(IdentityResult result)
+        {
+            foreach(IdentityError error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
         }
     }
 }
