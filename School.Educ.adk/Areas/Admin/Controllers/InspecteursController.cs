@@ -144,10 +144,35 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var inspecteur = await _context.Inspecteurs.FindAsync(id);
-            _context.Inspecteurs.Remove(inspecteur);
-            await _context.SaveChangesAsync();
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            if(user != null)
+            {
+                IdentityResult result = await userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    var inspecteur = await _context.Inspecteurs.FindAsync(id);
+                    _context.Inspecteurs.Remove(inspecteur);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    AddErrorsFromResult(result);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Erreur non trouvée");
+            }
             return RedirectToAction(nameof(Index));
+        }
+
+        private void AddErrorsFromResult(IdentityResult result)
+        {
+            foreach(IdentityError error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
         }
 
         private bool InspecteurExists(string id)
