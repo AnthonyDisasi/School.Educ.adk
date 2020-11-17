@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using School.Educ.adk.Areas.Admin.Data;
 using School.Educ.adk.Areas.Admin.Models;
+using School.Educ.adk.Models;
 
 namespace School.Educ.adk.Areas.Admin.Controllers
 {
@@ -14,10 +16,12 @@ namespace School.Educ.adk.Areas.Admin.Controllers
     public class InspecteursController : Controller
     {
         private readonly InspecteurDb _context;
+        private UserManager<ApplicationUser> userManager;
 
-        public InspecteursController(InspecteurDb context)
+        public InspecteursController(InspecteurDb context, UserManager<ApplicationUser> _userManager)
         {
             _context = context;
+            userManager = _userManager;
         }
 
         // GET: Admin/Inspecteurs

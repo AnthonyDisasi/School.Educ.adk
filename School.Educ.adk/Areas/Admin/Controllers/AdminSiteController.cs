@@ -70,7 +70,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
-            ApplicationUser user = await userManager.FindByEmailAsync(id);
+            ApplicationUser user = await userManager.FindByIdAsync(id);
             Inspecteur model = _context.Inspecteurs.Find(id);
             if((user != null) && (model != null))
             {
