@@ -35,15 +35,12 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
         }
 
-
-        // GET: Admin/Inspecteurs
         public async Task<IActionResult> Index()
         {
             ViewBag.user = userManager.Users;
             return View(await _context.Inspecteurs.ToListAsync());
         }
 
-        // GET: Admin/Inspecteurs/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -61,12 +58,8 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return View(inspecteur);
         }
 
-        // GET: Admin/Inspecteurs/Create
         public IActionResult Create() => View();
 
-        // POST: Admin/Inspecteurs/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Email,Password,DateNaissance")] Inspecteur inspecteur)
@@ -98,7 +91,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return View(inspecteur);
         }
 
-        // GET: Admin/Inspecteurs/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -194,7 +186,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return View(inspecteur);
         }
 
-        // GET: Admin/Inspecteurs/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -212,7 +203,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return View(inspecteur);
         }
 
-        // POST: Admin/Inspecteurs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
