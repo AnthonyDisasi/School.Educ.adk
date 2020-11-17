@@ -19,7 +19,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         private IPasswordHasher<ApplicationUser> passwordHasher;
         private readonly InspecteurDb _context;
 
-        public AdminSiteController(IPasswordHasher<ApplicationUser> _passwordHasher, 
+        public AdminSiteController(IPasswordHasher<ApplicationUser> _passwordHasher,
             IPasswordValidator<ApplicationUser> _passwordValidator,
             IUserValidator<ApplicationUser> _userValidator,
             UserManager<ApplicationUser> _userManager,
@@ -50,12 +50,15 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
                 if (result.Succeeded)
                 {
+                    user = await userManager.FindByEmailAsync(model.Email);
+                    model.ID = user.Id;
                     _context.Inspecteurs.Add(model);
+                    await _context.SaveChangesAsync();
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    foreach(IdentityError error in result.Errors)
+                    foreach (IdentityError error in result.Errors)
                     {
                         ModelState.AddModelError("", error.Description);
                     }

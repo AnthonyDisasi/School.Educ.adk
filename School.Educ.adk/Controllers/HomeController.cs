@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using School.Educ.adk.Models;
 
 namespace School.Educ.adk.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index()
         {
             return RedirectToAction("Login", "Compte");
+        }
+
+        public string Index1()
+        {
+            return "Salut tu es connecté";
         }
 
         public IActionResult Privacy()

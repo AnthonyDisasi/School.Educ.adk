@@ -9,44 +9,45 @@ using School.Educ.adk.Models;
 
 namespace School.Educ.adk.Controllers
 {
-    public class CompteController : Controller
+    public class AccountController : Controller
     {
         private UserManager<ApplicationUser> userManager;
         private SignInManager<ApplicationUser> signInManager;
 
-        public CompteController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager)
+        public AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager)
         {
             userManager = _userManager;
             signInManager = _signInManager;
         }
 
-        [AllowAnonymous]
-        public IActionResult Login(string returnUrl)
+        [AllowAnonymous, ActionName("Login")]
+        public IActionResult Login_(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
             return View();
         }
 
+        [HttpPost, ActionName("Login")]
         [AllowAnonymous]
-        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(Models.Login model, string returnUrl)
+        public async Task<IActionResult> Login_(Login details, string returnUrl)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                ApplicationUser user = await userManager.FindByNameAsync(model.UserName);
-                if(user != null)
+                ApplicationUser user = await userManager.FindByEmailAsync(details.Email);
+                if (user != null)
                 {
                     await signInManager.SignOutAsync();
-                    Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
+                    Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(user, details.Password, false, false);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index", "Home");
+                        return Redirect(returnUrl ?? "Home/Index1");
                     }
                 }
-                    ModelState.AddModelError(nameof(Models.Login.UserName), "Mot de passe ou identifiant incorrect");
+                ModelState.AddModelError(nameof(Login.Email), "Invalid user or password");
             }
-            return View(model);
+
+            return View(details);
         }
 
         [AllowAnonymous]
