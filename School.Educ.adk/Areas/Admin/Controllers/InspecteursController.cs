@@ -15,14 +15,26 @@ namespace School.Educ.adk.Areas.Admin.Controllers
     [Area("Admin")]
     public class InspecteursController : Controller
     {
-        private readonly InspecteurDb _context;
         private UserManager<ApplicationUser> userManager;
+        private IUserValidator<ApplicationUser> userValidator;
+        private IPasswordValidator<ApplicationUser> passwordValidator;
+        private IPasswordHasher<ApplicationUser> passwordHasher;
+        private readonly InspecteurDb _context;
 
-        public InspecteursController(InspecteurDb context, UserManager<ApplicationUser> _userManager)
+        public InspecteursController(UserManager<ApplicationUser> usrMgr,
+        IUserValidator<ApplicationUser> userValid,
+        IPasswordValidator<ApplicationUser> passValid,
+        IPasswordHasher<ApplicationUser> passwordHash,
+        InspecteurDb context)
         {
+            userManager = usrMgr;
+            userValidator = userValid;
+            passwordValidator = passValid;
+            passwordHasher = passwordHash;
             _context = context;
-            userManager = _userManager;
+
         }
+
 
         // GET: Admin/Inspecteurs
         public async Task<IActionResult> Index()
@@ -123,6 +135,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                 {
                     _context.Update(inspecteur);
                     await _context.SaveChangesAsync();
+                    user
                 }
                 catch (DbUpdateConcurrencyException)
                 {
