@@ -34,8 +34,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
         public IActionResult Index() => View(userManager.Users);
 
-        public IActionResult Create() => View();
-
         [HttpPost]
         public async Task<IActionResult> Create(Inspecteur model)
         {

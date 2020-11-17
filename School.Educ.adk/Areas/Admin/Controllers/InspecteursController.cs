@@ -49,7 +49,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         }
 
         // GET: Admin/Inspecteurs/Create
-        public IActionResult Create => View();
+        public IActionResult Create() => View();
 
         // POST: Admin/Inspecteurs/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -60,9 +60,25 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(inspecteur);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ApplicationUser user = new ApplicationUser
+                {
+                    UserName = inspecteur.Matricule,
+                    Email = inspecteur.Email
+                };
+                IdentityResult result = await userManager.CreateAsync(user, inspecteur.Password);
+                if (result.Succeeded)
+                {
+                    _context.Add(inspecteur);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    foreach(IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
             }
             return View(inspecteur);
         }
