@@ -86,7 +86,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                 }
                 else
                 {
-                    foreach(IdentityError error in result.Errors)
+                    foreach (IdentityError error in result.Errors)
                     {
                         ModelState.AddModelError("", error.Description);
                     }
@@ -128,27 +128,65 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            if (user != null)
             {
-                try
+                user.Email = inspecteur.Email;
+                IdentityResult ValidEmail = await userValidator.ValidateAsync(userManager, user);
+                if (!ValidEmail.Succeeded)
                 {
-                    _context.Update(inspecteur);
-                    await _context.SaveChangesAsync();
-                    user
+                    AddErrorsFromResult(ValidEmail);
                 }
-                catch (DbUpdateConcurrencyException)
+                IdentityResult validPass = null;
+                if (!string.IsNullOrEmpty(inspecteur.Password))
                 {
-                    if (!InspecteurExists(inspecteur.ID))
+                    validPass = await passwordValidator.ValidateAsync(userManager, user, inspecteur.Password);
+                    if (validPass.Succeeded)
                     {
-                        return NotFound();
+                        user.PasswordHash = passwordHasher.HashPassword(user, inspecteur.Password);
                     }
                     else
                     {
-                        throw;
+                        AddErrorsFromResult(validPass);
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                if ((ValidEmail.Succeeded && validPass == null) || (ValidEmail.Succeeded && inspecteur.Password != string.Empty && validPass.Succeeded))
+                {
+                    IdentityResult result = await userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        if (ModelState.IsValid)
+                        {
+                            try
+                            {
+                                _context.Update(inspecteur);
+                                await _context.SaveChangesAsync();
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+                                if (!InspecteurExists(inspecteur.ID))
+                                {
+                                    return NotFound();
+                                }
+                                else
+                                {
+                                    throw;
+                                }
+                            }
+                            return RedirectToAction(nameof(Index));
+                        }
+                    }
+                    else
+                    {
+                        AddErrorsFromResult(result);
+                    }
+                }
+
+            }
+            else
+            {
+                ModelState.AddModelError("", "Utilisateur non trouvé");
             }
             return View(inspecteur);
         }
@@ -199,13 +237,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private void AddErrorsFromResult(IdentityResult result)
-        {
-            foreach (IdentityError error in result.Errors)
-            {
-                ModelState.AddModelError("", error.Description);
-            }
-        }
 
         private bool InspecteurExists(string id)
         {
