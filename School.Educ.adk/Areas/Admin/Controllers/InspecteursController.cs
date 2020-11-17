@@ -80,6 +80,8 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                 IdentityResult result = await userManager.CreateAsync(user, inspecteur.Password);
                 if (result.Succeeded)
                 {
+                    user = await userManager.FindByEmailAsync(inspecteur.Email);
+                    inspecteur.ID = user.Id;
                     _context.Add(inspecteur);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
