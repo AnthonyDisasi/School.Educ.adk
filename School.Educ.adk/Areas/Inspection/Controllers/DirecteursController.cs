@@ -2,21 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using School.Educ.adk.Areas.Ecole.DataContext;
 using School.Educ.adk.Areas.Ecole.Models;
+using School.Educ.adk.Models;
 
 namespace School.Educ.adk.Areas.Inspection.Controllers
 {
     [Area("Inspection")]
     public class DirecteursController : Controller
     {
+        private UserManager<ApplicationUser> userManager;
+        private IUserValidator<ApplicationUser> userValidator;
+        private IPasswordValidator<ApplicationUser> passwordValidator;
+        private IPasswordHasher<ApplicationUser> passwordHasher;
         private readonly DbEcole _context;
 
-        public DirecteursController(DbEcole context)
+        public DirecteursController(DbEcole context,
+            UserManager<ApplicationUser> usrMgr,
+            IUserValidator<ApplicationUser> userValid,
+            IPasswordValidator<ApplicationUser> passValid,
+            IPasswordHasher<ApplicationUser> passwordHash)
         {
+            userManager = usrMgr;
+            userValidator = userValid;
+            passwordValidator = passValid;
+            passwordHasher = passwordHash;
             _context = context;
         }
 
