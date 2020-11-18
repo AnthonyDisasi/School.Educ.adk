@@ -78,5 +78,23 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             }
             return View("Index", roleManager.Roles);
         }
+
+        public async Task<IActionResult> Edit(string id)
+        {
+            IdentityRole role = await roleManager.FindByIdAsync(id);
+            List<ApplicationUser> members = new List<ApplicationUser>();
+            List<ApplicationUser> nonMembers = new List<ApplicationUser>();
+            foreach (ApplicationUser user in userManager.Users)
+            {
+                var list = await userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
+                list.Add(user);
+            }
+            return View(new RoleEditModel
+            {
+                Role = role,
+                Members = members,
+                NonMembers = nonMembers
+            });
+        }
     }
 }
