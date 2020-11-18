@@ -97,11 +97,20 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             }
 
             var directeur = await _context.Directeurs.FindAsync(id);
-            if (directeur == null)
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            if ((directeur == null) && (user == null))
             {
                 return NotFound();
             }
             return View(directeur);
+        }
+
+        private void AddErrorsFromResult(IdentityResult result)
+        {
+            foreach (IdentityError error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
         }
 
         [HttpPost]
@@ -113,7 +122,35 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                user.Email = directeur.Email;
+                IdentityResult ValidEmail = await userValidator.ValidateAsync(userManager, user);
+                if (!ValidEmail.Succeeded)
+                {
+                    AddErrorsFromResult(ValidEmail);
+                }
+                IdentityResult validPass = null;
+                if (!string.IsNullOrEmpty(directeur.Password))
+                {
+                    validPass = await passwordValidator.ValidateAsync(userManager, user, directeur.Password);
+                    if (validPass.Succeeded)
+                    {
+                        user.PasswordHash = passwordHasher.HashPassword(user, directeur.Password);
+                    }
+                    else
+                    {
+                        AddErrorsFromResult(validPass);
+                    }
+                }
+
+                if ((ValidEmail.Succeeded && validPass == null) || (ValidEmail.Succeeded && directeur.Password != string.Empty && validPass.Succeeded))
+                {
+                    IdentityResult result = await userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        if (ModelState.IsValid)
             {
                 try
                 {
@@ -132,6 +169,19 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
+            }
+
+                    }
+                    else
+                    {
+                        AddErrorsFromResult(result);
+                    }
+                }
+
+            }
+            else
+            {
+                ModelState.AddModelError("", "Utilisateur non trouvé");
             }
             return View(directeur);
         }
