@@ -151,25 +151,25 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                     if (result.Succeeded)
                     {
                         if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(directeur);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DirecteurExists(directeur.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
+                        {
+                            try
+                            {
+                                _context.Update(directeur);
+                                await _context.SaveChangesAsync();
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+                                if (!DirecteurExists(directeur.ID))
+                                {
+                                    return NotFound();
+                                }
+                                else
+                                {
+                                    throw;
+                                }
+                            }
+                            return RedirectToAction(nameof(Index));
+                        }
 
                     }
                     else
@@ -207,9 +207,26 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var directeur = await _context.Directeurs.FindAsync(id);
-            _context.Directeurs.Remove(directeur);
-            await _context.SaveChangesAsync();
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                IdentityResult result = await userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    var directeur = await _context.Directeurs.FindAsync(id);
+                    _context.Directeurs.Remove(directeur);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    AddErrorsFromResult(result);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Erreur non trouvée");
+            }
             return RedirectToAction(nameof(Index));
         }
 
