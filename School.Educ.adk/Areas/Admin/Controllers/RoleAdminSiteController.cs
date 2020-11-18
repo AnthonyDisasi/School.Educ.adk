@@ -25,10 +25,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            ViewBag.Inspecteur = await _context.Inspecteurs.ToListAsync();
-            return View(roleManager.Roles);
-        }
+        public IActionResult Index() => View(roleManager.Roles);
     }
 }
