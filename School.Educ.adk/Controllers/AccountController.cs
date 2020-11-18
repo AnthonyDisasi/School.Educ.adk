@@ -30,7 +30,7 @@ namespace School.Educ.adk.Controllers
         [HttpPost, ActionName("Login")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login_(Login details, string returnUrl)
+        public async Task<IActionResult> Login_(LoginModel details, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -44,7 +44,7 @@ namespace School.Educ.adk.Controllers
                         return Redirect(returnUrl ?? "Home/Index1");
                     }
                 }
-                ModelState.AddModelError(nameof(Login.Email), "Invalid user or password");
+                ModelState.AddModelError(nameof(LoginModel.Email), "Invalid user or password");
             }
 
             return View(details);

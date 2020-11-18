@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace School.Educ.adk.Models
 {
-    public class Login
+    public class LoginModel
     {
         [Required(ErrorMessage = "Le matricule est obligatoire"), Display(Name = "matricule")]
         public string UserName { get; set; }
