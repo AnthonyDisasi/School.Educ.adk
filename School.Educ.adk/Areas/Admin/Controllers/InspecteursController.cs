@@ -37,7 +37,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.user = userManager.Users;
             return View(await _context.Inspecteurs.ToListAsync());
         }
 
