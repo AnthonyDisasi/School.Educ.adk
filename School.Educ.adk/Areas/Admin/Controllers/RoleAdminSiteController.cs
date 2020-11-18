@@ -11,6 +11,7 @@ using School.Educ.adk.Models;
 
 namespace School.Educ.adk.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class RoleAdminSiteController : Controller
     {
         private RoleManager<IdentityRole> roleManager;
@@ -31,11 +32,11 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         public IActionResult Create() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Create([Required] string nom)
+        public async Task<IActionResult> Create([Required] string name)
         {
             if (ModelState.IsValid)
             {
-                IdentityResult result = await roleManager.CreateAsync(new IdentityRole(nom));
+                IdentityResult result = await roleManager.CreateAsync(new IdentityRole(name));
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
@@ -45,7 +46,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                     AddErrorsFromResult(result);
                 }
             }
-            return View(nom);
+            return View(name);
         }
 
         private void AddErrorsFromResult(IdentityResult result)
