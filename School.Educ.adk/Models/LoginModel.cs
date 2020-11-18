@@ -8,9 +8,6 @@ namespace School.Educ.adk.Models
 {
     public class LoginModel
     {
-        [Required(ErrorMessage = "Le matricule est obligatoire"), Display(Name = "matricule")]
-        public string UserName { get; set; }
-
         [Required(ErrorMessage = "L'e - mail est obligatoire"), Display(Name = "E - mail")]
         public string Email { get; set; }
 

@@ -1,26 +1,20 @@
-﻿@model Login
-<link rel="stylesheet" href="~/css/Form_Login.css" />
+﻿@model LoginModel
 
-<section class="get_in_touch">
-    <div class="container">
+<h1 class="title">Connexion</h1>
 
-        <h1 class="title">Connexion</h1>
-
-        <form asp-action="Login" asp-controller="Compte" method="post">
-            <div class="contact-form row">
-                <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
-                <div class="form-field col-lg-6">
-                    <input class="input-text" asp-for="Email" />
-                    <label asp-for="Email" class="label">E - mail <span asp-validation-for="Email" class="text-danger"></span></label>
-                </div>
-                <div class="form-field col-lg-6">
-                    <input class="input-text" asp-for="Password" />
-                    <label asp-for="Password" class="label">Mot de passe <span asp-validation-for="Password" class="text-danger"></span></label>
-                </div>
-                <div class="form-field col-lg-12 text-center">
-                    <input type="submit" name="" class="submit-btn" value="Se connecter">
-                </div>
-            </div>
-        </form>
+<form asp-action="Login" method="post">
+    <div class="contact-form row">
+        <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+        <div class="form-field col-lg-6">
+            <input class="input-text" asp-for="Email" />
+            <label asp-for="Email" class="label">E - mail <span asp-validation-for="Email" class="text-danger"></span></label>
+        </div>
+        <div class="form-field col-lg-6">
+            <input class="input-text" asp-for="Password" />
+            <label asp-for="Password" class="label">Mot de passe <span asp-validation-for="Password" class="text-danger"></span></label>
+        </div>
+        <div class="form-field col-lg-12 text-center">
+            <input type="submit" name="" class="submit-btn" value="Se connecter">
+        </div>
     </div>
-</section>
+</form>

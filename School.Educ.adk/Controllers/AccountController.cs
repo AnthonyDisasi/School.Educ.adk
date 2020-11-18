@@ -20,17 +20,18 @@ namespace School.Educ.adk.Controllers
             signInManager = _signInManager;
         }
 
-        [AllowAnonymous, ActionName("Login")]
-        public IActionResult Login_(string returnUrl)
+
+        [AllowAnonymous]
+        public IActionResult Login(string returnUrl)
         {
             ViewBag.returnUrl = returnUrl;
             return View();
         }
 
-        [HttpPost, ActionName("Login")]
+        [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login_(LoginModel details, string returnUrl)
+        public async Task<IActionResult> Login(LoginModel details, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -41,13 +42,18 @@ namespace School.Educ.adk.Controllers
                     Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(user, details.Password, false, false);
                     if (result.Succeeded)
                     {
-                        return Redirect(returnUrl ?? "Home/Index1");
+                        return Redirect(returnUrl ?? "AccueilCI");
                     }
                 }
                 ModelState.AddModelError(nameof(LoginModel.Email), "Invalid user or password");
             }
 
             return View(details);
+        }
+
+        public IActionResult AccueilCI()
+        {
+            return RedirectToAction("Index", "Questions", "Admin");
         }
 
         [AllowAnonymous]
