@@ -1,0 +1,48 @@
+﻿@model RoleEditModel
+
+<div class="bg-primary panel-body"><h4>Affecter le rôle</h4></div>
+<div asp-validation-summary="All" class="text-danger"></div>
+<form asp-action="Edit" method="post">
+    <input type="hidden" name="roleName" value="@Model.Role.Name" />
+    <input type="hidden" name="roleId" value="@Model.Role.Id" />
+    <h6 class="bg-info panel-body">Ajouter à @Model.Role.Name</h6>
+    <table class="table table-bordered table-condensed">
+        @if (Model.NonMembers.Count() == 0)
+        {
+            <tr><td colspan="2">Tous les utilisateurs sont membres</td></tr>
+        }
+        else
+        {
+            @foreach (ApplicationUser user in Model.NonMembers)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>
+                        <input type="checkbox" name="IdsToAdd" value="@user.Id">
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <h6 class="bg-info panel-body">Retirer l'utilisateur de @Model.Role.Name</h6>
+    <table class="table table-bordered table-condensed">
+        @if (Model.Members.Count() == 0)
+        {
+            <tr><td colspan="2">Aucun utilisateur n'est membre</td></tr>
+        }
+        else
+        {
+            @foreach (ApplicationUser user in Model.Members)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>
+                        <input type="checkbox" name="IdsToDelete" value="@user.Id">
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    <a asp-action="Index" class="btn btn-default">Annuler</a>
+</form> 
