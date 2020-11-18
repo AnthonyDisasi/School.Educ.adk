@@ -34,13 +34,11 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             _context = context;
         }
 
-        // GET: Inspection/Directeurs
         public async Task<IActionResult> Index()
         {
             return View(await _context.Directeurs.ToListAsync());
         }
 
-        // GET: Inspection/Directeurs/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -58,29 +56,39 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             return View(directeur);
         }
 
-        // GET: Inspection/Directeurs/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
-        // POST: Inspection/Directeurs/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Email,Password,DateNaissance")] Directeur directeur)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(directeur);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ApplicationUser user = new ApplicationUser
+                {
+                    UserName = directeur.Matricule,
+                    Email = directeur.Email
+                };
+                IdentityResult result = await userManager.CreateAsync(user, directeur.Password);
+                if (result.Succeeded)
+                {
+                    user = await userManager.FindByEmailAsync(directeur.Email);
+                    directeur.ID = user.Id;
+                    _context.Add(directeur);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    foreach (IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
             }
             return View(directeur);
         }
 
-        // GET: Inspection/Directeurs/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -96,9 +104,6 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             return View(directeur);
         }
 
-        // POST: Inspection/Directeurs/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Email,Password,DateNaissance")] Directeur directeur)
@@ -131,7 +136,6 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             return View(directeur);
         }
 
-        // GET: Inspection/Directeurs/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -149,7 +153,6 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             return View(directeur);
         }
 
-        // POST: Inspection/Directeurs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
