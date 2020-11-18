@@ -26,16 +26,7 @@
                     @Html.DisplayNameFor(model => model.Genre)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Matricule)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.Email)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Password)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateNaissance)
                 </th>
                 <th></th>
             </tr>
@@ -65,16 +56,7 @@
                             @Html.DisplayFor(modelItem => item.Genre)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Matricule)
-                        </td>
-                        <td>
                             @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Password)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DateNaissance)
                         </td>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
