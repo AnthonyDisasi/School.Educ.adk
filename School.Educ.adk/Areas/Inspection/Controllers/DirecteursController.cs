@@ -37,6 +37,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
         // GET: Inspection/Directeurs
         public async Task<IActionResult> Index()
         {
+            ViewBag.users = userManager.Users;
             return View(await _context.Directeurs.ToListAsync());
         }
 
