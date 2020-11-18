@@ -55,5 +55,28 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                 ModelState.AddModelError("", error.Description);
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string id)
+        {
+            IdentityRole role = await roleManager.FindByIdAsync(id);
+            if(role != null)
+            {
+                IdentityResult result = await roleManager.DeleteAsync(role);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    AddErrorsFromResult(result);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Role non trouvé");
+            }
+            return View("Index", roleManager.Roles);
+        }
     }
 }
