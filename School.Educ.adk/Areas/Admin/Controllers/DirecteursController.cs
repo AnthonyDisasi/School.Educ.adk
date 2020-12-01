@@ -225,8 +225,8 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                 IdentityResult result = await userManager.DeleteAsync(user);
                 if (result.Succeeded)
                 {
-                    var inspecteur = await _context.Directeurs.FindAsync(id);
-                    _context.Directeurs.Remove(inspecteur);
+                    var directeur = await _context.Directeurs.FindAsync(id);
+                    _context.Directeurs.Remove(directeur);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }

@@ -34,7 +34,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             passwordHasher = passwordHash;
         }
 
-        // GET: Ecole/Eleves
         public async Task<IActionResult> Index()
         {
             return View(
@@ -45,7 +44,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 );
         }
 
-        // GET: Ecole/Eleves/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -63,15 +61,11 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
-        // GET: Ecole/Eleves/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Ecole/Eleves/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Password,DateNaissance")] Models.Eleve eleve)
@@ -103,7 +97,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
-        // GET: Ecole/Eleves/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -111,17 +104,24 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 return NotFound();
             }
 
+
             var eleve = await _context.Eleves.FindAsync(id);
-            if (eleve == null)
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            if ((eleve == null) && (user == null))
             {
                 return NotFound();
             }
             return View(eleve);
         }
 
-        // POST: Ecole/Eleves/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        private void AddErrorsFromResult(IdentityResult result)
+        {
+            foreach (IdentityError error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Password,DateNaissance")] Models.Eleve eleve)
@@ -131,30 +131,69 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            if (user != null)
             {
-                try
+                user.UserName = eleve.Matricule;
+                IdentityResult ValidEmail = await userValidator.ValidateAsync(userManager, user);
+                if (!ValidEmail.Succeeded)
                 {
-                    _context.Update(eleve);
-                    await _context.SaveChangesAsync();
+                    AddErrorsFromResult(ValidEmail);
                 }
-                catch (DbUpdateConcurrencyException)
+                IdentityResult validPass = null;
+                if (!string.IsNullOrEmpty(eleve.Password))
                 {
-                    if (!EleveExists(eleve.ID))
+                    validPass = await passwordValidator.ValidateAsync(userManager, user, eleve.Password);
+                    if (validPass.Succeeded)
                     {
-                        return NotFound();
+                        user.PasswordHash = passwordHasher.HashPassword(user, eleve.Password);
                     }
                     else
                     {
-                        throw;
+                        AddErrorsFromResult(validPass);
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                if ((ValidEmail.Succeeded && validPass == null) || (ValidEmail.Succeeded && eleve.Password != string.Empty && validPass.Succeeded))
+                {
+                    IdentityResult result = await userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        if (ModelState.IsValid)
+                        {
+                            try
+                            {
+                                _context.Update(eleve);
+                                await _context.SaveChangesAsync();
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+                                if (!EleveExists(eleve.ID))
+                                {
+                                    return NotFound();
+                                }
+                                else
+                                {
+                                    throw;
+                                }
+                            }
+                            return RedirectToAction(nameof(Index));
+                        }
+                    }
+                    else
+                    {
+                        AddErrorsFromResult(result);
+                    }
+                }
+
+            }
+            else
+            {
+                ModelState.AddModelError("", "Utilisateur non trouvé");
             }
             return View(eleve);
         }
 
-        // GET: Ecole/Eleves/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -172,14 +211,31 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
-        // POST: Ecole/Eleves/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var eleve = await _context.Eleves.FindAsync(id);
-            _context.Eleves.Remove(eleve);
-            await _context.SaveChangesAsync();
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                IdentityResult result = await userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    var eleve = await _context.Eleves.FindAsync(id);
+                    _context.Eleves.Remove(eleve);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    AddErrorsFromResult(result);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Erreur non trouvée");
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
