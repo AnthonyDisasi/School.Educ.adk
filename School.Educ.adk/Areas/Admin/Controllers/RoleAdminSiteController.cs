@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using School.Educ.adk.Areas.Admin.Data;
 using School.Educ.adk.Areas.Admin.Models;
+using School.Educ.adk.Areas.Ecole.DataContext;
+using School.Educ.adk.Areas.Ecole.Models;
 using School.Educ.adk.Models;
 
 namespace School.Educ.adk.Areas.Admin.Controllers
@@ -18,14 +20,17 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         private RoleManager<IdentityRole> roleManager;
         private UserManager<ApplicationUser> userManager;
         private readonly InspecteurDb _context;
+        private readonly DbEcole _conte;
 
         public RoleAdminSiteController(RoleManager<IdentityRole> _roleManager,
             UserManager<ApplicationUser> _userManager,
-            InspecteurDb context)
+            InspecteurDb context,
+            DbEcole contet)
         {
             roleManager = _roleManager;
             userManager = _userManager;
             _context = context;
+            _conte = contet;
         }
 
         public IActionResult Index() => View(roleManager.Roles);
@@ -81,23 +86,42 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return View("Index", roleManager.Roles);
         }
 
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string role_, string id)
         {
             IdentityRole role = await roleManager.FindByIdAsync(id);
             List<ApplicationUser> members = new List<ApplicationUser>();
             List<ApplicationUser> nonMembers = new List<ApplicationUser>();
-            List<Inspecteur> model = _context.Inspecteurs.ToList();
-            foreach (ApplicationUser user in userManager.Users)
+            if(role_ == "Inspecteur")
             {
-                foreach (Inspecteur inspecteur in model)
+                List<Inspecteur> model = _context.Inspecteurs.ToList();
+                foreach (ApplicationUser user in userManager.Users)
                 {
-                    if (inspecteur.ID == user.Id)
+                    foreach (Inspecteur inspecteur in model)
                     {
-                        var list = await userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
-                        list.Add(user);
+                        if (inspecteur.ID == user.Id)
+                        {
+                            var list = await userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
+                            list.Add(user);
+                        }
                     }
                 }
             }
+            if(role_ == "Directeur")
+            {
+                List<Directeur> model = _conte.Directeurs.ToList();
+                foreach(ApplicationUser user in userManager.Users)
+                {
+                    foreach(Directeur directeur in model)
+                    {
+                        if(directeur.ID == user.Id)
+                        {
+                            var list = await userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
+                            list.Add(user);
+                        }
+                    }
+                }
+            }
+            
             return View(new RoleEditModel
             {
                 Role = role,
@@ -143,7 +167,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             }
             else
             {
-                return await Edit(model.RoleId);
+                return await Edit(model.RoleName, model.RoleId);
             }
         }
     }

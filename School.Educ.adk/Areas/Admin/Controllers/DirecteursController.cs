@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using School.Educ.adk.Areas.Ecole.DataContext;
 using School.Educ.adk.Areas.Ecole.Models;
+using School.Educ.adk.Models;
 
 namespace School.Educ.adk.Areas.Admin.Controllers
 {
@@ -14,19 +16,29 @@ namespace School.Educ.adk.Areas.Admin.Controllers
     public class DirecteursController : Controller
     {
         private readonly DbEcole _context;
+        private UserManager<ApplicationUser> userManager;
+        private IUserValidator<ApplicationUser> userValidator;
+        private IPasswordValidator<ApplicationUser> passwordValidator;
+        private IPasswordHasher<ApplicationUser> passwordHasher;
 
-        public DirecteursController(DbEcole context)
+        public DirecteursController(DbEcole context,
+            UserManager<ApplicationUser> usrMgr,
+            IUserValidator<ApplicationUser> userValid,
+            IPasswordValidator<ApplicationUser> passValid,
+            IPasswordHasher<ApplicationUser> passwordHash)
         {
             _context = context;
+            userManager = usrMgr;
+            userValidator = userValid;
+            passwordValidator = passValid;
+            passwordHasher = passwordHash;
         }
 
-        // GET: Admin/Directeurs
         public async Task<IActionResult> Index()
         {
             return View(await _context.Directeurs.Include(e => e.Ecole).ToListAsync());
         }
-
-        // GET: Admin/Directeurs/Details/5
+        
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -55,47 +67,64 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return View(directeur);
         }
 
-        // GET: Admin/Directeurs/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Directeurs/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Email,Password,DateNaissance")] Directeur directeur)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(directeur);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ApplicationUser user = new ApplicationUser
+                {
+                    UserName = directeur.Matricule,
+                    Email = directeur.Email
+                };
+                IdentityResult result = await userManager.CreateAsync(user, directeur.Password);
+                if (result.Succeeded)
+                {
+                    user = await userManager.FindByEmailAsync(directeur.Email);
+                    directeur.ID = user.Id;
+                    _context.Add(directeur);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    foreach (IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
             }
             return View(directeur);
         }
 
-        // GET: Admin/Directeurs/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
             var directeur = await _context.Directeurs.FindAsync(id);
-            if (directeur == null)
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            if ((directeur == null) && (user == null))
             {
                 return NotFound();
             }
             return View(directeur);
         }
 
-        // POST: Admin/Directeurs/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        private void AddErrorsFromResult(IdentityResult result)
+        {
+            foreach (IdentityError error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Email,Password,DateNaissance")] Directeur directeur)
@@ -105,30 +134,69 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            if (user != null)
             {
-                try
+                user.Email = directeur.Email;
+                IdentityResult ValidEmail = await userValidator.ValidateAsync(userManager, user);
+                if (!ValidEmail.Succeeded)
                 {
-                    _context.Update(directeur);
-                    await _context.SaveChangesAsync();
+                    AddErrorsFromResult(ValidEmail);
                 }
-                catch (DbUpdateConcurrencyException)
+                IdentityResult validPass = null;
+                if (!string.IsNullOrEmpty(directeur.Password))
                 {
-                    if (!DirecteurExists(directeur.ID))
+                    validPass = await passwordValidator.ValidateAsync(userManager, user, directeur.Password);
+                    if (validPass.Succeeded)
                     {
-                        return NotFound();
+                        user.PasswordHash = passwordHasher.HashPassword(user, directeur.Password);
                     }
                     else
                     {
-                        throw;
+                        AddErrorsFromResult(validPass);
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                if ((ValidEmail.Succeeded && validPass == null) || (ValidEmail.Succeeded && directeur.Password != string.Empty && validPass.Succeeded))
+                {
+                    IdentityResult result = await userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        if (ModelState.IsValid)
+                        {
+                            try
+                            {
+                                _context.Update(directeur);
+                                await _context.SaveChangesAsync();
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+                                if (!DirecteurExists(directeur.ID))
+                                {
+                                    return NotFound();
+                                }
+                                else
+                                {
+                                    throw;
+                                }
+                            }
+                            return RedirectToAction(nameof(Index));
+                        }
+                    }
+                    else
+                    {
+                        AddErrorsFromResult(result);
+                    }
+                }
+
+            }
+            else
+            {
+                ModelState.AddModelError("", "Utilisateur non trouvé");
             }
             return View(directeur);
         }
 
-        // GET: Admin/Directeurs/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -147,14 +215,30 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return View(directeur);
         }
 
-        // POST: Admin/Directeurs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var directeur = await _context.Directeurs.FindAsync(id);
-            _context.Directeurs.Remove(directeur);
-            await _context.SaveChangesAsync();
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                IdentityResult result = await userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    var inspecteur = await _context.Directeurs.FindAsync(id);
+                    _context.Directeurs.Remove(inspecteur);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    AddErrorsFromResult(result);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Erreur non trouvée");
+            }
             return RedirectToAction(nameof(Index));
         }
 

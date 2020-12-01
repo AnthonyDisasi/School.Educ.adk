@@ -60,7 +60,7 @@
                                                 {
                                                     <td>
                                                         <form asp-action="Delete" asp-route-id="@role.Id" method="post">
-                                                            <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@role.Id">Affecter</a>
+                                                            <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-role_="@role.Name" asp-route-id="@role.Id">Affecter</a>
                                                             <button type="submit" class="btn btn-sm btn-danger">Retirer</button>
                                                         </form>
                                                     </td>
