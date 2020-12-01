@@ -7,21 +7,30 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using School.Educ.adk.Areas.Admin.Data;
+using School.Educ.adk.Areas.Admin.Models;
 using School.Educ.adk.Areas.Ecole.DataContext;
+using School.Educ.adk.Areas.Ecole.Models;
 using School.Educ.adk.Models;
 
 namespace School.Educ.adk.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private UserManager<ApplicationUser> userManager;
         private SignInManager<ApplicationUser> signInManager;
+        private readonly DbEcole dbEcole;
+        private readonly InspecteurDb inspecteurDb;
 
         public AccountController(UserManager<ApplicationUser> userMgr,
-        SignInManager<ApplicationUser> signinMgr)
+        SignInManager<ApplicationUser> signinMgr,
+        DbEcole _dbEcole,
+        InspecteurDb _inspecteurDb)
         {
             userManager = userMgr;
             signInManager = signinMgr;
+            dbEcole = _dbEcole;
+            inspecteurDb = _inspecteurDb;
         }
 
         [AllowAnonymous]
@@ -46,7 +55,6 @@ namespace School.Educ.adk.Controllers
                     if (result.Succeeded)
                     {
                         HttpContext.Session.SetString("identifiant", user.Id);
-                        //return Redirect(returnUrl ?? "/" + user.Id);
                         return RedirectToAction("Index", "Home", new { id = user.Id });
                     }
                 }

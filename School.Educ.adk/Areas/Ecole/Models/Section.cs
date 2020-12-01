@@ -14,5 +14,7 @@ namespace School.Educ.adk.Areas.Ecole.Models
         public string ID { get; set; }
         [Required(ErrorMessage = "Le nom est obligatoire")]
         public string Nom { get; set; }
+
+        public ICollection<Option> Options { get; set; }
     }
 }

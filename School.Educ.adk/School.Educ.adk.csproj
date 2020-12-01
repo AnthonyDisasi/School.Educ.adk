@@ -26,8 +26,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Areas\Eleve\Controllers\" />
-    <Folder Include="Areas\Inspection\Models\" />
     <Folder Include="wwwroot\Vendor\" />
   </ItemGroup>
 

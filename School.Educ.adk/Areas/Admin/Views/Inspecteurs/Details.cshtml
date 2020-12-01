@@ -86,12 +86,6 @@
                     {
                         <dl class="row">
                             <span class="section">Info sur l'affectation</span>
-                            <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
-                                @Html.DisplayNameFor(model => model.Affectation.ID)
-                            </dt>
-                            <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
-                                @Html.DisplayFor(model => model.Affectation.ID)
-                            </dd>
 
                             <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
                                 Nom de l'ecole affectée
@@ -100,6 +94,9 @@
                                 @ViewBag.ecole
                             </dd>
 
+                        </dl>
+                        if (ViewBag.ecole != "L'école à laquelle vous a été affectée, a été retirée; votre affectation est supprimée")
+                        {
                             <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
                                 @Html.DisplayNameFor(model => model.Affectation.Description)
                             </dt>
@@ -120,10 +117,11 @@
                             <dd class="col-form-label col-md-1 col-sm-6 text-left label-align">
                                 @Html.DisplayFor(model => model.Affectation.DateAffectation)
                             </dd>
-                        </dl>
-                        <div class="text-center">
-                            <a class="btn btn-outline-info" asp-area="Admin" asp-controller="Affectations" asp-action="Edit" asp-route-id="@Model.Affectation.ID">Modification</a>
-                        </div>
+
+                            <div class="text-center">
+                                <a class="btn btn-outline-info" asp-area="Admin" asp-controller="Affectations" asp-action="Edit" asp-route-id="@Model.Affectation.ID">Modification</a>
+                            </div>
+                        }
                     }
                     else
                     {

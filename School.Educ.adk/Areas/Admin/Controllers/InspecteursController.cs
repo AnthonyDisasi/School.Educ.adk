@@ -54,16 +54,27 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                 .Include(a => a.Affectation)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
+            ViewData["ecole"] = null;
             
-            if(inspecteur.Affectation == null)
+            Ecole.Models.Ecole ecole_ = new Ecole.Models.Ecole();
+
+            if (inspecteur.Affectation != null)
             {
-                ViewData["ecole"] = null;
+                ecole_= _cont.Ecoles.Find(inspecteur.Affectation.IdEcole);
+                if (ecole_ == null)
+                {
+                    ViewData["ecole"] = "L'école à laquelle vous a été affectée, a été retirée; votre affectation est supprimée";
+                    var affect = inspecteur.Affectation;
+                    _context.Affectations.Remove(affect);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    ViewData["ecole"] = ecole_.Nom;
+                }
+
             }
-            else
-            {
-                ViewData["ecole"] = _cont.Ecoles.FirstOrDefault(e => e.ID == inspecteur.Affectation.IdEcole).Nom;
-            }
-            
+
             if (inspecteur == null)
             {
                 return NotFound();

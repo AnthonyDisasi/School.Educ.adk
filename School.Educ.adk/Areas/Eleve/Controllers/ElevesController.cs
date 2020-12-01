@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using School.Educ.adk.Areas.Ecole.DataContext;
 using School.Educ.adk.Areas.Ecole.Models;
 
-namespace School.Educ.adk.Areas.Ecole.Controllers
+namespace School.Educ.adk.Areas.Eleve.Controllers
 {
-    [Area("Ecole")]
+    [Area("Eleve")]
     public class ElevesController : Controller
     {
         private readonly DbEcole _context;
@@ -20,11 +20,13 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             _context = context;
         }
 
+        // GET: Eleve/Eleves
         public async Task<IActionResult> Index()
         {
             return View(await _context.Eleves.ToListAsync());
         }
 
+        // GET: Eleve/Eleves/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -42,14 +44,18 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
+        // GET: Eleve/Eleves/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        // POST: Eleve/Eleves/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,DateNaissance")] Ecole.Models.Eleve eleve)
+        public async Task<IActionResult> Create([Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Password,DateNaissance")] Ecole.Models.Eleve eleve)
         {
             if (ModelState.IsValid)
             {
@@ -60,6 +66,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
+        // GET: Eleve/Eleves/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -75,9 +82,12 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
+        // POST: Eleve/Eleves/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,DateNaissance")] Ecole.Models.Eleve eleve)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Password,DateNaissance")] Ecole.Models.Eleve eleve)
         {
             if (id != eleve.ID)
             {
@@ -107,6 +117,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
+        // GET: Eleve/Eleves/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -124,6 +135,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
+        // POST: Eleve/Eleves/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

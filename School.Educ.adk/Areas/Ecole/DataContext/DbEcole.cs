@@ -16,7 +16,7 @@ namespace School.Educ.adk.Areas.Ecole.DataContext
         public DbSet<Classe> Classes { get; set; }
         public DbSet<Directeur> Directeurs { get; set; }
         public DbSet<Models.Ecole> Ecoles { get; set; }
-        public DbSet<Eleve> Eleves { get; set; }
+        public DbSet<Models.Eleve> Eleves { get; set; }
         public DbSet<Inscription> Inscriptions { get; set; }
         public DbSet<Option> Options { get; set; }
         public DbSet<Section> Sections { get; set; }
