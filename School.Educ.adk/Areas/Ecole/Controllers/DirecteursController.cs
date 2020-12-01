@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -30,13 +31,23 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             }
 
             var directeur = await _context.Directeurs
+                .Include(e => e.Ecole)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (directeur == null)
             {
                 return NotFound();
             }
 
-            return View(directeur);
+            if(directeur.Ecole != null)
+            {
+                ViewData["Message"] = "";
+                return View(directeur);
+            }
+            else
+            {
+                ViewData["Message"] = "Pour toute opération, il vous faut être affecté à une école et cela n'est pas votre cas!";
+                return View(directeur);
+            }
         }
     }
 }

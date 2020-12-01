@@ -22,8 +22,16 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var dbEcole = _context.Professeurs.Include(p => p.Ecole);
-            return View(await dbEcole.ToListAsync());
+            var model = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name);
+            if (model.Ecole != null)
+            {
+                var dbEcole = _context.Professeurs.Include(p => p.Ecole).Include(c => c.Cours);
+                return View(await dbEcole.ToListAsync());
+            }
+            else
+            {
+                return RedirectToAction("Details", "Directeurs", new { id = model.ID });
+            }
         }
 
         public async Task<IActionResult> Details(string id)
@@ -35,6 +43,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
             var professeur = await _context.Professeurs
                 .Include(p => p.Ecole)
+                .Include(c => c.Cours)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (professeur == null)
             {
@@ -46,21 +55,29 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         public IActionResult Create()
         {
-            ViewData["EcoleID"] = new SelectList(_context.Ecoles, "ID", "ID");
-            return View();
+            var model = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name);
+            if (model.Ecole != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Details", "Directeurs", new { id = model.ID });
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,EcoleID,Nom,Postnom,Prenom,Genre,Matricule,Email,DateNaissance")] Models.Professeur professeur)
+        public async Task<IActionResult> Create([Bind("ID,EcoleID,Nom,Postnom,Prenom,Genre,Matricule,Email,DateNaissance,Password")] Models.Professeur professeur)
         {
+            professeur.EcoleID = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID;
+            
             if (ModelState.IsValid)
             {
                 _context.Add(professeur);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EcoleID"] = new SelectList(_context.Ecoles, "ID", "ID", professeur.EcoleID);
             return View(professeur);
         }
 
@@ -76,19 +93,18 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             {
                 return NotFound();
             }
-            ViewData["EcoleID"] = new SelectList(_context.Ecoles, "ID", "ID", professeur.EcoleID);
             return View(professeur);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,EcoleID,Nom,Postnom,Prenom,Genre,Matricule,Email,DateNaissance")] Models.Professeur professeur)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,EcoleID,Nom,Postnom,Prenom,Genre,Matricule,Email,DateNaissance,Password")] Models.Professeur professeur)
         {
             if (id != professeur.ID)
             {
                 return NotFound();
             }
-
+            professeur.EcoleID = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID;
             if (ModelState.IsValid)
             {
                 try
@@ -109,7 +125,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EcoleID"] = new SelectList(_context.Ecoles, "ID", "ID", professeur.EcoleID);
             return View(professeur);
         }
 

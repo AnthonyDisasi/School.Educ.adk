@@ -39,6 +39,8 @@ namespace School.Educ.adk.Areas.Ecole.Models
                 return Nom + " " + Postnom + " " + Prenom;
             }
         }
+
+        public ICollection<Cours> Cours { get; set; }
         public Ecole Ecole { get; set; }
     }
 }
