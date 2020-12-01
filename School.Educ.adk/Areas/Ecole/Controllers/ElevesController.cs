@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using School.Educ.adk.Areas.Ecole.DataContext;
 using School.Educ.adk.Areas.Ecole.Models;
+using School.Educ.adk.Models;
 
 namespace School.Educ.adk.Areas.Ecole.Controllers
 {
@@ -14,17 +16,36 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
     public class ElevesController : Controller
     {
         private readonly DbEcole _context;
+        private UserManager<ApplicationUser> userManager;
+        private IUserValidator<ApplicationUser> userValidator;
+        private IPasswordValidator<ApplicationUser> passwordValidator;
+        private IPasswordHasher<ApplicationUser> passwordHasher;
 
-        public ElevesController(DbEcole context)
+        public ElevesController(DbEcole context,
+            UserManager<ApplicationUser> usrMgr,
+            IUserValidator<ApplicationUser> userValid,
+            IPasswordValidator<ApplicationUser> passValid,
+            IPasswordHasher<ApplicationUser> passwordHash)
         {
             _context = context;
+            userManager = usrMgr;
+            userValidator = userValid;
+            passwordValidator = passValid;
+            passwordHasher = passwordHash;
         }
 
+        // GET: Ecole/Eleves
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Eleves.ToListAsync());
+            return View(
+                await _context.Eleves
+                .Include(i => i.Inscriptions)
+                .AsNoTracking()
+                .ToListAsync()
+                );
         }
 
+        // GET: Ecole/Eleves/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -42,24 +63,47 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
+        // GET: Ecole/Eleves/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        // POST: Ecole/Eleves/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,DateNaissance")] Ecole.Models.Eleve eleve)
+        public async Task<IActionResult> Create([Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Password,DateNaissance")] Models.Eleve eleve)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(eleve);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ApplicationUser user = new ApplicationUser
+                {
+                    UserName = eleve.Matricule
+                };
+                IdentityResult result = await userManager.CreateAsync(user, eleve.Password);
+                if (result.Succeeded)
+                {
+                    user = await userManager.FindByNameAsync(eleve.Matricule);
+                    eleve.ID = user.Id;
+                    _context.Add(eleve);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    foreach (IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
             }
+
             return View(eleve);
         }
 
+        // GET: Ecole/Eleves/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -75,9 +119,12 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
+        // POST: Ecole/Eleves/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,DateNaissance")] Ecole.Models.Eleve eleve)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Password,DateNaissance")] Models.Eleve eleve)
         {
             if (id != eleve.ID)
             {
@@ -107,6 +154,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
+        // GET: Ecole/Eleves/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -124,6 +172,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(eleve);
         }
 
+        // POST: Ecole/Eleves/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

@@ -27,28 +27,7 @@ namespace School.Educ.adk.Areas.Ecole.Models
                 return Niveau + " " + Section + " " + Option;
             }
         }
-
-        public List<Eleve> ListEleve
-        {
-            get
-            {
-                List<Eleve> eleves = null;
-                foreach (Inscription el in Inscriptions)
-                {
-                    eleves.Add(el.Eleve);
-                }
-                return eleves;
-            }
-        }
-
-        public int nbEleve
-        {
-            get
-            {
-                return Inscriptions.Count;
-            }
-        }
-
+                
         public Ecole Ecole { get; set; }
         public ICollection<Cours> Cours { get; set; }
         public ICollection<Inscription> Inscriptions { get; set; }

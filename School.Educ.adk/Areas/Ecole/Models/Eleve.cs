@@ -38,19 +38,6 @@ namespace School.Educ.adk.Areas.Ecole.Models
             }
         }
 
-        public List<Classe> ListClasse
-        {
-            get
-            {
-                List<Classe> classes = null;
-                foreach (Inscription cl in Inscriptions)
-                {
-                    classes.Add(cl.Classe);
-                }
-                return classes;
-            }
-        }
-
         public ICollection<Inscription> Inscriptions { get; set; }
     }
 }

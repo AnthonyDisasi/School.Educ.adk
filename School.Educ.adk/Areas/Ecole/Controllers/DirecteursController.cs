@@ -38,57 +38,5 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
             return View(directeur);
         }
-
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var directeur = await _context.Directeurs.FindAsync(id);
-            if (directeur == null)
-            {
-                return NotFound();
-            }
-            return View(directeur);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Email,DateNaissance")] Directeur directeur)
-        {
-            if (id != directeur.ID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(directeur);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DirecteurExists(directeur.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Details), new { id = id });
-            }
-            return View(directeur);
-        }
-
-        private bool DirecteurExists(string id)
-        {
-            return _context.Directeurs.Any(e => e.ID == id);
-        }
     }
 }

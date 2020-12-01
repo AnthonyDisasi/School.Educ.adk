@@ -38,57 +38,5 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             }
             return View(inspecteur);
         }
-
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var inspecteur = await _context.Inspecteurs.FindAsync(id);
-            if (inspecteur == null)
-            {
-                return NotFound();
-            }
-            return View(inspecteur);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Email,Password,DateNaissance")] Inspecteur inspecteur)
-        {
-            if (id != inspecteur.ID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(inspecteur);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!InspecteurExists(inspecteur.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Details), new { id = id });
-            }
-            return View(inspecteur);
-        }
-
-        private bool InspecteurExists(string id)
-        {
-            return _context.Inspecteurs.Any(e => e.ID == id);
-        }
     }
 }
