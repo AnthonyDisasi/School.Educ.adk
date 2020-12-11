@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -46,16 +47,12 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             return View(ecole);
         }
 
-        // GET: Inspection/Ecoles/Create
         public IActionResult Create()
         {
-            ViewData["DirecteurID"] = new SelectList(_context.Directeurs, "ID", "ID");
+            ViewData["id_directeur_"] = (from d in _context.Directeurs  where d.Ecole == null select new SelectListItem { Text = d.Matricule, Value = d.ID }).ToList();
             return View();
         }
 
-        // POST: Inspection/Ecoles/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,DirecteurID,Nom,EcoleLatitude,EcoleLongitude,SousDivision")] Ecole.Models.Ecole ecole)
@@ -66,11 +63,10 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DirecteurID"] = new SelectList(_context.Directeurs, "ID", "ID", ecole.DirecteurID);
+            ViewData["id_directeur_"] = (from d in _context.Directeurs where d.Ecole == null select new SelectListItem { Text = d.Matricule, Value = d.ID }).ToList();
             return View(ecole);
         }
 
-        // GET: Inspection/Ecoles/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -83,7 +79,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             {
                 return NotFound();
             }
-            ViewData["DirecteurID"] = new SelectList(_context.Directeurs, "ID", "ID", ecole.DirecteurID);
+            ViewData["DirecteurID"] = (from d in _context.Directeurs where d.Ecole == null || d.ID == ecole.DirecteurID select new SelectListItem { Text = d.Matricule, Value = d.ID }).ToList();
             return View(ecole);
         }
 
@@ -119,7 +115,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DirecteurID"] = new SelectList(_context.Directeurs, "ID", "ID", ecole.DirecteurID);
+            ViewData["DirecteurID"] = (from d in _context.Directeurs where d.Ecole == null || d.ID == ecole.DirecteurID select new SelectListItem { Text = d.Matricule, Value = d.ID }).ToList();
             return View(ecole);
         }
 

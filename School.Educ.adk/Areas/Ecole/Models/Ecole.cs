@@ -25,14 +25,6 @@ namespace School.Educ.adk.Areas.Ecole.Models
         [Display(Name = "Sous-division"), Required(ErrorMessage = "La sous division est obligatoire")]
         public string SousDivision { get; set; }
 
-        public int nbClasses
-        {
-            get
-            {
-                return Classes.Count;
-            }
-        }
-
         public virtual Directeur Directeur { get; set; }
         public ICollection<Classe> Classes { get; set; }
         public ICollection<Professeur> Professeurs { get; set; }
