@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using School.Educ.adk.Areas.Admin.Data;
+using School.Educ.adk.Areas.Admin.Models;
 using School.Educ.adk.Models;
 
 namespace School.Educ.adk.Areas.Admin.Controllers
@@ -51,7 +52,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
         private void AddErrorsFromResult(IdentityResult result)
         {
-            foreach(IdentityError error in result.Errors)
+            foreach (IdentityError error in result.Errors)
             {
                 ModelState.AddModelError("", error.Description);
             }
@@ -61,7 +62,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             IdentityRole role = await roleManager.FindByIdAsync(id);
-            if(role != null)
+            if (role != null)
             {
                 IdentityResult result = await roleManager.DeleteAsync(role);
                 if (result.Succeeded)
@@ -85,10 +86,17 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             IdentityRole role = await roleManager.FindByIdAsync(id);
             List<ApplicationUser> members = new List<ApplicationUser>();
             List<ApplicationUser> nonMembers = new List<ApplicationUser>();
+            List<Inspecteur> model = _context.Inspecteurs.ToList();
             foreach (ApplicationUser user in userManager.Users)
             {
-                var list = await userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
-                list.Add(user);
+                foreach (Inspecteur inspecteur in model)
+                {
+                    if (inspecteur.ID == user.Id)
+                    {
+                        var list = await userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
+                        list.Add(user);
+                    }
+                }
             }
             return View(new RoleEditModel
             {

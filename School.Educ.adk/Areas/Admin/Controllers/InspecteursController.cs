@@ -57,7 +57,10 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return View(inspecteur);
         }
 
-        public IActionResult Create() => View();
+        public IActionResult Create()
+        {
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
