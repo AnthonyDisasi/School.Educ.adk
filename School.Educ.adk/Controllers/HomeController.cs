@@ -14,16 +14,6 @@ namespace School.Educ.adk.Controllers
     {
         public IActionResult Index()
         {
-            return RedirectToAction("Login", "Compte");
-        }
-
-        public string Index1()
-        {
-            return "Salut tu es connecté";
-        }
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 

@@ -15,17 +15,13 @@ namespace School.Educ.adk.Controllers
     {
         private UserManager<ApplicationUser> userManager;
         private SignInManager<ApplicationUser> signInManager;
-        private readonly InspecteurDb Inspe;
-        private readonly DbEcole Eco;
 
-        public AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager, InspecteurDb _Inspe, DbEcole _Eco)
+        public AccountController(UserManager<ApplicationUser> userMgr,
+        SignInManager<ApplicationUser> signinMgr)
         {
-            userManager = _userManager;
-            signInManager = _signInManager;
-            Inspe = _Inspe;
-            Eco = _Eco;
+            userManager = userMgr;
+            signInManager = signinMgr;
         }
-
 
         [AllowAnonymous]
         public IActionResult Login(string returnUrl)
@@ -39,7 +35,6 @@ namespace School.Educ.adk.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel details, string returnUrl)
         {
-
             if (ModelState.IsValid)
             {
                 ApplicationUser user = await userManager.FindByEmailAsync(details.Email);
@@ -49,37 +44,19 @@ namespace School.Educ.adk.Controllers
                     Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(user, details.Password, false, false);
                     if (result.Succeeded)
                     {
-                        string idUser;
-                        if (details.Role == "Inspecteur")
-                        {
-                            idUser = Inspe.Inspecteurs.FirstOrDefault(i => i.Email == details.Email).ID;
-                            //return RedirectToAction("Details", "Inspecteurs", new { id = idUser }, "Admin" ?? returnUrl);
-                            return Redirect(returnUrl ?? "AccueilCI");
-                        }
-                        else if (details.Role == "Directeur")
-                        {
-                            return RedirectToAction();
-                        }
-                        else if (details.Role == "Professeur")
-                        {
-                            return RedirectToAction();
-                        }
-                        else if (details.Role == "Eleve")
-                        {
-                            return RedirectToAction();
-                        }
+                        return Redirect(returnUrl ?? "/");
                     }
-                    ModelState.AddModelError(nameof(LoginModel.Password), "Le mot de passe est incorrect");
                 }
-                ModelState.AddModelError(nameof(LoginModel.Email), "Le mail est incorrect");
+                ModelState.AddModelError(nameof(LoginModel.Email), "Le mot de passe ou le mail sont invalids");
             }
 
             return View(details);
         }
 
-        public string AccueilCI()
+        public async Task<IActionResult> Logout(string returnUrl)
         {
-            return "Salut";
+            await signInManager.SignOutAsync();
+            return Redirect(returnUrl ?? "Login");
         }
 
         [AllowAnonymous]
@@ -87,13 +64,5 @@ namespace School.Educ.adk.Controllers
         {
             return View();
         }
-
-        [Authorize]
-        public async Task<IActionResult> Logout()
-        {
-            await signInManager.SignOutAsync();
-            return RedirectToAction("Login");
-        }
-
     }
 }
