@@ -4,7 +4,7 @@
     ViewData["Title"] = "Nouveau";
 }
 
-<h1>Nouveau inspecteur</h1>
+<h1>Nouveau directeur</h1>
 
 <hr />
 
@@ -23,7 +23,7 @@
                 <form class="" asp-action="Create" method="post" novalidate>
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <span class="section">Info sur l'inspecteur</span>
+                    <span class="section">Info sur le directeur</span>
 
                     <div class="field item form-group">
                         <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Nom"></label>
@@ -103,7 +103,8 @@
 
                     <div class="ln_solid">
                         <div class="form-group">
-                            <div class="col-md-6 offset-md-3">
+                            <br /><br />
+                            <div class="col-md-6 offset-md-3 text-center">
                                 <button type='submit' class="btn btn-primary">Enregistrer</button>
                                 <button type='reset' class="btn btn-success">Recommencer</button>
                             </div>

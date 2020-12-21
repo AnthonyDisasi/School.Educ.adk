@@ -20,7 +20,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <form class="" asp-action="Edit" method="post" novalidate>
+                <form class="" asp-action="Edit" asp-route-ID="ID" method="post">
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="ID" />
@@ -92,7 +92,7 @@
                     <div class="field item form-group">
                         <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Password"></label>
                         <div class="col-md-6 col-sm-6">
-                            <input class="form-control" type="password" id="password1" asp-for="Password" />
+                            <input class="form-control" id="password1" asp-for="Password" />
 
                             <span style="position: absolute;right:15px;top:7px;" onclick="hideshow()">
                                 <i id="slash" class="fa fa-eye-slash"></i>
@@ -104,7 +104,8 @@
 
                     <div class="ln_solid">
                         <div class="form-group">
-                            <div class="col-md-6 offset-md-3" style="text-align:center">
+                            <br /><br />
+                            <div class="col-md-6 offset-md-3 text-center">
                                 <button type='submit' class="btn btn-primary">Enregistrer</button>
                                 <button type='reset' class="btn btn-success">Recommencer</button>
                             </div>
