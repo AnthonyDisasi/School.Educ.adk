@@ -88,9 +88,9 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             List<Directeur> model = _context.Directeurs.ToList();
             foreach (ApplicationUser user in userManager.Users)
             {
-                foreach (Directeur inspecteur in model)
+                foreach (Directeur directeur in model)
                 {
-                    if (inspecteur.ID == user.Id)
+                    if (directeur.ID == user.Id)
                     {
                         var list = await userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
                         list.Add(user);

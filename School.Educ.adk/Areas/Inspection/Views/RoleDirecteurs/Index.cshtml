@@ -55,9 +55,9 @@
                                                 <td>@role.Id</td>
                                                 <td>@role.Name</td>
                                                 <td identity-role="@role.Id"></td>
-                                                @if (role.Name == "Inspecteur")
+                                                @if (role.Name == "Directeur")
                                                 {
-                                                    <td>
+                                                    <td class="text-center">
                                                         <form asp-action="Delete" asp-route-id="@role.Id" method="post">
                                                             <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@role.Id">Affecter</a>
                                                             <button type="submit" class="btn btn-sm btn-danger">Retirer</button>
@@ -66,11 +66,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <td>
-                                                        <form asp-action="Delete" asp-route-id="@role.Id" method="post">
-                                                            <button type="submit" class="btn btn-sm btn-danger">Retirer</button>
-                                                        </form>
-                                                    </td>
+                                                    <td class="text-center">Vous n'avez pas le droit</td>
                                                 }
 
                                             </tr>
