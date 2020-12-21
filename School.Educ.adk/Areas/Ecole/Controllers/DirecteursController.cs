@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using School.Educ.adk.Areas.Ecole.Models;
 namespace School.Educ.adk.Areas.Ecole.Controllers
 {
     [Area("Ecole")]
+    [Authorize(Roles = "Directeur")]
     public class DirecteursController : Controller
     {
         private readonly DbEcole _context;
@@ -18,11 +20,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
         public DirecteursController(DbEcole context)
         {
             _context = context;
-        }
-
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Directeurs.ToListAsync());
         }
 
         public async Task<IActionResult> Details(string id)
@@ -84,7 +81,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = id });
             }
             return View(directeur);
         }

@@ -7,7 +7,6 @@
 
 <link rel="stylesheet" href="~/vendors/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/Form_Login.css" />
-
 <section class="get_in_touch_">
     <section class="get_in_touch_lien">
         <div class="container text-center">
@@ -21,7 +20,7 @@
     </section>
     <section class="get_in_touch_lien">
         <div class="container text-center">
-            <a asp-area="Ecole" class="btn btn-outline-primary text-center" asp-controller="Directeurs" asp-action="Details" asp-route-ID="@Context.Session.GetString("identifiant")">Directeurs</a>
+            <a asp-area="Ecole" class="btn btn-outline-primary text-center" asp-controller="Directeurs" asp-action="Details" asp-route-id="@Context.Session.GetString("identifiant")">Directeur</a>
         </div>
     </section>
     <section class="get_in_touch_lien">

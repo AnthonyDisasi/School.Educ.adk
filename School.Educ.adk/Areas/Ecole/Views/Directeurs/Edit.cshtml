@@ -56,9 +56,5 @@
 </div>
 
 <div>
-    <a asp-area="Ecole" asp-controller="Directeurs" asp-action="Index">Back to List</a>
+    <a asp-area="Ecole" asp-controller="Directeurs" asp-action="Details" asp-route-id="ID">Retour</a>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
