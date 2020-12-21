@@ -40,6 +40,7 @@ namespace School.Educ.adk
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            services.AddSession();
 
             services.AddDbContext<DbEcole>(options => options.UseSqlServer(this.Configuration.GetConnectionString("EcoleDb_")));
             services.AddDbContext<ExamenDb>(options => options.UseSqlServer(this.Configuration.GetConnectionString("ExamenDb_")));
@@ -73,6 +74,7 @@ namespace School.Educ.adk
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

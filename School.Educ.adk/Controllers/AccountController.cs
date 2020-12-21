@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using School.Educ.adk.Areas.Admin.Data;
@@ -44,6 +45,7 @@ namespace School.Educ.adk.Controllers
                     Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(user, details.Password, false, false);
                     if (result.Succeeded)
                     {
+                        Request.HttpContext.Session.SetString("identifiant", user.Id);
                         return Redirect(returnUrl ?? "/");
                     }
                 }

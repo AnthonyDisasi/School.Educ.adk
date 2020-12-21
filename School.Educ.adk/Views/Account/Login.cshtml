@@ -1,15 +1,26 @@
 ﻿@model LoginModel
-<div class="bg-primary panel-body"><h4>Log In</h4></div>
-<div class="text-danger" asp-validation-summary="All"></div>
-<form asp-action="Login" method="post">
-    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
+<link rel="stylesheet" href="~/css/Form_Login.css" />
+
+<section class="get_in_touch">
+    <div class="container">
+
+        <h1 class="title">Connexion</h1>
+
+        <form asp-action="Login" method="post">
+            <div class="contact-form row">
+                <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+                <div class="form-field col-lg-6">
+                    <input class="input-text" asp-for="Email" />
+                    <label asp-for="Email" class="label">E - mail <span asp-validation-for="Email" class="text-danger"></span></label>
+                </div>
+                <div class="form-field col-lg-6">
+                    <input class="input-text" asp-for="Password" />
+                    <label asp-for="Password" class="label">Mot de passe <span asp-validation-for="Password" class="text-danger"></span></label>
+                </div>
+                <div class="form-field col-lg-12 text-center">
+                    <input type="submit" name="" class="submit-btn" value="Se connecter">
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" class="form-control" />
-    </div>
-    <button class="btn btn-primary" type="submit">Log In</button>
-</form> 
+</section>
