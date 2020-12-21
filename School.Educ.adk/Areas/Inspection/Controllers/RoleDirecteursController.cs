@@ -12,13 +12,13 @@ using School.Educ.adk.Models;
 namespace School.Educ.adk.Areas.Inspection.Controllers
 {
     [Area("Inspection")]
-    public class RoleDirecteurs : Controller
+    public class RoleDirecteursController : Controller
     {
         private RoleManager<IdentityRole> roleManager;
         private UserManager<ApplicationUser> userManager;
         private readonly DbEcole _context;
 
-        public RoleDirecteurs(RoleManager<IdentityRole> _roleManager,
+        public RoleDirecteursController(RoleManager<IdentityRole> _roleManager,
             UserManager<ApplicationUser> _userManager,
             DbEcole context)
         {
