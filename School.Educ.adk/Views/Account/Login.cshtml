@@ -10,6 +10,16 @@
             <label asp-for="Email" class="label">E - mail <span asp-validation-for="Email" class="text-danger"></span></label>
         </div>
         <div class="form-field col-lg-6">
+            <label asp-for="Role" class="label">Role <span asp-validation-for="Role" class="text-danger"></span></label>
+            <select asp-for="Role" class="form-control">
+                <option>Selectionner votre rôle</option>
+                <option value="Inspecteur">Inspecteur</option>
+                <option value="Directeur">Directeur</option>
+                <option value="Professeur">Professeur</option>
+                <option value="Eleve">Elève</option>
+            </select>
+        </div>
+        <div class="form-field col-lg-6">
             <input class="input-text" asp-for="Password" />
             <label asp-for="Password" class="label">Mot de passe <span asp-validation-for="Password" class="text-danger"></span></label>
         </div>

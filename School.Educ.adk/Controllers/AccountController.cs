@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using School.Educ.adk.Areas.Admin.Data;
+using School.Educ.adk.Areas.Ecole.DataContext;
 using School.Educ.adk.Models;
 
 namespace School.Educ.adk.Controllers
@@ -13,11 +15,15 @@ namespace School.Educ.adk.Controllers
     {
         private UserManager<ApplicationUser> userManager;
         private SignInManager<ApplicationUser> signInManager;
+        private readonly InspecteurDb Inspe;
+        private readonly DbEcole Eco;
 
-        public AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager)
+        public AccountController(UserManager<ApplicationUser> _userManager, SignInManager<ApplicationUser> _signInManager, InspecteurDb _Inspe, DbEcole _Eco)
         {
             userManager = _userManager;
             signInManager = _signInManager;
+            Inspe = _Inspe;
+            Eco = _Eco;
         }
 
 
@@ -33,6 +39,7 @@ namespace School.Educ.adk.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel details, string returnUrl)
         {
+
             if (ModelState.IsValid)
             {
                 ApplicationUser user = await userManager.FindByEmailAsync(details.Email);
@@ -42,18 +49,37 @@ namespace School.Educ.adk.Controllers
                     Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(user, details.Password, false, false);
                     if (result.Succeeded)
                     {
-                        return Redirect(returnUrl ?? "AccueilCI");
+                        string idUser;
+                        if (details.Role == "Inspecteur")
+                        {
+                            idUser = Inspe.Inspecteurs.FirstOrDefault(i => i.Email == details.Email).ID;
+                            //return RedirectToAction("Details", "Inspecteurs", new { id = idUser }, "Admin" ?? returnUrl);
+                            return Redirect(returnUrl ?? "AccueilCI");
+                        }
+                        else if (details.Role == "Directeur")
+                        {
+                            return RedirectToAction();
+                        }
+                        else if (details.Role == "Professeur")
+                        {
+                            return RedirectToAction();
+                        }
+                        else if (details.Role == "Eleve")
+                        {
+                            return RedirectToAction();
+                        }
                     }
+                    ModelState.AddModelError(nameof(LoginModel.Password), "Le mot de passe est incorrect");
                 }
-                ModelState.AddModelError(nameof(LoginModel.Email), "Invalid user or password");
+                ModelState.AddModelError(nameof(LoginModel.Email), "Le mail est incorrect");
             }
 
             return View(details);
         }
 
-        public IActionResult AccueilCI()
+        public string AccueilCI()
         {
-            return RedirectToAction("Index", "Questions", "Admin");
+            return "Salut";
         }
 
         [AllowAnonymous]

@@ -11,6 +11,9 @@ namespace School.Educ.adk.Models
         [Required(ErrorMessage = "L'e - mail est obligatoire"), Display(Name = "E - mail")]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "Veuillez selectionner votre rôle")]
+        public string Role { get; set; }
+
         [Required(ErrorMessage = "Le mot de passe est obligatoire"), Display(Name = "Mot de passe")]
         public string Password { get; set; }
     }
