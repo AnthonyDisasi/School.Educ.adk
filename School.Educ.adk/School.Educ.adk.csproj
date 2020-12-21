@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Eleve\Controllers\" />
+    <Folder Include="Areas\Inspection\Views\RoleDirecteurs\" />
     <Folder Include="wwwroot\Vendor\" />
   </ItemGroup>
 
