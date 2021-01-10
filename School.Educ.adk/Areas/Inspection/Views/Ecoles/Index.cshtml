@@ -41,6 +41,7 @@
                                         <th>@Html.DisplayNameFor(model => model.EcoleLatitude)</th>
                                         <th>@Html.DisplayNameFor(model => model.EcoleLongitude)</th>
                                         <th>@Html.DisplayNameFor(model => model.SousDivision)</th>
+                                        <th>@Html.DisplayNameFor(model => model.DateCreate)</th>
                                         <th>@Html.DisplayNameFor(model => model.Directeur.NomComplet)</th>
                                         <th></th>
                                     </tr>
@@ -70,6 +71,9 @@
                                                 </td>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.SousDivision)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DateCreate)
                                                 </td>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.Directeur.NomComplet)
