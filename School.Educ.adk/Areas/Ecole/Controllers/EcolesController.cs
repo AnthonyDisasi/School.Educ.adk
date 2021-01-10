@@ -58,7 +58,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,DirecteurID,Nom,EcoleLatitude,EcoleLongitude,SousDivision,DateCreate")] Ecole ecole)
+        public async Task<IActionResult> Create([Bind("ID,DirecteurID,Nom,EcoleLatitude,EcoleLongitude,SousDivision,DateCreate")] Models.Ecole ecole)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,DirecteurID,Nom,EcoleLatitude,EcoleLongitude,SousDivision,DateCreate")] Ecole ecole)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,DirecteurID,Nom,EcoleLatitude,EcoleLongitude,SousDivision,DateCreate")] Models.Ecole ecole)
         {
             if (id != ecole.ID)
             {
