@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using School.Educ.adk.Areas.Ecole.DataContext;
 using School.Educ.adk.Areas.Ecole.Models;
 using School.Educ.adk.Models;
@@ -15,6 +17,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
     [Area("Inspection")]
     public class DirecteursController : Controller
     {
+        private IConfiguration _conf;
         private UserManager<ApplicationUser> userManager;
         private IUserValidator<ApplicationUser> userValidator;
         private IPasswordValidator<ApplicationUser> passwordValidator;
@@ -227,12 +230,23 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             {
                 ModelState.AddModelError("", "Erreur non trouvée");
             }
-            return RedirectToAction(nameof(Index));
+            return View();
         }
 
         private bool DirecteurExists(string id)
         {
             return _context.Directeurs.Any(e => e.ID == id);
+        }
+
+        public string Voir()
+        {
+            var builder = new ConfigurationBuilder()
+                                .SetBasePath(Directory.GetCurrentDirectory())
+                                .AddJsonFile("appset.json"); ;
+            _conf = builder.Build();
+            
+            return _conf["Identifiqnt"];
+
         }
     }
 }

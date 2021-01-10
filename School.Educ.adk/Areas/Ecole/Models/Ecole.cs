@@ -25,6 +25,9 @@ namespace School.Educ.adk.Areas.Ecole.Models
         [Display(Name = "Sous-division"), Required(ErrorMessage = "La sous division est obligatoire")]
         public string SousDivision { get; set; }
 
+        [Display(Name = "Date de création"), DataType(DataType.Date), Required(ErrorMessage = "La date de création est obligatoire")]
+        public DateTime DateCreate { get; set; }
+
         public virtual Directeur Directeur { get; set; }
         public ICollection<Classe> Classes { get; set; }
         public ICollection<Professeur> Professeurs { get; set; }

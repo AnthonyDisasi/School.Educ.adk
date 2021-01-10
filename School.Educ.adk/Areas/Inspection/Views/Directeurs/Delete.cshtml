@@ -76,9 +76,9 @@
                     </dl>
                 </div>
                 <div class="text-center">
-                    <form asp-action="Delete">
+                    <form asp-action="Delete" asp-controller="Directeurs" asp-area="Inspection" method="post" asp-route-id="ID">
                         <input type="hidden" asp-for="ID" />
-                        <input type="submit" value="Delete" class="btn btn-outline-danger" />
+                        <input type="submit" value="Supprimer" class="btn btn-outline-danger" />
                     </form>
                 </div>
             </div>

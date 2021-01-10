@@ -47,9 +47,9 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
         }
 
         // GET: Inspection/Questions/Create
-        public IActionResult Create()
+        public IActionResult Create(string id)
         {
-            ViewData["ExamenID"] = new SelectList(_context.Examens, "ID", "ID");
+            ViewData["ExamenID"] = id;
             return View();
         }
 
@@ -64,9 +64,9 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             {
                 _context.Add(question);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Examen", new { id = question.ExamenID });
             }
-            ViewData["ExamenID"] = new SelectList(_context.Examens, "ID", "ID", question.ExamenID);
+            ViewData["ExamenID"] = question.ExamenID;
             return View(question);
         }
 
@@ -83,7 +83,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             {
                 return NotFound();
             }
-            ViewData["ExamenID"] = new SelectList(_context.Examens, "ID", "ID", question.ExamenID);
+            ViewData["ExamenID"] = question.ExamenID;
             return View(question);
         }
 
@@ -117,9 +117,9 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Examen", new { id = question.ExamenID });
             }
-            ViewData["ExamenID"] = new SelectList(_context.Examens, "ID", "ID", question.ExamenID);
+            ViewData["ExamenID"] = question.ExamenID;
             return View(question);
         }
 
@@ -148,9 +148,10 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var question = await _context.Questions.FindAsync(id);
+            string idexa = question.ExamenID;
             _context.Questions.Remove(question);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Examen", new { id = idexa });
         }
 
         private bool QuestionExists(string id)

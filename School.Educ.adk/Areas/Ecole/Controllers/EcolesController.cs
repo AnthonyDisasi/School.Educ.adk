@@ -19,11 +19,15 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
         {
             _context = context;
         }
+
+        // GET: Ecole/Ecoles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Ecoles.ToListAsync());
+            var dbEcole = _context.Ecoles.Include(e => e.Directeur);
+            return View(await dbEcole.ToListAsync());
         }
 
+        // GET: Ecole/Ecoles/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -42,6 +46,31 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(ecole);
         }
 
+        // GET: Ecole/Ecoles/Create
+        public IActionResult Create()
+        {
+            ViewData["DirecteurID"] = new SelectList(_context.Directeurs, "ID", "ID");
+            return View();
+        }
+
+        // POST: Ecole/Ecoles/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("ID,DirecteurID,Nom,EcoleLatitude,EcoleLongitude,SousDivision,DateCreate")] Ecole ecole)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(ecole);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["DirecteurID"] = new SelectList(_context.Directeurs, "ID", "ID", ecole.DirecteurID);
+            return View(ecole);
+        }
+
+        // GET: Ecole/Ecoles/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -58,9 +87,12 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(ecole);
         }
 
+        // POST: Ecole/Ecoles/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,DirecteurID,Nom,EcoleLatitude,EcoleLongitude,SousDivision")] Models.Ecole ecole)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,DirecteurID,Nom,EcoleLatitude,EcoleLongitude,SousDivision,DateCreate")] Ecole ecole)
         {
             if (id != ecole.ID)
             {
@@ -89,6 +121,36 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             }
             ViewData["DirecteurID"] = new SelectList(_context.Directeurs, "ID", "ID", ecole.DirecteurID);
             return View(ecole);
+        }
+
+        // GET: Ecole/Ecoles/Delete/5
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var ecole = await _context.Ecoles
+                .Include(e => e.Directeur)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (ecole == null)
+            {
+                return NotFound();
+            }
+
+            return View(ecole);
+        }
+
+        // POST: Ecole/Ecoles/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var ecole = await _context.Ecoles.FindAsync(id);
+            _context.Ecoles.Remove(ecole);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         private bool EcoleExists(string id)

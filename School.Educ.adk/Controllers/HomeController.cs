@@ -12,8 +12,9 @@ namespace School.Educ.adk.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(string id)
         {
+            ViewData["idUser"] = id;
             return View();
         }
 

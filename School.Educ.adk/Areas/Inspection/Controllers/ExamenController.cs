@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using School.Educ.adk.Areas.Inspection.Models;
 namespace School.Educ.adk.Areas.Inspection.Controllers
 {
     [Area("Inspection")]
+    [Authorize(Roles = "Inspecteur")]
     public class ExamenController : Controller
     {
         private readonly ExamenDb _context;
@@ -21,12 +23,14 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = "Inspecteur")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Examens.ToListAsync());
+            string idUser = Request.HttpContext.Session.GetString("identifiant");
+            List<Examen> model = (from d in _context.Examens where d.IdInspecteur == idUser select d).ToList();
+            return View(model);
         }
 
+        // GET: Inspection/Examen/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -35,6 +39,8 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             }
 
             var examen = await _context.Examens
+                .Include(q => q.Questions)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (examen == null)
             {
@@ -44,14 +50,18 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             return View(examen);
         }
 
+        // GET: Inspection/Examen/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        // POST: Inspection/Examen/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Description,Periode,Serie,CodeAcces,IdInspecteur")] Examen examen)
+        public async Task<IActionResult> Create([Bind("ID,Description,Periode,Serie,CodeAcces,DateExamen,Duree,IdInspecteur")] Examen examen)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +72,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             return View(examen);
         }
 
+        // GET: Inspection/Examen/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -77,9 +88,12 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             return View(examen);
         }
 
+        // POST: Inspection/Examen/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,Description,Periode,Serie,CodeAcces,IdInspecteur")] Examen examen)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,Description,Periode,Serie,CodeAcces,DateExamen,Duree,IdInspecteur")] Examen examen)
         {
             if (id != examen.ID)
             {
@@ -109,6 +123,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             return View(examen);
         }
 
+        // GET: Inspection/Examen/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -126,6 +141,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             return View(examen);
         }
 
+        // POST: Inspection/Examen/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

@@ -125,7 +125,7 @@
                                         @User.Identity.Name
                                     </a>
                                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" asp-area="Inspection" asp-controller="Inpecteurs" asp-action="Details" asp-route-id="@Context.Session.GetString("identifiant")">Profile</a>
+                                        <a class="dropdown-item" asp-area="Inspection" asp-controller="Inspecteurs" asp-action="Details" asp-route-id="@Context.Session.GetString("identifiant")">Profile</a>
                                         <a class="dropdown-item red" asp-controller="Account" asp-action="Logout"><i class="fa fa-sign-out red pull-right"></i> Log Out</a>
                                     </div>
                                 </li>
@@ -163,6 +163,8 @@
     <script src="~/vendors/nprogress/nprogress.js"></script>
     <!-- iCheck -->
     <script src="~/vendors/iCheck/icheck.min.js"></script>
+    <!-- jQuery Smart Wizard -->
+    <script src="../vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
 
     <!-- Datatables -->
     <script src="~/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -180,7 +182,6 @@
     <script src="~/vendors/jszip/dist/jszip.min.js"></script>
     <script src="~/vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="~/vendors/pdfmake/build/vfs_fonts.js"></script>
-
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="../vendors/validator/multifield.js"></script>

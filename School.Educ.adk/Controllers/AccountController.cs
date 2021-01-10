@@ -45,8 +45,9 @@ namespace School.Educ.adk.Controllers
                     Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(user, details.Password, false, false);
                     if (result.Succeeded)
                     {
-                        Request.HttpContext.Session.SetString("identifiant", user.Id);
-                        return Redirect(returnUrl ?? "/");
+                        HttpContext.Session.SetString("identifiant", user.Id);
+                        //return Redirect(returnUrl ?? "/" + user.Id);
+                        return RedirectToAction("Index", "Home", new { id = user.Id });
                     }
                 }
                 ModelState.AddModelError(nameof(LoginModel.Email), "Le mot de passe ou le mail sont invalids");

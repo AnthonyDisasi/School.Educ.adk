@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Home Page";
+
 }
 
 
@@ -15,7 +16,7 @@
     </section>
     <section class="get_in_touch_lien">
         <div class="container text-center">
-            <a asp-area="Inspection" class="btn btn-outline-primary text-center" asp-controller="Inspecteurs" asp-action="Details" asp-route-id="@Context.Session.GetString("identifiant")">Inspecteur</a>
+            <a class="btn btn-outline-primary text-center" asp-area="Inspection" asp-controller="Inspecteurs" asp-action="Details" asp-route-id="@Context.Session.GetString("identifiant")">Inspecteur</a>
         </div>
     </section>
     <section class="get_in_touch_lien">
