@@ -51,3 +51,91 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <form class="" asp-action="Create" method="post" novalidate>
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <span class="section">Info sur l'examen</span>
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Nom"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control has-feedback-left" asp-for="Nom" />
+                            <span class="fa fa-pencil form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="Nom" class="text-danger"></span>
+                    </div>
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="DirecteurID"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <select class="form-control has-feedback-left" asp-for="DirecteurID" asp-items="ViewBag.DirecteurID">
+                                <option value="">Selectionner le directeur</option>
+                            </select>
+                            <span class="fa fa-calendar-check-o form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="DirecteurID" class="text-danger"></span>
+                    </div>
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="EcoleLatitude"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control has-feedback-left" asp-for="EcoleLatitude" />
+                            <span class="fa fa-pencil form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="EcoleLatitude" class="text-danger"></span>
+                    </div>
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="EcoleLongitude"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control has-feedback-left" asp-for="EcoleLongitude" />
+                            <span class="fa fa-pencil form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="EcoleLongitude" class="text-danger"></span>
+                    </div>
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="DirecteurID"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <select class="form-control has-feedback-left" asp-for="DirecteurID" asp-items="ViewBag.DirecteurID">
+                                <option value="">Selectionner le directeur</option>
+                            </select>
+                            <span class="fa fa-calendar-check-o form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="DirecteurID" class="text-danger"></span>
+                    </div>
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="DateCreate"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control has-feedback-left" class='date' type="date" asp-for="DateCreate">
+                            <span class="fa fa-calendar form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="DateCreate" class="text-danger"></span>
+                    </div>
+
+                    <div class="ln_solid">
+                        <div class="form-group">
+                            <br /><br />
+                            <div class="col-md-6 offset-md-3 text-center">
+                                <button type='submit' class="btn btn-primary">Enregistrer</button>
+                                <button type='reset' class="btn btn-success">Recommencer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

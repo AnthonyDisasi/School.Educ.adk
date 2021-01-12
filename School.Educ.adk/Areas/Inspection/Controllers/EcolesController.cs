@@ -50,6 +50,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
         public IActionResult Create()
         {
             ViewData["id_directeur_"] = (from d in _context.Directeurs  where d.Ecole == null select new SelectListItem { Text = d.Matricule, Value = d.ID }).ToList();
+            ViewData["Sous_division"] = (from sd in _context.SousDivisions select new SelectListItem { Text = sd.Nom, Value = sd.Nom }).ToList();
             return View();
         }
 
@@ -64,6 +65,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["id_directeur_"] = (from d in _context.Directeurs where d.Ecole == null select new SelectListItem { Text = d.Matricule, Value = d.ID }).ToList();
+            ViewData["Sous_division"] = (from sd in _context.SousDivisions select new SelectListItem { Text = sd.Nom, Value = sd.Nom }).ToList();
             return View(ecole);
         }
 
