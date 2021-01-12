@@ -13,7 +13,7 @@ using School.Educ.adk.Areas.Admin.Models;
 namespace School.Educ.adk.Areas.Inspection.Controllers
 {
     [Area("Inspection")]
-    [Authorize(Roles = "Inspecteur")]
+    //[Authorize(Roles = "Inspecteur")]
     public class InspecteursController : Controller
     {
         private readonly InspecteurDb _context;
