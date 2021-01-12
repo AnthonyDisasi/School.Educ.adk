@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Educ.adk.Areas.Admin.Data;
 
 namespace School.Educ.adk.Migrations.InspecteurDbMigrations
 {
     [DbContext(typeof(InspecteurDb))]
-    partial class InspecteurDbModelSnapshot : ModelSnapshot
+    [Migration("20210112155219__12_01_2021_5")]
+    partial class _12_01_2021_5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
