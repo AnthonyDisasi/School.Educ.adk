@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Educ.adk.Areas.Admin.Data;
 
 namespace School.Educ.adk.Migrations.InspecteurDbMigrations
 {
     [DbContext(typeof(InspecteurDb))]
-    partial class InspecteurDbModelSnapshot : ModelSnapshot
+    [Migration("20210112112643__12_01_2021_1")]
+    partial class _12_01_2021_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,30 +129,6 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Admin.Models.Affectation", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateAffectation");
-
-                    b.Property<string>("EcoleID");
-
-                    b.Property<string>("InspecteurID");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("EcoleID")
-                        .IsUnique()
-                        .HasFilter("[EcoleID] IS NOT NULL");
-
-                    b.HasIndex("InspecteurID")
-                        .IsUnique()
-                        .HasFilter("[InspecteurID] IS NOT NULL");
-
-                    b.ToTable("Affectations");
                 });
 
             modelBuilder.Entity("School.Educ.adk.Areas.Admin.Models.Assertion", b =>
@@ -287,196 +265,6 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
                     b.ToTable("Reponses");
                 });
 
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Classe", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("EcoleID");
-
-                    b.Property<string>("Niveau")
-                        .IsRequired();
-
-                    b.Property<string>("Option");
-
-                    b.Property<string>("Section")
-                        .IsRequired();
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("EcoleID");
-
-                    b.ToTable("Classe");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Cours", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Categorie")
-                        .IsRequired();
-
-                    b.Property<string>("ClasseID");
-
-                    b.Property<string>("Intituler")
-                        .IsRequired();
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ClasseID");
-
-                    b.ToTable("Cours");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Directeur", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateNaissance");
-
-                    b.Property<string>("Email");
-
-                    b.Property<int?>("Genre");
-
-                    b.Property<string>("Matricule")
-                        .IsRequired();
-
-                    b.Property<string>("Nom")
-                        .IsRequired();
-
-                    b.Property<string>("Password")
-                        .IsRequired();
-
-                    b.Property<string>("Postnom")
-                        .IsRequired();
-
-                    b.Property<string>("Prenom")
-                        .IsRequired();
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Directeur");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Ecole", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateCreate");
-
-                    b.Property<string>("DirecteurID");
-
-                    b.Property<string>("EcoleLatitude")
-                        .IsRequired();
-
-                    b.Property<string>("EcoleLongitude")
-                        .IsRequired();
-
-                    b.Property<string>("Nom")
-                        .IsRequired();
-
-                    b.Property<string>("SousDivision")
-                        .IsRequired();
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("DirecteurID")
-                        .IsUnique()
-                        .HasFilter("[DirecteurID] IS NOT NULL");
-
-                    b.ToTable("Ecole");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Eleve", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateNaissance");
-
-                    b.Property<int?>("Genre");
-
-                    b.Property<string>("Matricule")
-                        .IsRequired();
-
-                    b.Property<string>("Nom")
-                        .IsRequired();
-
-                    b.Property<string>("Password")
-                        .IsRequired();
-
-                    b.Property<string>("Postnom")
-                        .IsRequired();
-
-                    b.Property<string>("Prenom")
-                        .IsRequired();
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Eleve");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Inscription", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AnneeScolaire")
-                        .IsRequired();
-
-                    b.Property<string>("ClasseID");
-
-                    b.Property<DateTime>("DateInscription");
-
-                    b.Property<string>("EleveId");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ClasseID");
-
-                    b.HasIndex("EleveId");
-
-                    b.ToTable("Inscription");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Professeur", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateNaissance");
-
-                    b.Property<string>("EcoleID");
-
-                    b.Property<string>("Email");
-
-                    b.Property<int?>("Genre");
-
-                    b.Property<string>("Matricule")
-                        .IsRequired();
-
-                    b.Property<string>("Nom")
-                        .IsRequired();
-
-                    b.Property<string>("Password")
-                        .IsRequired();
-
-                    b.Property<string>("Postnom")
-                        .IsRequired();
-
-                    b.Property<string>("Prenom")
-                        .IsRequired();
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("EcoleID");
-
-                    b.ToTable("Professeur");
-                });
-
             modelBuilder.Entity("School.Educ.adk.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -573,17 +361,6 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("School.Educ.adk.Areas.Admin.Models.Affectation", b =>
-                {
-                    b.HasOne("School.Educ.adk.Areas.Ecole.Models.Ecole", "Ecole")
-                        .WithOne("Affectation")
-                        .HasForeignKey("School.Educ.adk.Areas.Admin.Models.Affectation", "EcoleID");
-
-                    b.HasOne("School.Educ.adk.Areas.Admin.Models.Inspecteur", "Inspecteur")
-                        .WithOne("Affectation")
-                        .HasForeignKey("School.Educ.adk.Areas.Admin.Models.Affectation", "InspecteurID");
-                });
-
             modelBuilder.Entity("School.Educ.adk.Areas.Admin.Models.Assertion", b =>
                 {
                     b.HasOne("School.Educ.adk.Areas.Admin.Models.Question", "Question")
@@ -610,45 +387,6 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
                         .WithMany("Reponse")
                         .HasForeignKey("QuestionID")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Classe", b =>
-                {
-                    b.HasOne("School.Educ.adk.Areas.Ecole.Models.Ecole", "Ecole")
-                        .WithMany("Classes")
-                        .HasForeignKey("EcoleID");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Cours", b =>
-                {
-                    b.HasOne("School.Educ.adk.Areas.Ecole.Models.Classe", "Classe")
-                        .WithMany("Cours")
-                        .HasForeignKey("ClasseID");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Ecole", b =>
-                {
-                    b.HasOne("School.Educ.adk.Areas.Ecole.Models.Directeur", "Directeur")
-                        .WithOne("Ecole")
-                        .HasForeignKey("School.Educ.adk.Areas.Ecole.Models.Ecole", "DirecteurID");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Inscription", b =>
-                {
-                    b.HasOne("School.Educ.adk.Areas.Ecole.Models.Classe", "Classe")
-                        .WithMany("Inscriptions")
-                        .HasForeignKey("ClasseID");
-
-                    b.HasOne("School.Educ.adk.Areas.Ecole.Models.Eleve", "Eleve")
-                        .WithMany("Inscriptions")
-                        .HasForeignKey("EleveId");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Professeur", b =>
-                {
-                    b.HasOne("School.Educ.adk.Areas.Ecole.Models.Ecole", "Ecole")
-                        .WithMany("Professeurs")
-                        .HasForeignKey("EcoleID");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace School.Educ.adk.Areas.Inspection.Models
+namespace School.Educ.adk.Areas.Admin.Models
 {
     public class Assertion
     {
@@ -13,7 +13,6 @@ namespace School.Educ.adk.Areas.Inspection.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string ID { get; set; }
 
-        [Required(ErrorMessage = "La question est obligatoire"), Display(Name = "Question")]
         public string QuestionID { get; set; }
 
         [Required(ErrorMessage = "L'intituler est obligatoire"), Display(Name = "Intituler")]

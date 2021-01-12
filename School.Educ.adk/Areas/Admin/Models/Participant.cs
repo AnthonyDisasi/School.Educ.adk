@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace School.Educ.adk.Areas.Inspection.Models
+namespace School.Educ.adk.Areas.Admin.Models
 {
     public class Participant
     {

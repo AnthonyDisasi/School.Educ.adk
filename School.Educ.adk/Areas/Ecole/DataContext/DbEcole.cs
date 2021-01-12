@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using School.Educ.adk.Areas.Inspection.Models;
 
 namespace School.Educ.adk.Areas.Ecole.DataContext
 {
@@ -28,7 +27,5 @@ namespace School.Educ.adk.Areas.Ecole.DataContext
         {
             base.OnModelCreating(builder);
         }
-
-        public DbSet<School.Educ.adk.Areas.Inspection.Models.Assertion> Assertion { get; set; }
     }
 }

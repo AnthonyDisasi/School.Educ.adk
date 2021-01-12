@@ -1,4 +1,5 @@
-﻿using System;
+﻿using School.Educ.adk.Areas.Admin.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -31,5 +32,6 @@ namespace School.Educ.adk.Areas.Ecole.Models
         public virtual Directeur Directeur { get; set; }
         public ICollection<Classe> Classes { get; set; }
         public ICollection<Professeur> Professeurs { get; set; }
+        public Affectation Affectation { get; set; }
     }
 }

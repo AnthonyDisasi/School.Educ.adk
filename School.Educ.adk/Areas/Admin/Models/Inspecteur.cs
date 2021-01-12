@@ -39,6 +39,8 @@ namespace School.Educ.adk.Areas.Admin.Models
                 return Nom + " " + Postnom + " " + Prenom;
             }
         }
+
+        public Affectation Affectation { get; set; }
     }
 }
 

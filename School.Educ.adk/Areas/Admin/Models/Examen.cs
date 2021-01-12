@@ -15,6 +15,7 @@ namespace School.Educ.adk.Areas.Admin.Models
         public string ID { get; set; }
 
         public string Description { get; set; }
+
         [Required(ErrorMessage = "La période est obligatoire"), Display(Name = "Période"), EnumDataType(typeof(Periode))]
         public Periode Periode { get; set; }
         [Required(ErrorMessage = "La série est obligatoire"), Display(Name = "Série")]
