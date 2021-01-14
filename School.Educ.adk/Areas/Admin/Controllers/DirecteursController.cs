@@ -23,7 +23,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         // GET: Admin/Directeurs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Directeurs.ToListAsync());
+            return View(await _context.Directeurs.Include(e => e.Ecole).ToListAsync());
         }
 
         // GET: Admin/Directeurs/Details/5
@@ -35,7 +35,18 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             }
 
             var directeur = await _context.Directeurs
+                .Include(e => e.Ecole)
                 .FirstOrDefaultAsync(m => m.ID == id);
+
+            if(directeur.Ecole == null)
+            {
+                ViewData["ecole"] = null;
+            }
+            else
+            {
+                ViewData["ecole"] = 1;
+            }
+            
             if (directeur == null)
             {
                 return NotFound();
@@ -126,6 +137,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             }
 
             var directeur = await _context.Directeurs
+                .Include(e => e.Ecole)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (directeur == null)
             {

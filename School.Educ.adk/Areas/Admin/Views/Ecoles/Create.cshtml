@@ -14,8 +14,9 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="DirecteurID" class="control-label"></label>
-                <select asp-for="DirecteurID" class ="form-control" asp-items="ViewBag.DirecteurID"></select>
+                <select asp-for="DirecteurID" class="form-control" asp-items="ViewBag.DirecteurID"></select>
             </div>
+
             <div class="form-group">
                 <label asp-for="Nom" class="control-label"></label>
                 <input asp-for="Nom" class="form-control" />
@@ -31,16 +32,17 @@
                 <input asp-for="EcoleLongitude" class="form-control" />
                 <span asp-validation-for="EcoleLongitude" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="SousDivision" class="control-label"></label>
-                <input asp-for="SousDivision" class="form-control" />
+                <select asp-for="SousDivision" class="form-control" asp-items="ViewBag.SousDivision">
+                    <option value="">Selectionnez une sous-division</option>
+                </select>
                 <span asp-validation-for="SousDivision" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DateCreate" class="control-label"></label>
-                <input asp-for="DateCreate" class="form-control" />
-                <span asp-validation-for="DateCreate" class="text-danger"></span>
-            </div>
+
+            <input type="hidden" asp-for="DateCreate" value="@System.DateTime.Now">
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

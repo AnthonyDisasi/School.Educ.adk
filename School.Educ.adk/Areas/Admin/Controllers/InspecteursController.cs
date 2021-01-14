@@ -211,6 +211,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             }
 
             var inspecteur = await _context.Inspecteurs
+                .Include(a => a.Affectation)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (inspecteur == null)
             {

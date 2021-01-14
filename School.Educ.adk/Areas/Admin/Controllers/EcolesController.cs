@@ -20,14 +20,12 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/Ecoles
         public async Task<IActionResult> Index()
         {
             var dbEcole = _context.Ecoles.Include(e => e.Directeur);
             return View(await dbEcole.ToListAsync());
         }
 
-        // GET: Admin/Ecoles/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -46,17 +44,13 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return View(ecole);
         }
 
-        // GET: Admin/Ecoles/Create
         public IActionResult Create()
         {
-            //ViewData["DirecteurID"] = new SelectList(_context.Directeurs, "ID", "ID");
             ViewData["DirecteurID"] = (from d in _context.Directeurs where d.Ecole == null select new SelectListItem { Text = d.Matricule, Value = d.ID }).ToList();
+            ListSousDivision();
             return View();
         }
 
-        // POST: Admin/Ecoles/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,DirecteurID,Nom,EcoleLatitude,EcoleLongitude,SousDivision,DateCreate")] Ecole.Models.Ecole ecole)
@@ -67,12 +61,11 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["DirecteurID"] = new SelectList(_context.Directeurs, "ID", "ID", ecole.DirecteurID);
             ViewData["DirecteurID"] = (from d in _context.Directeurs where d.Ecole == null select new SelectListItem { Text = d.Matricule, Value = d.ID }).ToList();
+            ListSousDivision();
             return View(ecole);
         }
 
-        // GET: Admin/Ecoles/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -85,14 +78,11 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            //ViewData["DirecteurID"] = new SelectList(_context.Directeurs, "ID", "ID", ecole.DirecteurID);
             ViewData["DirecteurID"] =  (from d in _context.Directeurs where d.Ecole == null select new SelectListItem { Text = d.Matricule, Value = d.ID }).ToList();
+            ListSousDivision();
             return View(ecole);
         }
 
-        // POST: Admin/Ecoles/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("ID,DirecteurID,Nom,EcoleLatitude,EcoleLongitude,SousDivision,DateCreate")] Ecole.Models.Ecole ecole)
@@ -122,12 +112,11 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["DirecteurID"] = new SelectList(_context.Directeurs, "ID", "ID", ecole.DirecteurID);
             ViewData["DirecteurID"] = (from d in _context.Directeurs where d.Ecole == null select new SelectListItem { Text = d.Matricule, Value = d.ID }).ToList();
+            ListSousDivision();
             return View(ecole);
         }
 
-        // GET: Admin/Ecoles/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -146,7 +135,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return View(ecole);
         }
 
-        // POST: Admin/Ecoles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -160,6 +148,11 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         private bool EcoleExists(string id)
         {
             return _context.Ecoles.Any(e => e.ID == id);
+        }
+         
+        private void ListSousDivision()
+        {
+            ViewData["SousDivision"] = (from s in _context.SousDivisions select new SelectListItem { Text = s.Nom, Value = s.Nom }).ToList();
         }
     }
 }
