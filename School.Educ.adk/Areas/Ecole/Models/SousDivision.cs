@@ -12,7 +12,11 @@ namespace School.Educ.adk.Areas.Ecole.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string ID { get; set; }
+
         [Required(ErrorMessage = "Le nom est obligatoire")]
         public string Nom { get; set; }
+
+        [Required(ErrorMessage = "La description de la localisation est obligatoire"), Display(Name = "Localisation")]
+        public string LocalDescript { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using School.Educ.adk.Areas.Ecole.Models;
 
 namespace School.Educ.adk.Areas.Admin.Data
 {

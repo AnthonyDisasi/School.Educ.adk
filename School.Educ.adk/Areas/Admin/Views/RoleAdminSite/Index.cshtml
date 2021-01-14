@@ -56,7 +56,7 @@
                                                 <td>@role.Id</td>
                                                 <td>@role.Name</td>
                                                 <td identity-role="@role.Id"></td>
-                                                @if (role.Name == "Inspecteur")
+                                                @if (role.Name == "Inspecteur" || role.Name == "Directeur")
                                                 {
                                                     <td>
                                                         <form asp-action="Delete" asp-route-id="@role.Id" method="post">

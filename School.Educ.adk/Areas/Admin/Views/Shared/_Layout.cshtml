@@ -50,13 +50,64 @@
                             <h3>General</h3>
                             <ul class="nav side-menu">
                                 <li>
-                                    <a><i class="fa fa-home"></i> Accueil <span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-users"></i> Rôle <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a asp-area="Admin" asp-controller="Inspecteurs" asp-action="Index">Inspecteur</a></li>
-                                        <li><a asp-area="Admin" asp-controller="Directeurs" asp-action="Index">Directeur</a></li>
-                                        <li><a asp-area="Admin" asp-controller="Ecoles" asp-action="Index">Ecole</a></li>
-                                        <li><a asp-area="Admin" asp-controller="RoleAdminSite" asp-action="Index">Role</a></li>
-                                        <li><a asp-area="Admin" asp-controller="Affectations" asp-action="Index">Affectation</a></li>
+                                        <li>
+                                            <a asp-area="Admin" asp-controller="RoleAdminSite" asp-action="Index">Les rôles</a>
+                                        </li>
+                                        <li>
+                                            <a asp-area="Admin" asp-controller="RoleAdminSite" asp-action="Create">Nouveau</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a><i class="fa fa-user"></i> Inspecteur <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li>
+                                            <a asp-area="Admin" asp-controller="Inspecteurs" asp-action="Index">Inspecteur</a>
+                                        </li>
+                                        <li>
+                                            <a asp-area="Admin" asp-controller="Inspecteurs" asp-action="Create">Nouveau</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-institution"></i> Ecole &Aacute; Directeur <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li>
+                                            <a>Directeur<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li class="sub_menu">
+                                                    <a asp-area="Admin" asp-controller="Directeurs" asp-action="Index">Directeurs</a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="Admin" asp-controller="Directeurs" asp-action="Create">Nouveau</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a>Ecole <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li class="sub_menu">
+                                                    <a asp-area="Admin" asp-controller="Ecoles" asp-action="Index">Ecoles</a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="Admin" asp-controller="Ecoles" asp-action="Create">Nouvelle</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a>Sous-Division <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li class="sub_menu">
+                                                    <a asp-area="Admin" asp-controller="SousDivisions" asp-action="Index">Sous-divisions</a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="Admin" asp-controller="SousDivisions" asp-action="Create">Nouvelle</a>
+                                                </li>
+                                            </ul>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -151,7 +202,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="../vendors/validator/multifield.js"></script>
     <script src="../vendors/validator/validator.js"></script>
- 
+
     <!-- Custom Theme Scripts -->
     <script src="~/build/js/custom.min.js"></script>
 
