@@ -1,56 +1,90 @@
 ﻿@model School.Educ.adk.Areas.Ecole.Models.Ecole
 
-@{
-    ViewData["Title"] = "Create";
+@{ 
+    ViewData["Title"] = "Nouveau";
 }
 
-<h1>Create</h1>
+<h1>Nouvelle école</h1>
 
-<h4>Ecole</h4>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DirecteurID" class="control-label"></label>
-                <select asp-for="DirecteurID" class="form-control" asp-items="ViewBag.DirecteurID"></select>
+    <div class="col-md-12 col-sm-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
             </div>
+            <div class="x_content">
+                <form class="" asp-action="Create" method="post" novalidate>
 
-            <div class="form-group">
-                <label asp-for="Nom" class="control-label"></label>
-                <input asp-for="Nom" class="form-control" />
-                <span asp-validation-for="Nom" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EcoleLatitude" class="control-label"></label>
-                <input asp-for="EcoleLatitude" class="form-control" />
-                <span asp-validation-for="EcoleLatitude" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EcoleLongitude" class="control-label"></label>
-                <input asp-for="EcoleLongitude" class="form-control" />
-                <span asp-validation-for="EcoleLongitude" class="text-danger"></span>
-            </div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
-                <label asp-for="SousDivision" class="control-label"></label>
-                <select asp-for="SousDivision" class="form-control" asp-items="ViewBag.SousDivision">
-                    <option value="">Selectionnez une sous-division</option>
-                </select>
-                <span asp-validation-for="SousDivision" class="text-danger"></span>
-            </div>
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="DirecteurID"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <select asp-for="DirecteurID" class="form-control has-feedback-left" asp-items="ViewBag.DirecteurID">
+                                <option value="">Selectionnez le directeur</option>
+                            </select>
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="DirecteurID" class="text-danger"></span>
+                    </div>
 
-            <input type="hidden" asp-for="DateCreate" value="@System.DateTime.Now">
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Nom"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control has-feedback-left" asp-for="Nom" />
+                            <span class="fa fa-pencil form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="Nom" class="text-danger"></span>
+                    </div>
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="EcoleLatitude"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control has-feedback-left" asp-for="EcoleLatitude" />
+                            <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="EcoleLatitude" class="text-danger"></span>
+                    </div>
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="EcoleLongitude"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control has-feedback-left" asp-for="EcoleLongitude" />
+                            <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="EcoleLongitude" class="text-danger"></span>
+                    </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="SousDivision"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <select asp-for="SousDivision" class="form-control has-feedback-left" asp-items="ViewBag.SousDivision">
+                                <option value="">Selectionnez une sous-division</option>
+                            </select>
+                            <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="SousDivision" class="text-danger"></span>
+                    </div>
+
+                    <input type="hidden" asp-for="DateCreate" value="@System.DateTime.Now">
+
+                    <div class="ln_solid">
+                        <div class="form-group">
+                            <br /><br />
+                            <div class="col-md-6 offset-md-3 text-center">
+                                <button type='submit' class="btn btn-primary">Enregistrer</button>
+                                <button type='reset' class="btn btn-success">Recommencer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
