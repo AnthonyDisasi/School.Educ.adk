@@ -33,7 +33,7 @@
                         <div class="card-box table-responsive">
                             <div class="text-danger" asp-validation-summary="ModelOnly"></div>
                             <p class="text-muted font-13 m-b-30">
-                                
+
                             </p>
                             <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
@@ -44,6 +44,7 @@
                                         <th>@Html.DisplayNameFor(model => model.Prenom)</th>
                                         <th>@Html.DisplayNameFor(model => model.Genre)</th>
                                         <th>@Html.DisplayNameFor(model => model.Email)</th>
+                                        <th>Affectation</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -78,6 +79,17 @@
                                                 </td>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.Email)
+                                                </td>
+                                                <td>
+                                                    @if (item.Affectation == null)
+                                                    {
+                                                        <a asp-area="Admin" asp-controller="Affectations" asp-action="Create" asp-route-ID="@item.ID" class="btn btn-success btn-xs"><i class="fa fa-institution"></i></a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a asp-area="Admin" asp-controller="Affectations" asp-action="Edit" asp-route-id="@item.Affectation.ID" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a>
+                                                        <a asp-area="Admin" asp-controller="Affectations" asp-action="Delete" asp-route-id="@item.Affectation.ID" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
+                                                    }
                                                 </td>
                                                 <td style="text-align:center">
                                                     <a asp-area="Admin" asp-controller="Inspecteurs" asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> </a>

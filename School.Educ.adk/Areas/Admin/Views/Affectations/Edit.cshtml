@@ -1,51 +1,78 @@
 ﻿@model School.Educ.adk.Areas.Admin.Models.Affectation
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Modifier";
 }
 
-<h1>Edit</h1>
+<h1>Nouvelle affectation</h1>
 
-<h4>Affectation</h4>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ID" />
-            <div class="form-group">
-                <label asp-for="EcoleID" class="control-label"></label>
-                <select asp-for="EcoleID" class="form-control" asp-items="ViewBag.EcoleID"></select>
-                <span asp-validation-for="EcoleID" class="text-danger"></span>
+    <div class="col-md-12 col-sm-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
             </div>
-            <div class="form-group">
-                <label asp-for="InspecteurID" class="control-label"></label>
-                <select asp-for="InspecteurID" class="form-control" asp-items="ViewBag.InspecteurID"></select>
-                <span asp-validation-for="InspecteurID" class="text-danger"></span>
+            <div class="x_content">
+                <form class="" asp-action="Edit" asp-route-id_ins="@ViewBag.Inspecteur_ID" method="post" novalidate>
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ID" />
+                    <span class="section">Info sur l'inspecteur</span>
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="IdEcole"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <select asp-for="IdEcole" class="form-control has-feedback-left" asp-items="ViewBag.IdEcole">
+                                <option value="">Selectionnez l'école</option>
+                            </select>
+                            <span class="fa fa-institution form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="IdEcole" class="text-danger"></span>
+                    </div>
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Description"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control has-feedback-left" asp-for="Description" />
+                            <span class="fa fa-pencil form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="PeriodeAffectectation"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control has-feedback-left" asp-for="PeriodeAffectectation" />
+                            <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="PeriodeAffectectation" class="text-danger"></span>
+                    </div>
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="DateAffectation"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control" class='date' type="date" asp-for="DateAffectation">
+                        </div>
+                        <span asp-validation-for="DateAffectation" class="text-danger"></span>
+                    </div>
+
+                    <div class="ln_solid">
+                        <div class="form-group">
+                            <br /><br />
+                            <div class="col-md-6 offset-md-3 text-center">
+                                <button type='submit' class="btn btn-primary">Enregistrer</button>
+                                <button type='reset' class="btn btn-success">Recommencer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PeriodeAffectectation" class="control-label"></label>
-                <input asp-for="PeriodeAffectectation" class="form-control" />
-                <span asp-validation-for="PeriodeAffectectation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateAffectation" class="control-label"></label>
-                <input asp-for="DateAffectation" class="form-control" />
-                <span asp-validation-for="DateAffectation" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<School.Educ.adk.Areas.Admin.Models.Affectation>
+﻿@model IEnumerable<School.Educ.adk.Areas.Ecole.Models.Ecole>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,19 +13,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.Nom)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PeriodeAffectectation)
+                @Html.DisplayNameFor(model => model.EcoleLatitude)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DateAffectation)
+                @Html.DisplayNameFor(model => model.EcoleLongitude)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ecole)
+                @Html.DisplayNameFor(model => model.SousDivision)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Inspecteur)
+                @Html.DisplayNameFor(model => model.DateCreate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Directeur)
             </th>
             <th></th>
         </tr>
@@ -34,19 +37,22 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.Nom)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PeriodeAffectectation)
+                @Html.DisplayFor(modelItem => item.EcoleLatitude)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DateAffectation)
+                @Html.DisplayFor(modelItem => item.EcoleLongitude)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Ecole.ID)
+                @Html.DisplayFor(modelItem => item.SousDivision)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Inspecteur.ID)
+                @Html.DisplayFor(modelItem => item.DateCreate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Directeur.ID)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using School.Educ.adk.Areas.Admin.Data;
 using School.Educ.adk.Areas.Admin.Models;
+using School.Educ.adk.Areas.Ecole.DataContext;
 using School.Educ.adk.Models;
 
 namespace School.Educ.adk.Areas.Admin.Controllers
@@ -20,24 +21,26 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         private IPasswordValidator<ApplicationUser> passwordValidator;
         private IPasswordHasher<ApplicationUser> passwordHasher;
         private readonly InspecteurDb _context;
+        private readonly DbEcole _cont;
 
         public InspecteursController(UserManager<ApplicationUser> usrMgr,
         IUserValidator<ApplicationUser> userValid,
         IPasswordValidator<ApplicationUser> passValid,
         IPasswordHasher<ApplicationUser> passwordHash,
-        InspecteurDb context)
+        InspecteurDb context,
+        DbEcole cont)
         {
             userManager = usrMgr;
             userValidator = userValid;
             passwordValidator = passValid;
             passwordHasher = passwordHash;
             _context = context;
-
+            _cont = cont;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Inspecteurs.ToListAsync());
+            return View(await _context.Inspecteurs.Include(a => a.Affectation).ToListAsync());
         }
 
         public async Task<IActionResult> Details(string id)
@@ -48,7 +51,19 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             }
 
             var inspecteur = await _context.Inspecteurs
+                .Include(a => a.Affectation)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.ID == id);
+            
+            if(inspecteur.Affectation == null)
+            {
+                ViewData["ecole"] = null;
+            }
+            else
+            {
+                ViewData["ecole"] = _cont.Ecoles.FirstOrDefault(e => e.ID == inspecteur.Affectation.IdEcole).Nom;
+            }
+            
             if (inspecteur == null)
             {
                 return NotFound();

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using School.Educ.adk.Areas.Admin.Data;
 using School.Educ.adk.Areas.Admin.Models;
+using School.Educ.adk.Areas.Ecole.DataContext;
 
 namespace School.Educ.adk.Areas.Admin.Controllers
 {
@@ -14,62 +15,34 @@ namespace School.Educ.adk.Areas.Admin.Controllers
     public class AffectationsController : Controller
     {
         private readonly InspecteurDb _context;
+        private readonly DbEcole _cont;
 
-        public AffectationsController(InspecteurDb context)
+        public AffectationsController(InspecteurDb context, DbEcole cont)
         {
             _context = context;
+            _cont = cont;
         }
 
-        // GET: Admin/Affectations
-        public async Task<IActionResult> Index()
+        public IActionResult Create(string ID)
         {
-            var inspecteurDb = _context.Affectations.Include(a => a.Ecole).Include(a => a.Inspecteur);
-            return View(await inspecteurDb.ToListAsync());
-        }
-
-        // GET: Admin/Affectations/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var affectation = await _context.Affectations
-                .Include(a => a.Ecole)
-                .Include(a => a.Inspecteur)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (affectation == null)
-            {
-                return NotFound();
-            }
-
-            return View(affectation);
-        }
-
-        // GET: Admin/Affectations/Create
-        public IActionResult Create()
-        {
-            ViewData["EcoleID"] = new SelectList(_context.Set<Ecole.Models.Ecole>(), "ID", "ID");
-            ViewData["InspecteurID"] = new SelectList(_context.Inspecteurs, "ID", "ID");
+            ViewData["InspecteurID"] = ID;
+            ViewData["IdEcole"] = (from e in _cont.Ecoles select new SelectListItem { Text = e.Nom, Value = e.ID }).ToList();
             return View();
         }
 
-        // POST: Admin/Affectations/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,EcoleID,InspecteurID,Description,PeriodeAffectectation,DateAffectation")] Affectation affectation)
+        public async Task<IActionResult> Create([Bind("ID,InspecteurID,IdEcole,Description,PeriodeAffectectation,DateAffectation")] Affectation affectation, string ID)
         {
+            affectation.InspecteurID = ID;
             if (ModelState.IsValid)
             {
                 _context.Add(affectation);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Inspecteurs", new { id = ID });
             }
-            ViewData["EcoleID"] = new SelectList(_context.Set<Ecole.Models.Ecole>(), "ID", "ID", affectation.EcoleID);
-            ViewData["InspecteurID"] = new SelectList(_context.Inspecteurs, "ID", "ID", affectation.InspecteurID);
+            ViewData["InspecteurID"] = ID;
+            ViewData["IdEcole"] = (from e in _cont.Ecoles select new SelectListItem { Text = e.Nom, Value = e.ID }).ToList();
             return View(affectation);
         }
 
@@ -86,8 +59,8 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["EcoleID"] = new SelectList(_context.Set<Ecole.Models.Ecole>(), "ID", "ID", affectation.EcoleID);
-            ViewData["InspecteurID"] = new SelectList(_context.Inspecteurs, "ID", "ID", affectation.InspecteurID);
+            ViewData["Inspecteur_ID"] = affectation.InspecteurID;
+            ViewData["IdEcole"] = (from e in _cont.Ecoles select new SelectListItem { Text = e.Nom, Value = e.ID }).ToList();
             return View(affectation);
         }
 
@@ -96,13 +69,13 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,EcoleID,InspecteurID,Description,PeriodeAffectectation,DateAffectation")] Affectation affectation)
+        public async Task<IActionResult> Edit(string id_ins, string id, [Bind("ID,InspecteurID,IdEcole,Description,PeriodeAffectectation,DateAffectation")] Affectation affectation)
         {
             if (id != affectation.ID)
             {
                 return NotFound();
             }
-
+            affectation.InspecteurID = id_ins;
             if (ModelState.IsValid)
             {
                 try
@@ -121,10 +94,10 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Inspecteurs", new { id = id_ins });
             }
-            ViewData["EcoleID"] = new SelectList(_context.Set<Ecole.Models.Ecole>(), "ID", "ID", affectation.EcoleID);
-            ViewData["InspecteurID"] = new SelectList(_context.Inspecteurs, "ID", "ID", affectation.InspecteurID);
+            ViewData["Inspecteur_ID"] = id_ins;
+            ViewData["IdEcole"] = (from e in _cont.Ecoles select new SelectListItem { Text = e.Nom, Value = e.ID }).ToList();
             return View(affectation);
         }
 
@@ -137,7 +110,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             }
 
             var affectation = await _context.Affectations
-                .Include(a => a.Ecole)
                 .Include(a => a.Inspecteur)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (affectation == null)
@@ -156,7 +128,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             var affectation = await _context.Affectations.FindAsync(id);
             _context.Affectations.Remove(affectation);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Inspecteurs");
         }
 
         private bool AffectationExists(string id)

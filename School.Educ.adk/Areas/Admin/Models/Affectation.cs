@@ -12,8 +12,9 @@ namespace School.Educ.adk.Areas.Admin.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string ID { get; set; }
-        public string EcoleID { get; set; }
         public string InspecteurID { get; set; }
+
+        public string IdEcole { get; set; }
 
         [Display(Name = "Description")]
         public string Description { get; set; }
@@ -22,7 +23,6 @@ namespace School.Educ.adk.Areas.Admin.Models
         [Display(Name = "Date d'affectation"), Required(ErrorMessage = "La date d'affectation est obligatoire"), DataType(DataType.Date)]
         public DateTime DateAffectation { get; set; }
 
-        public Ecole.Models.Ecole Ecole { get; set; }
         public Inspecteur Inspecteur { get; set; }
     }
 }
