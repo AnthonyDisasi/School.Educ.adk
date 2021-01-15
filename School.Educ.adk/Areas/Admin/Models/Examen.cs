@@ -30,14 +30,6 @@ namespace School.Educ.adk.Areas.Admin.Models
         [DataType(DataType.Time)]
         public DateTime Duree { get; set; }
 
-        public int NombreQuestion
-        {
-            get
-            {
-                return Questions.Count();
-            }
-        }
-
         public ICollection<Question> Questions { get; set; }
     }
 }

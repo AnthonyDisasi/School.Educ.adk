@@ -1,0 +1,70 @@
+﻿@model School.Educ.adk.Areas.Admin.Models.Examen
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h1>L'examen</h1>
+
+<div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-outline-info btn-xs"><i class="fa fa-pencil"></i> Modifier</a>
+                        </li>
+                        <li>
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+                    <h4>Informations</h4>
+                    <dl class="row">
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Description)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Description)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Periode)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Periode)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Serie)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Serie)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.CodeAcces)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.CodeAcces)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.DateExamen)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.DateExamen)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Duree)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Duree)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

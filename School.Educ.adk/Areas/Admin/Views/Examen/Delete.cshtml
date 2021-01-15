@@ -1,12 +1,12 @@
-﻿@model School.Educ.adk.Areas.Admin.Models.Affectation
+﻿@model School.Educ.adk.Areas.Admin.Models.Examen
 
 @{
     ViewData["Title"] = "Supprimer";
 }
 
-<h1>Supprimer l'affectation</h1>
+<h1>Supprimer l'examen</h1>
 
-<h3 class="text-danger">Etes vous sûr(e) de vouloir retirer cette affectation ?</h3>
+<h3 class="text-danger">Etes vous sûr(e) de vouloir retirer cet examen ?</h3>
 
 <div>
     <hr />
@@ -26,34 +26,40 @@
                     <h4>Informations</h4>
                     <dl class="row">
                         <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
-                            @Html.DisplayNameFor(model => model.Inspecteur)
-                        </dt>
-                        <dd class="col-form-label col-md-1 col-sm-6 text-left label-align">
-                            @Html.DisplayFor(model => model.Inspecteur.NomComplet)
-                        </dd>
-                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
-                            @Html.DisplayNameFor(model => model.IdEcole)
-                        </dt>
-                        <dd class="col-form-label col-md-1 col-sm-6 text-left label-align">
-                            @Html.DisplayFor(model => model.IdEcole)
-                        </dd>
-                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
                             @Html.DisplayNameFor(model => model.Description)
                         </dt>
-                        <dd class="col-form-label col-md-1 col-sm-6 text-left label-align">
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
                             @Html.DisplayFor(model => model.Description)
                         </dd>
                         <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
-                            @Html.DisplayNameFor(model => model.PeriodeAffectectation)
+                            @Html.DisplayNameFor(model => model.Periode)
                         </dt>
-                        <dd class="col-form-label col-md-1 col-sm-6 text-left label-align">
-                            @Html.DisplayFor(model => model.PeriodeAffectectation)
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Periode)
                         </dd>
                         <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
-                            @Html.DisplayNameFor(model => model.DateAffectation)
+                            @Html.DisplayNameFor(model => model.Serie)
                         </dt>
-                        <dd class="col-form-label col-md-1 col-sm-6 text-left label-align">
-                            @Html.DisplayFor(model => model.DateAffectation)
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Serie)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.CodeAcces)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.CodeAcces)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.DateExamen)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.DateExamen)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Duree)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Duree)
                         </dd>
                     </dl>
                 </div>

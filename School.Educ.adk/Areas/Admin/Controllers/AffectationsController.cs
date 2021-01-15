@@ -46,7 +46,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return View(affectation);
         }
 
-        // GET: Admin/Affectations/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -64,9 +63,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return View(affectation);
         }
 
-        // POST: Admin/Affectations/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id_ins, string id, [Bind("ID,InspecteurID,IdEcole,Description,PeriodeAffectectation,DateAffectation")] Affectation affectation)
@@ -101,7 +97,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return View(affectation);
         }
 
-        // GET: Admin/Affectations/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -120,7 +115,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return View(affectation);
         }
 
-        // POST: Admin/Affectations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

@@ -1,10 +1,8 @@
-﻿@model IEnumerable<School.Educ.adk.Areas.Ecole.Models.Ecole>
+﻿@model IEnumerable<School.Educ.adk.Areas.Admin.Models.Examen>
 
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Les écoles</h1>
 
 <!-- Datatables -->
 
@@ -14,6 +12,7 @@
 <link href="~/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
 <link href="~/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
+<h1>Les examens</h1>
 <div class="row">
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel">
@@ -39,14 +38,13 @@
                             <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>@Html.DisplayNameFor(model => model.Nom)</th>
-                                        <th>@Html.DisplayNameFor(model => model.EcoleLatitude)</th>
-                                        <th>@Html.DisplayNameFor(model => model.EcoleLongitude)</th>
-                                        <th>@Html.DisplayNameFor(model => model.SousDivision)</th>
-                                        <th>@Html.DisplayNameFor(model => model.DateCreate)</th>
-                                        <th>@Html.DisplayNameFor(model => model.Directeur)</th>
-                                        <th>Nombre des classes</th>
-                                        <th>Nombre des Professeurs</th>
+                                        <th>@Html.DisplayNameFor(model => model.Description)</th>
+                                        <th>@Html.DisplayNameFor(model => model.Periode)</th>
+                                        <th>@Html.DisplayNameFor(model => model.Serie)</th>
+                                        <th>@Html.DisplayNameFor(model => model.CodeAcces)</th>
+                                        <th>@Html.DisplayNameFor(model => model.DateExamen)</th>
+                                        <th>@Html.DisplayNameFor(model => model.Duree)</th>
+                                        <th>Question</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -56,7 +54,7 @@
                                     @if (Model.Count() == 0)
                                     {
                                         <tr>
-                                            <td colspan="7">Aucune école n'est enregistrée!</td>
+                                            <td colspan="8">Aucun examen enregistré!</td>
                                         </tr>
                                     }
                                     else
@@ -65,33 +63,30 @@
                                         {
                                             <tr>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.Nom)
+                                                    @Html.DisplayFor(modelItem => item.Description)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.EcoleLatitude)
+                                                    @Html.DisplayFor(modelItem => item.Periode)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.EcoleLongitude)
+                                                    @Html.DisplayFor(modelItem => item.Serie)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.SousDivision)
+                                                    @Html.DisplayFor(modelItem => item.CodeAcces)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.DateCreate)
+                                                    @Html.DisplayFor(modelItem => item.DateExamen)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.Directeur.NomComplet)
+                                                    @Html.DisplayFor(modelItem => item.Duree)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.Classes.Count())
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Professeurs.Count())
+                                                   @Html.DisplayFor(modelItem => item.Questions.Count)
                                                 </td>
                                                 <td style="text-align:center">
-                                                    <a asp-area="Admin" asp-controller="Ecoles" asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> </a>
-                                                    <a asp-area="Admin" asp-controller="Ecoles" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> </a>
-                                                    <a asp-area="Admin" asp-controller="Ecoles" asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
+                                                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> </a>
+                                                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> </a>
+                                                    <a  asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
                                                 </td>
                                             </tr>
                                         }
