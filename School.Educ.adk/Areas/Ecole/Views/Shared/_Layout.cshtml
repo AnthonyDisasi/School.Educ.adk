@@ -85,38 +85,33 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-users"></i> Classe <span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-users"></i> Classe & Cours <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li>
-                                            <a>Classe <span class="fa fa-chevron-down"></span></a>
+                                            <a>Classe<span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
-                                                <li class="sub_menu">
-                                                    <a asp-area="Ecole" asp-controller="Professeurs" asp-action="Index">Classes</a>
+                                                <li>
+                                                    <a asp-area="Ecole" asp-controller="Classes" asp-action="Index">Classes</a>
                                                 </li>
                                                 <li>
-                                                    <a asp-area="Ecole" asp-controller="Professeurs" asp-action="Create">Nouvelle</a>
+                                                    <a asp-area="Ecole" asp-controller="Classes" asp-action="Create">Nouvelle</a>
+                                                </li>
+                                                <li>
+                                                    <a asp-area="Ecole" asp-controller="Sections" asp-action="Index">Sections</a>
                                                 </li>
                                             </ul>
                                         </li>
                                         <li>
-                                            <a>Inscriptions <span class="fa fa-chevron-down"></span></a>
+                                            <a>Cours <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
                                                 <li class="sub_menu">
-                                                    <a asp-area="Admin" asp-controller="Eleves" asp-action="Index">Insciptions</a>
+                                                    <a asp-area="Ecole" asp-controller="Cours" asp-action="Index">Cours</a>
                                                 </li>
                                                 <li>
-                                                    <a asp-area="Admin" asp-controller="Eleves" asp-action="Create">Nouvelle</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a>Section <span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li class="sub_menu">
-                                                    <a asp-area="Admin" asp-controller="SousDivisions" asp-action="Index">Sections</a>
+                                                    <a asp-area="Ecole" asp-controller="Cours" asp-action="Create">Nouveau</a>
                                                 </li>
                                                 <li>
-                                                    <a asp-area="Admin" asp-controller="SousDivisions" asp-action="Create">Nouvelle</a>
+                                                    <a asp-area="Ecole" asp-controller="Categories" asp-action="Index">Categorie</a>
                                                 </li>
                                             </ul>
                                         </li>

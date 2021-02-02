@@ -12,7 +12,6 @@ namespace School.Educ.adk.Areas.Ecole.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string ID { get; set; }
-        [Required(ErrorMessage = "Le nom est obligatoire")]
         public string Nom { get; set; }
     }
 }

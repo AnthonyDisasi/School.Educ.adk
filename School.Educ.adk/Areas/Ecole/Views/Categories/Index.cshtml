@@ -1,8 +1,4 @@
-﻿@model IEnumerable<School.Educ.adk.Areas.Ecole.Models.Classe>
-
-@{
-    ViewData["Title"] = "Index";
-}
+﻿@model IEnumerable<School.Educ.adk.Areas.Ecole.Models.Categorie>
 
 <!-- Datatables -->
 
@@ -12,7 +8,11 @@
 <link href="~/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
 <link href="~/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
-<h1>Les classes</h1>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Les categories</h1>
 <div class="row">
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel">
@@ -21,11 +21,33 @@
                     <li>
                         <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
-                    <li>
-                        <a asp-action="Create" class="btn btn-outline-success btn-xs"><i class="fa fa-plus"></i>  nouveau</a>
-                    </li>
                 </ul>
                 <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+                <form class="" asp-controller="Categories" autocomplete="on" asp-action="Create" method="get" novalidate>
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <span class="section">Nouvelle categorie</span>
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align">Nom de la categorie</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control has-feedback-left" name="Nom" type="text" />
+                            <span class="fa fa-pencil form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="form-group">
+                            <br /><br />
+                            <div class="col-md-6 offset-md-3 text-center">
+                                <button type='submit' class="btn btn-primary">Enregistrer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="ln_solid"></div>
             </div>
 
             <div class="x_content">
@@ -39,18 +61,17 @@
                             <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>@Html.DisplayNameFor(model => model.NomComplet)</th>
-                                        <th>Cours</th>
+                                        <th colspan="7">
+                                            @Html.DisplayNameFor(model => model.Nom)
+                                        </th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-
-
                                 <tbody>
                                     @if (Model.Count() == 0)
                                     {
                                         <tr>
-                                            <td colspan="8">Aucune classe existe!</td>
+                                            <td colspan="8">Aucune categorie existe!</td>
                                         </tr>
                                     }
                                     else
@@ -58,16 +79,11 @@
                                         @foreach (var item in Model)
                                         {
                                             <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.NomComplet)
-                                                </td>
-                                                <td>
-                                                    <a asp-area="Ecole" asp-controller="Cours" asp-action="Create" asp-route-idcla="@item.ID" class="btn btn-primary btn-xs">@item.Cours.Count() - <i class="fa fa-book"></i></a>
+                                                <td colspan="7">
+                                                    @Html.DisplayFor(modelItem => item.Nom)
                                                 </td>
                                                 <td style="text-align:center">
-                                                    <a asp-area="Ecole" asp-controller="Classes" asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> </a>
-                                                    <a asp-area="Ecole" asp-controller="Classes" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> </a>
-                                                    <a asp-area="Ecole" asp-controller="Classes" asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
+                                                    <a asp-area="Ecole" asp-controller="Categories" asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
                                                 </td>
                                             </tr>
                                         }
@@ -81,3 +97,4 @@
         </div>
     </div>
 </div>
+

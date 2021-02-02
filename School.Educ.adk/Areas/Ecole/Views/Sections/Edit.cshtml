@@ -1,10 +1,10 @@
-﻿@model School.Educ.adk.Areas.Ecole.Models.Classe
+﻿@model School.Educ.adk.Areas.Ecole.Models.Section
 
 @{
     ViewData["Title"] = "Modifier";
 }
 
-<h1>Modifier classe</h1>
+<h1>Modifier les informations de la section</h1>
 
 <hr />
 
@@ -20,30 +20,19 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <form class="" asp-action="Edit" method="post" novalidate>
+                <form class="" asp-action="Edit" method="post">
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <span class="section">Info sur la classe</span>
-
                     <input type="hidden" asp-for="ID" />
+                    <span class="section">Section</span>
 
                     <div class="field item form-group">
-                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Niveau"></label>
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Nom"></label>
                         <div class="col-md-6 col-sm-6">
-                            <input class="form-control has-feedback-left" asp-for="Niveau" />
-                            <span class="fa fa-info-circle form-control-feedback left" aria-hidden="true"></span>
+                            <input class="form-control has-feedback-left" asp-for="Nom" />
+                            <span class="fa fa-pencil form-control-feedback left" aria-hidden="true"></span>
                         </div>
-                        <span asp-validation-for="Niveau" class="text-danger"></span>
-                    </div>
-                    <div class="field item form-group">
-                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Section"></label>
-                        <div class="col-md-6 col-sm-6">
-                            <select class="form-control has-feedback-left" asp-for="Section" asp-items="@ViewBag.Sections">
-                                <option value="">Selectionner une section - option</option>
-                            </select>
-                            <span class="fa fa-bullseye form-control-feedback left" aria-hidden="true"></span>
-                        </div>
-                        <span asp-validation-for="Section" class="text-danger"></span>
+                        <span asp-validation-for="Nom" class="text-danger"></span>
                     </div>
 
                     <div class="ln_solid">
@@ -60,4 +49,3 @@
         </div>
     </div>
 </div>
-

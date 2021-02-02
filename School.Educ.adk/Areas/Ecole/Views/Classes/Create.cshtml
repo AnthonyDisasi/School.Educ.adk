@@ -1,47 +1,61 @@
 ﻿@model School.Educ.adk.Areas.Ecole.Models.Classe
 
 @{
-    ViewData["Title"] = "Nouvelle classe";
+    ViewData["Title"] = "Nouveau";
 }
 
 <h1>Nouvelle classe</h1>
 
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-area="Ecole" asp-controller="Classes" asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="EcoleID" class="control-label"></label>
-                <select asp-for="EcoleID" class="form-control" asp-items="ViewBag.EcoleID"></select>
+    <div class="col-md-12 col-sm-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
             </div>
-            <div class="form-group">
-                <label asp-for="Niveau" class="control-label"></label>
-                <input asp-for="Niveau" class="form-control" />
-                <span asp-validation-for="Niveau" class="text-danger"></span>
+            <div class="x_content">
+                <form class="" asp-action="Create" method="post" novalidate>
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <span class="section">Info sur la classe</span>
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Niveau"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control has-feedback-left" asp-for="Niveau" />
+                            <span class="fa fa-info-circle form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="Niveau" class="text-danger"></span>
+                    </div>
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Section"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <select class="form-control has-feedback-left" asp-for="Section" asp-items="@ViewBag.Sections">
+                                <option value="">Selectionner une section - option</option>
+                            </select>
+                            <span class="fa fa-bullseye form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="Section" class="text-danger"></span>
+                    </div>
+
+                    <div class="ln_solid">
+                        <div class="form-group">
+                            <br /><br />
+                            <div class="col-md-6 offset-md-3 text-center">
+                                <button type='submit' class="btn btn-primary">Enregistrer</button>
+                                <button type='reset' class="btn btn-success">Recommencer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-            
-            <div class="form-group">
-                <label asp-for="Section" class="control-label"></label>
-                <select asp-for="Section" asp-items="@ViewBag.Sections">
-                    <option value="">Selectionner une section</option>
-                </select>
-                <span asp-validation-for="Section" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Option" class="control-label"></label>
-                <select asp-for="Option" asp-items="@ViewBag.Options">
-                    <option value="">Selectionner une option</option>
-                </select>
-                <span asp-validation-for="Option" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Ajouter" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Retour aux classes</a>
-</div>

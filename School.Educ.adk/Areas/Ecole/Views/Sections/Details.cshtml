@@ -1,4 +1,9 @@
-﻿@model IEnumerable<School.Educ.adk.Areas.Ecole.Models.Cours>
+﻿@model School.Educ.adk.Areas.Ecole.Models.Section
+
+@{
+    ViewData["Title"] = "Details";
+}
+
 <!-- Datatables -->
 
 <link href="~/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -7,11 +12,7 @@
 <link href="~/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
 <link href="~/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
-@{
-    ViewData["Title"] = "Index";
-}
-
-<h1>Les cours</h1>
+<h1>La section</h1>
 <div class="row">
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel">
@@ -21,26 +22,45 @@
                         <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
                     <li>
-                        <a asp-action="Create" class="btn btn-outline-success btn-xs"><i class="fa fa-plus"></i>  nouveau</a>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a>
+                    </li>
+                    <li>
+                        <a asp-action="Delete" asp-route-id="@Model.ID" class="btn btn-outline-danger btn-xs"><i class="fa fa-trash-o"></i>  Supprimer</a>
+                    </li>
+                    <li>
+                        <a asp-action="Edit" asp-route-id="@Model.ID" class="btn btn-outline-info btn-xs"><i class="fa fa-pencil"></i>  Modifier</a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
             </div>
 
             <div class="x_content">
-                <form class="" asp-controller="Categories" autocomplete="on" asp-action="Create" method="get" novalidate>
+                <dl class="row">
+                    <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                        @Html.DisplayNameFor(model => model.Nom)
+                    </dt>
+                    <dd class="col-form-label col-md-6 col-sm-6 text-left label-align">
+                        @Html.DisplayFor(model => model.Nom)
+                    </dd>
+                </dl>
+            </div>
+
+            <div class="x_content">
+                <form class="" asp-action="Details" method="get" novalidate>
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <span class="section">Nouvelle categorie</span>
+                    <span class="section">Nouvelle option</span>
 
+                    <input name="id" type="hidden" value="@Model.ID" />
+                    
                     <div class="field item form-group">
-                        <label class="col-form-label col-md-3 col-sm-3  label-align">Nom de la categorie</label>
+                        <label class="col-form-label col-md-3 col-sm-3  label-align">Nom de l'option</label>
                         <div class="col-md-6 col-sm-6">
                             <input class="form-control has-feedback-left" name="Nom" type="text" />
                             <span class="fa fa-pencil form-control-feedback left" aria-hidden="true"></span>
                         </div>
                     </div>
-                    <div class="">
+                    <div class="ln_solid">
                         <div class="form-group">
                             <br /><br />
                             <div class="col-md-6 offset-md-3 text-center">
@@ -49,8 +69,8 @@
                         </div>
                     </div>
                 </form>
-                <div class="ln_solid"></div>
             </div>
+            <div class="clearfix"></div>
 
             <div class="x_content">
                 <div class="row">
@@ -63,49 +83,29 @@
                             <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Intituler)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Categorie)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Professeur)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Classe)
-                                        </th>
+                                        <th colspan="6">@Html.DisplayNameFor(model => model.Nom)</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
+
+
                                 <tbody>
-                                    @if (Model.Count() == 0)
+                                    @if (Model.Options.Count() == 0)
                                     {
                                         <tr>
-                                            <td colspan="8">Aucun cours existe!</td>
+                                            <td colspan="7">Aucune option existe!</td>
                                         </tr>
                                     }
                                     else
                                     {
-                                        @foreach (var item in Model)
+                                        @foreach (var item in Model.Options)
                                         {
                                             <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Intituler)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Categorie)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Professeur.NomComplet)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Classe.NomComplet)
+                                                <td colspan="6">
+                                                    @Html.DisplayFor(modelItem => item.Nom)
                                                 </td>
                                                 <td style="text-align:center">
-                                                    <a asp-area="Ecole" asp-controller="Cours" asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> </a>
-                                                    <a asp-area="Ecole" asp-controller="Cours" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> </a>
-                                                    <a asp-area="Ecole" asp-controller="Cours" asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
+                                                    <a asp-area="Ecole" asp-controller="Sections" asp-action="DeleteOption" asp-route-id="@item.ID" asp-route-idSec="@Model.ID" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
                                                 </td>
                                             </tr>
                                         }
@@ -119,4 +119,3 @@
         </div>
     </div>
 </div>
-

@@ -1,36 +1,63 @@
 ﻿@model School.Educ.adk.Areas.Ecole.Models.Cours
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Information";
 }
 
-<h1>Details</h1>
+<h1>Information le cours</h1>
+
+<h3 class="text-danger">Etes vous sûr(e) de vouloir retirer le cours de la classe ?</h3>
 
 <div>
-    <h4>Cours</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Intituler)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Intituler)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Categorie)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Categorie)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Classe)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Classe.ID)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-area="Ecole" asp-controller="Cours" asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-area="Ecole" asp-controller="Cours" asp-action="Index">Back to List</a>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li>
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+                    <h4>Informations</h4>
+                    <dl class="row">
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Intituler)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Intituler)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Categorie)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Categorie)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Classe)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Classe.NomComplet)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Professeur)
+                        </dt>
+                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Professeur.NomComplet)
+                        </dd>
+                    </dl>
+                    <div class="text-center">
+                        <a class="btn btn-outline-info" asp-action="Edit" asp-route-id="@Model.ID">Modification</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

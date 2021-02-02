@@ -22,7 +22,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var dbEcole = _context.Cours.Include(c => c.Classe);
+            var dbEcole = _context.Cours.Include(c => c.Classe).Include(c => c.Professeur);
             return View(await dbEcole.ToListAsync());
         }
 
@@ -35,6 +35,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
             var cours = await _context.Cours
                 .Include(c => c.Classe)
+                .Include(c => c.Professeur)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (cours == null)
             {
@@ -44,15 +45,24 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(cours);
         }
 
-        public IActionResult Create()
+        public IActionResult Create(string idcla)
         {
-            ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "ID");
+            if(idcla != null)
+            {
+                ViewData["Classe"] = idcla;
+            }
+            else
+            {
+                ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "NomComplet");
+            }
+            ViewData["Categorie"] = new SelectList(_context.categories, "Nom", "Nom");
+            ViewData["ProfesseurID"] = new SelectList(_context.Professeurs, "ID", "NomComplet");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,ClasseID,Intituler,Categorie")] Cours cours)
+        public async Task<IActionResult> Create([Bind("ID,ClasseID,ProfesseurID,Intituler,Categorie")] Cours cours, string idcla)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +70,16 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "ID", cours.ClasseID);
+            if (idcla != null)
+            {
+                ViewData["Classe"] = idcla;
+            }
+            else
+            {
+                ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "NomComplet", cours.ClasseID);
+            }
+            ViewData["Categorie"] = new SelectList(_context.categories, "Nom", "Nom");
+            ViewData["ProfesseurID"] = new SelectList(_context.Professeurs, "ID", "NomComplet", cours.ProfesseurID);
             return View(cours);
         }
 
@@ -76,13 +95,15 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "ID", cours.ClasseID);
+            ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "NomComplet", cours.ClasseID);
+            ViewData["Categorie"] = new SelectList(_context.categories, "Nom", "Nom");
+            ViewData["ProfesseurID"] = new SelectList(_context.Professeurs, "ID", "NomComplet", cours.ProfesseurID);
             return View(cours);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,ClasseID,Intituler,Categorie")] Cours cours)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,ClasseID,ProfesseurID,Intituler,Categorie")] Cours cours)
         {
             if (id != cours.ID)
             {
@@ -109,7 +130,9 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "ID", cours.ClasseID);
+            ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "NomComplet", cours.ClasseID);
+            ViewData["Categorie"] = new SelectList(_context.categories, "Nom", "Nom");
+            ViewData["ProfesseurID"] = new SelectList(_context.Professeurs, "ID", "NomComplet", cours.ProfesseurID);
             return View(cours);
         }
 
@@ -122,6 +145,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
             var cours = await _context.Cours
                 .Include(c => c.Classe)
+                .Include(c => c.Professeur)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (cours == null)
             {

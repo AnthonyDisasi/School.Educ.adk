@@ -20,12 +20,14 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             _context = context;
         }
 
+        // GET: Ecole/Inscriptions
         public async Task<IActionResult> Index()
         {
             var dbEcole = _context.Inscriptions.Include(i => i.Classe).Include(i => i.Eleve);
             return View(await dbEcole.ToListAsync());
         }
 
+        // GET: Ecole/Inscriptions/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -45,6 +47,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(inscription);
         }
 
+        // GET: Ecole/Inscriptions/Create
         public IActionResult Create()
         {
             ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "ID");
@@ -52,6 +55,9 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View();
         }
 
+        // POST: Ecole/Inscriptions/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,EleveId,ClasseID,DateInscription,AnneeScolaire")] Inscription inscription)
@@ -67,6 +73,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(inscription);
         }
 
+        // GET: Ecole/Inscriptions/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -84,6 +91,9 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(inscription);
         }
 
+        // POST: Ecole/Inscriptions/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("ID,EleveId,ClasseID,DateInscription,AnneeScolaire")] Inscription inscription)
@@ -118,6 +128,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(inscription);
         }
 
+        // GET: Ecole/Inscriptions/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -137,6 +148,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(inscription);
         }
 
+        // POST: Ecole/Inscriptions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

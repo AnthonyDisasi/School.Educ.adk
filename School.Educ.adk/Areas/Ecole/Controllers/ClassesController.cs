@@ -15,27 +15,47 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
     {
         private readonly DbEcole _context;
 
-        private void ListSect()
-        {
-            List<SelectListItem> Sections = (from s in _context.Sections orderby s.Nom ascending select new SelectListItem() { Text = s.Nom, Value = s.Nom }).ToList();
-            ViewBag.Sections = Sections;
-        }
-
-        private void ListOpt()
-        {
-            List<SelectListItem> Options = (from o in _context.Options orderby o.Nom ascending select new SelectListItem() { Text = o.Nom, Value = o.Nom }).ToList();
-            ViewBag.Options = Options;
-        }
-
         public ClassesController(DbEcole context)
         {
             _context = context;
         }
 
+        private void ListSect()
+        {
+            List<SelectListItem> section = new List<SelectListItem>();
+            SelectListItem model = new SelectListItem();
+            var Sections = _context.Sections.Include(o => o.Options).AsNoTracking().ToList();
+            foreach (var sect in Sections)
+            {
+                if (sect.Options != null)
+                {
+                    foreach (var opt in sect.Options)
+                    {
+                        model = new SelectListItem() { Text = sect.Nom + " - " + opt.Nom, Value = sect.Nom + " - " + opt.Nom };
+                        section.Add(model);
+                    }
+                }
+                if(sect.Options.Count < 1)
+                {
+                    model = new SelectListItem() { Text = sect.Nom, Value = sect.Nom };
+                    section.Add(model);
+                }
+            }
+            ViewBag.Sections = section;
+        }
+
         public async Task<IActionResult> Index()
         {
-            var dbEcole = _context.Classes.Include(c => c.Ecole);
-            return View(await dbEcole.ToListAsync());
+            var model = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name);
+            if (model.Ecole != null)
+            {
+                var dbEcole = _context.Classes.Include(c => c.Ecole).Include(c => c.Cours).Include(i => i.Inscriptions);
+                return View(await dbEcole.ToListAsync());
+            }
+            else
+            {
+                return RedirectToAction("Details", "Directeurs", new { id = model.ID });
+            }
         }
 
         public async Task<IActionResult> Details(string id)
@@ -47,7 +67,12 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
             var classe = await _context.Classes
                 .Include(c => c.Ecole)
+                .Include(co => co.Cours)
+                .ThenInclude(p => p.Professeur)
+                .Include(i => i.Inscriptions)
+                .ThenInclude(e => e.Eleve)
                 .FirstOrDefaultAsync(m => m.ID == id);
+
             if (classe == null)
             {
                 return NotFound();
@@ -58,24 +83,30 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         public IActionResult Create()
         {
-            ViewData["EcoleID"] = new SelectList(_context.Ecoles, "ID", "ID");
-            ListOpt();
-            ListSect();
-            return View();
+            var model = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name);
+            if (model.Ecole != null)
+            {
+                ListSect();
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Details", "Directeurs", new { id = model.ID });
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,EcoleID,Niveau,Section,Option")] Classe classe)
+        public async Task<IActionResult> Create([Bind("ID,Niveau,Section")] Classe classe)
         {
+            classe.EcoleID = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID;
             if (ModelState.IsValid)
             {
+
                 _context.Add(classe);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EcoleID"] = new SelectList(_context.Ecoles, "ID", "ID", classe.EcoleID);
-            ListOpt();
             ListSect();
             return View(classe);
         }
@@ -93,15 +124,16 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 return NotFound();
             }
             ViewData["EcoleID"] = new SelectList(_context.Ecoles, "ID", "ID", classe.EcoleID);
-            ListOpt();
             ListSect();
             return View(classe);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,EcoleID,Niveau,Section,Option")] Classe classe)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,Niveau,Section")] Classe classe)
         {
+
+            classe.EcoleID = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID;
             if (id != classe.ID)
             {
                 return NotFound();
@@ -127,8 +159,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EcoleID"] = new SelectList(_context.Ecoles, "ID", "ID", classe.EcoleID);
-            ListOpt();
             ListSect();
             return View(classe);
         }
@@ -153,11 +183,20 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public IActionResult DeleteConfirmed(string id)
         {
-            var classe = await _context.Classes.FindAsync(id);
+            var classe = _context.Classes.Include(c => c.Cours).Include(i => i.Inscriptions).FirstOrDefault(cl => cl.ID == id);
+            foreach(var item in classe.Inscriptions)
+            {
+                _context.Inscriptions.Remove(item);
+            }
+            foreach(var item in classe.Cours)
+            {
+                _context.Cours.Remove(item);
+            }
+            _context.SaveChanges();
             _context.Classes.Remove(classe);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

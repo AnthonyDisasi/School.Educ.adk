@@ -36,12 +36,20 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(
+            var model = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name);
+            if (model.Ecole != null)
+            {
+                return View(
                 await _context.Eleves
                 .Include(i => i.Inscriptions)
                 .AsNoTracking()
                 .ToListAsync()
                 );
+            }
+            else
+            {
+                return RedirectToAction("Details", "Directeurs", new { id = model.ID });
+            }
         }
 
         public async Task<IActionResult> Details(string id)
@@ -63,7 +71,15 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            var model = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name);
+            if (model.Ecole != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Details", "Directeurs", new { id = model.ID });
+            }
         }
 
         [HttpPost]

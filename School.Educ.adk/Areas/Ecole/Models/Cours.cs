@@ -13,6 +13,8 @@ namespace School.Educ.adk.Areas.Ecole.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string ID { get; set; }
         public string ClasseID { get; set; }
+
+        [Required(ErrorMessage = "Le professeur est obligatoire")]
         public string ProfesseurID { get; set; }
 
         [Required(ErrorMessage = "L'intituler est obligatoire")]

@@ -16,15 +16,15 @@ namespace School.Educ.adk.Areas.Ecole.Models
 
         [Required(ErrorMessage = "Le niveau est obligatoire")]
         public string Niveau { get; set; }
-        [Required(ErrorMessage = "La section est obligatoire")]
+        [Required(ErrorMessage = "La section est obligatoire"), Display(Name = "Section - option")]
         public string Section { get; set; }
-        public string Option { get; set; }
 
+        [Display(Name = "Nom de la classe")]
         public string NomComplet
         {
             get
             {
-                return Niveau + " " + Section + " " + Option;
+                return Niveau + " " + Section ;
             }
         }
                 
