@@ -26,20 +26,26 @@
                         <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
                             @Html.DisplayNameFor(model => model.NomComplet)
                         </dt>
-                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
                             @Html.DisplayFor(model => model.NomComplet)
                         </dd>
                         <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
                             @Html.DisplayNameFor(model => model.Niveau)
                         </dt>
-                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
                             @Html.DisplayFor(model => model.Niveau)
                         </dd>
                         <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
                             @Html.DisplayNameFor(model => model.Section)
                         </dt>
-                        <dd class="col-form-label col-md-1 col-sm-12 text-left label-align">
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
                             @Html.DisplayFor(model => model.Section)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.AnneeScolaire)
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.AnneeScolaire)
                         </dd>
                     </dl>
                     <div class="text-center">
@@ -110,6 +116,66 @@
                                                     <a asp-area="Ecole" asp-controller="Cours" asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> </a>
                                                     <a asp-area="Ecole" asp-controller="Cours" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> </a>
                                                     <a asp-area="Ecole" asp-controller="Cours" asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<h1>Les élèves</h1>
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                            <p class="text-muted font-13 m-b-30">
+
+                            </p>
+                            <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th colspan="4">Date d'inscription</th>
+                                        <th colspan="2">Elève</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Inscriptions.Count() == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="8">Aucun élève existe!</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var item in Model.Inscriptions)
+                                        {
+                                            <tr>
+                                                <td colspan="4">
+                                                    @Html.DisplayFor(modelItem => item.DateInscription)
+                                                </td>
+                                                <td colspan="2">
+                                                    @Html.DisplayFor(modelItem => item.Eleve.NomComplet)
                                                 </td>
                                             </tr>
                                         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using School.Educ.adk.Areas.Ecole.Models;
 namespace School.Educ.adk.Areas.Ecole.Controllers
 {
     [Area("Ecole")]
+    [Authorize(Roles = "Directeur")]
     public class InscriptionsController : Controller
     {
         private readonly DbEcole _context;
@@ -20,60 +22,38 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             _context = context;
         }
 
-        // GET: Ecole/Inscriptions
-        public async Task<IActionResult> Index()
+        public IActionResult Create(string id)
         {
-            var dbEcole = _context.Inscriptions.Include(i => i.Classe).Include(i => i.Eleve);
-            return View(await dbEcole.ToListAsync());
-        }
-
-        // GET: Ecole/Inscriptions/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var inscription = await _context.Inscriptions
-                .Include(i => i.Classe)
-                .Include(i => i.Eleve)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (inscription == null)
-            {
-                return NotFound();
-            }
-
-            return View(inscription);
-        }
-
-        // GET: Ecole/Inscriptions/Create
-        public IActionResult Create()
-        {
-            ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "ID");
-            ViewData["EleveId"] = new SelectList(_context.Eleves, "ID", "ID");
+            ViewData["ClasseID"] = new SelectList(_context.Classes.Where(i => i.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet");
+            ViewData["Eleve"] = _context.Eleves.Find(id).NomComplet;
+            ViewData["EleveId"] = id;
             return View();
         }
 
-        // POST: Ecole/Inscriptions/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,EleveId,ClasseID,DateInscription,AnneeScolaire")] Inscription inscription)
+        public async Task<IActionResult> Create([Bind("ID,EleveId,ClasseID,DateInscription")] Inscription inscription, string id)
         {
+            int model = (from i in _context.Inscriptions where i.ClasseID == inscription.ClasseID & i.EleveId == inscription.EleveId select i).Count();
+            if (model > 0)
+            {
+                ModelState.AddModelError("", "Un élève ne peut être inscrit dans une classe et une même année scolaire !");
+                ViewData["ClasseID"] = new SelectList(_context.Classes.Where(i => i.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet", inscription.ClasseID);
+                ViewData["Eleve"] = _context.Eleves.Find(inscription.EleveId).NomComplet;
+                ViewData["EleveId"] = id;
+                return View(inscription);
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(inscription);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Eleves", new { id = inscription.EleveId });
             }
-            ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "ID", inscription.ClasseID);
-            ViewData["EleveId"] = new SelectList(_context.Eleves, "ID", "ID", inscription.EleveId);
+            ViewData["ClasseID"] = new SelectList(_context.Classes.Where(i => i.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet", inscription.ClasseID);
+            ViewData["EleveId"] = new SelectList(_context.Eleves.Where(i => i.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet", inscription.EleveId);
             return View(inscription);
         }
 
-        // GET: Ecole/Inscriptions/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -86,17 +66,15 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "ID", inscription.ClasseID);
-            ViewData["EleveId"] = new SelectList(_context.Eleves, "ID", "ID", inscription.EleveId);
+            ViewData["ClasseID"] = new SelectList(_context.Classes.Where(i => i.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet", inscription.ClasseID);
+            ViewData["Eleve"] = _context.Eleves.Find(inscription.EleveId).NomComplet;
+            ViewData["Ele"] = id;
             return View(inscription);
         }
 
-        // POST: Ecole/Inscriptions/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,EleveId,ClasseID,DateInscription,AnneeScolaire")] Inscription inscription)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,EleveId,ClasseID,DateInscription")] Inscription inscription)
         {
             if (id != inscription.ID)
             {
@@ -121,42 +99,32 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Eleves", new { id = inscription.EleveId });
             }
-            ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "ID", inscription.ClasseID);
-            ViewData["EleveId"] = new SelectList(_context.Eleves, "ID", "ID", inscription.EleveId);
+            ViewData["ClasseID"] = new SelectList(_context.Classes.Where(i => i.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet", inscription.ClasseID);
+            ViewData["Eleve"] = _context.Eleves.Find(inscription.EleveId).NomComplet;
+            ViewData["EleveId"] = id;
             return View(inscription);
         }
 
-        // GET: Ecole/Inscriptions/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public IActionResult Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var inscription = await _context.Inscriptions
+            var inscription = _context.Inscriptions
                 .Include(i => i.Classe)
                 .Include(i => i.Eleve)
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefault(m => m.ID == id);
             if (inscription == null)
             {
                 return NotFound();
             }
-
-            return View(inscription);
-        }
-
-        // POST: Ecole/Inscriptions/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var inscription = await _context.Inscriptions.FindAsync(id);
             _context.Inscriptions.Remove(inscription);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            _context.SaveChanges();
+            return RedirectToAction("Details", "Eleves", new { id = inscription.EleveId });
         }
 
         private bool InscriptionExists(string id)

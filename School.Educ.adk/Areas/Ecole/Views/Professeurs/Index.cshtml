@@ -81,7 +81,7 @@
                                                     @Html.DisplayFor(modelItem => item.Email)
                                                 </td>
                                                 <td>
-                                                    <a asp-area="Ecole" asp-controller="Cours" asp-action="Create" asp-route-etat="professeur" asp-route-ID="@item.ID" class="btn btn-success btn-xs">@item.Cours.Count() - <i class="fa fa-book"></i></a>
+                                                    <a asp-area="Ecole" asp-controller="Cours" asp-action="Create" asp-route-profid="@item.ID" class="btn btn-success btn-xs">@item.Cours.Count() - <i class="fa fa-book"></i></a>
                                                 </td>
                                                 <td style="text-align:center">
                                                     <a asp-area="Ecole" asp-controller="Professeurs" asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> </a>

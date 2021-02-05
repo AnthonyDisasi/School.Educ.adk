@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,6 +14,7 @@ using School.Educ.adk.Models;
 namespace School.Educ.adk.Areas.Ecole.Controllers
 {
     [Area("Ecole")]
+    [Authorize(Roles = "Directeur")]
     public class ElevesController : Controller
     {
         private readonly DbEcole _context;
@@ -36,19 +38,19 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var model = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name);
-            if (model.Ecole != null)
-            {
-                return View(
-                await _context.Eleves
+            var directeur = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(i => i.Matricule == User.Identity.Name);
+            var model = _context.Eleves
                 .Include(i => i.Inscriptions)
                 .AsNoTracking()
-                .ToListAsync()
-                );
+                .Where(id => id.EcoleID == directeur.Ecole.ID)
+                .ToList();
+            if (model != null)
+            {
+               return View(model);
             }
             else
             {
-                return RedirectToAction("Details", "Directeurs", new { id = model.ID });
+                return RedirectToAction("Details", "Directeurs", new { id = directeur.ID });
             }
         }
 
@@ -60,6 +62,8 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             }
 
             var eleve = await _context.Eleves
+                .Include(i => i.Inscriptions)
+                .ThenInclude(c => c.Classe)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (eleve == null)
             {
@@ -71,7 +75,9 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         public IActionResult Create()
         {
-            var model = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name);
+            var model = _context.Directeurs
+                .Include(e => e.Ecole)
+                .FirstOrDefault(d => d.Matricule == User.Identity.Name);
             if (model.Ecole != null)
             {
                 return View();
@@ -86,6 +92,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Password,DateNaissance")] Models.Eleve eleve)
         {
+            eleve.EcoleID = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID;
             if (ModelState.IsValid)
             {
                 ApplicationUser user = new ApplicationUser
@@ -146,6 +153,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             {
                 return NotFound();
             }
+            eleve.EcoleID = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID;
 
             ApplicationUser user = await userManager.FindByIdAsync(id);
             if (user != null)
@@ -237,7 +245,11 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 IdentityResult result = await userManager.DeleteAsync(user);
                 if (result.Succeeded)
                 {
-                    var eleve = await _context.Eleves.FindAsync(id);
+                    var eleve = await _context.Eleves.Include(i => i.Inscriptions).FirstOrDefaultAsync(e => e.ID == id);
+                    foreach(var ins in eleve.Inscriptions)
+                    {
+                        _context.Inscriptions.Remove(ins);
+                    }
                     _context.Eleves.Remove(eleve);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));

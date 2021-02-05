@@ -17,9 +17,6 @@ namespace School.Educ.adk.Areas.Ecole.Models
         [Display(Name = "Date d'inscription"), Required(ErrorMessage = "La date d'incription est obligatoire"), DataType(DataType.Date)]
         public DateTime DateInscription { get; set; }
 
-        [Display(Name = "Année scolaire"), Required(ErrorMessage = "L'nnée scolaire est obligatoire")]
-        public string AnneeScolaire { get; set; }
-
         public Eleve Eleve { get; set; }
         public Classe Classe { get; set; }
     }

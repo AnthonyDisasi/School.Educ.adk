@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Educ.adk.Areas.Ecole.DataContext;
 
 namespace School.Educ.adk.Migrations
 {
     [DbContext(typeof(DbEcole))]
-    partial class DbEcoleModelSnapshot : ModelSnapshot
+    [Migration("20210204155647__04_02_2021_1")]
+    partial class _04_02_2021_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,8 +149,6 @@ namespace School.Educ.adk.Migrations
 
                     b.Property<DateTime>("DateNaissance");
 
-                    b.Property<string>("EcoleID");
-
                     b.Property<int?>("Genre");
 
                     b.Property<string>("Matricule")
@@ -167,8 +167,6 @@ namespace School.Educ.adk.Migrations
                         .IsRequired();
 
                     b.HasKey("ID");
-
-                    b.HasIndex("EcoleID");
 
                     b.ToTable("Eleves");
                 });
@@ -298,13 +296,6 @@ namespace School.Educ.adk.Migrations
                     b.HasOne("School.Educ.adk.Areas.Ecole.Models.Directeur", "Directeur")
                         .WithOne("Ecole")
                         .HasForeignKey("School.Educ.adk.Areas.Ecole.Models.Ecole", "DirecteurID");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Eleve", b =>
-                {
-                    b.HasOne("School.Educ.adk.Areas.Ecole.Models.Ecole", "Ecole")
-                        .WithMany("Eleves")
-                        .HasForeignKey("EcoleID");
                 });
 
             modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Inscription", b =>

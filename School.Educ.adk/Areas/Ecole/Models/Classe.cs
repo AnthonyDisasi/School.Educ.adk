@@ -18,6 +18,8 @@ namespace School.Educ.adk.Areas.Ecole.Models
         public string Niveau { get; set; }
         [Required(ErrorMessage = "La section est obligatoire"), Display(Name = "Section - option")]
         public string Section { get; set; }
+        [Display(Name = "Année scolaire"), Required(ErrorMessage = "L'nnée scolaire est obligatoire")]
+        public string AnneeScolaire { get; set; }
 
         [Display(Name = "Nom de la classe")]
         public string NomComplet

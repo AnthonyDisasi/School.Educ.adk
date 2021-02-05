@@ -23,22 +23,13 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var directeur = _context.Directeurs
+               .Include(e => e.Ecole)
+               .FirstOrDefault(d => d.Matricule == User.Identity.Name);
 
-            var directeur = await _context.Directeurs
-                .Include(e => e.Ecole)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (directeur == null)
-            {
-                return NotFound();
-            }
-
-            if(directeur.Ecole != null)
+            if (directeur.Ecole != null)
             {
                 ViewData["Message"] = "";
                 return View(directeur);

@@ -8,9 +8,9 @@ namespace School.Educ.adk.Models
 {
     public class LoginModel
     {
-        [Required]
-        [UIHint("email")]
-        public string Email { get; set; }
+        [Required, Display(Name = "Matricule")]
+        [UIHint("Name")]
+        public string Matricule { get; set; }
         [Required]
         [UIHint("password")]
         public string Password { get; set; }

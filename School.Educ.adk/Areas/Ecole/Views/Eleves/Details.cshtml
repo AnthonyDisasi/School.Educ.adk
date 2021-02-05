@@ -24,49 +24,49 @@
                         <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
                             @Html.DisplayNameFor(model => model.ID)
                         </dt>
-                        <dd class="col-form-label col-md-6 col-sm-6 text-left label-align">
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
                             @Html.DisplayFor(model => model.ID)
                         </dd>
                         <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
                             @Html.DisplayNameFor(model => model.Nom)
                         </dt>
-                        <dd class="col-form-label col-md-1 col-sm-6 text-left label-align">
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
                             @Html.DisplayFor(model => model.Nom)
                         </dd>
                         <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
                             @Html.DisplayNameFor(model => model.Postnom)
                         </dt>
-                        <dd class="col-form-label col-md-1 col-sm-6 text-left label-align">
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
                             @Html.DisplayFor(model => model.Postnom)
                         </dd>
                         <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
                             @Html.DisplayNameFor(model => model.Prenom)
                         </dt>
-                        <dd class="col-form-label col-md-1 col-sm-6 text-left label-align">
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
                             @Html.DisplayFor(model => model.Prenom)
                         </dd>
                         <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
                             @Html.DisplayNameFor(model => model.Genre)
                         </dt>
-                        <dd class="col-form-label col-md-1 col-sm-6 text-left label-align">
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
                             @Html.DisplayFor(model => model.Genre)
                         </dd>
                         <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
                             @Html.DisplayNameFor(model => model.Matricule)
                         </dt>
-                        <dd class="col-form-label col-md-1 col-sm-6 text-left label-align">
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
                             @Html.DisplayFor(model => model.Matricule)
                         </dd>
                         <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
                             @Html.DisplayNameFor(model => model.Password)
                         </dt>
-                        <dd class="col-form-label col-md-1 col-sm-6 text-left label-align">
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
                             @Html.DisplayFor(model => model.Password)
                         </dd>
                         <dt class="col-form-label col-md-6 col-sm-6  label-align">
                             @Html.DisplayNameFor(model => model.DateNaissance)
                         </dt>
-                        <dd class="col-form-label col-md-1 col-sm-6 text-left label-align">
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
                             @Html.DisplayFor(model => model.DateNaissance)
                         </dd>
                     </dl>
@@ -98,6 +98,9 @@
                     <li>
                         <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
+                    <li>
+                        <a asp-action="Create" asp-route-id="@Model.ID" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> Nouvelle</a>
+                    </li>
                 </ul>
 
                 <div class="clearfix"></div>
@@ -116,6 +119,7 @@
                                         <th>Classe</th>
                                         <th>Date d'inscription</th>
                                         <th>Année scolaire</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
 
@@ -124,7 +128,7 @@
                                     @if (Model.Inscriptions.Count() < 1)
                                     {
                                         <tr>
-                                            <td colspan="3">Aucune inscription enregistré!</td>
+                                            <td colspan="4">Aucune inscription enregistrée !</td>
                                         </tr>
                                     }
                                     else
@@ -139,7 +143,11 @@
                                                     @Html.DisplayFor(modelItem => item.DateInscription)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.AnneeScolaire)
+                                                    @Html.DisplayFor(modelItem => item.Classe.AnneeScolaire)
+                                                </td>
+                                                <td style="text-align:center">
+                                                    <a asp-area="Ecole" asp-controller="Inscriptions" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> </a>
+                                                    <a asp-area="Ecole" asp-controller="Inscriptions" asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
                                                 </td>
                                             </tr>
                                         }

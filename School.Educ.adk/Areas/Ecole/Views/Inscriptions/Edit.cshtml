@@ -1,46 +1,70 @@
 ﻿@model School.Educ.adk.Areas.Ecole.Models.Inscription
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Modifier";
 }
 
-<h1>Edit</h1>
+<h1>Modifier inscription</h1>
 
-<h4>Inscription</h4>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ID" />
-            <div class="form-group">
-                <label asp-for="EleveId" class="control-label"></label>
-                <select asp-for="EleveId" class="form-control" asp-items="ViewBag.EleveId"></select>
-                <span asp-validation-for="EleveId" class="text-danger"></span>
+    <div class="col-md-12 col-sm-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
             </div>
-            <div class="form-group">
-                <label asp-for="ClasseID" class="control-label"></label>
-                <select asp-for="ClasseID" class="form-control" asp-items="ViewBag.ClasseID"></select>
-                <span asp-validation-for="ClasseID" class="text-danger"></span>
+            <div class="x_content">
+                <form class="" asp-action="Edit" method="post" asp-route-id="@ViewBag.Ele" novalidate>
+
+                    <span class="section">Modifier l'inscription de l'élève @ViewBag.Eleve</span>
+
+                    <input type="hidden" asp-for="EleveId" value="@Model.EleveId" />
+                    <input type="hidden" asp-for="ID" value="@Model.ID" />
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align">Nom de la classe</label>
+                        <div class="col-md-6 col-sm-6">
+                            <select class="form-control has-feedback-left" asp-for="ClasseID" asp-items="@ViewBag.ClasseID">
+                                <option value="">Selectionner la classe</option>
+                            </select>
+                            <span class="fa fa-bullseye form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="ClasseID" class="text-danger"></span>
+                    </div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger text-center"></div>
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="DateInscription"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input asp-for="DateInscription" class="form-control has-feedback-left" />
+                            <span class="fa fa-calendar form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="DateInscription" class="text-danger"></span>
+                    </div>
+
+                    <div class="field item form-group">
+                        <div class="col-md-6 col-sm-6">
+                            <div asp-validation-summary="ModelOnly" class="text-danger text-center"></div>
+                        </div>
+                    </div>
+
+                    <div class="ln_solid">
+                        <div class="form-group">
+                            <br /><br />
+                            <div class="col-md-6 offset-md-3 text-center">
+                                <button type='submit' class="btn btn-primary">Enregistrer</button>
+                                <button type='reset' class="btn btn-success">Recommencer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="DateInscription" class="control-label"></label>
-                <input asp-for="DateInscription" class="form-control" />
-                <span asp-validation-for="DateInscription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AnneeScolaire" class="control-label"></label>
-                <input asp-for="AnneeScolaire" class="form-control" />
-                <span asp-validation-for="AnneeScolaire" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

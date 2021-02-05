@@ -2,6 +2,24 @@
 
 @{
     ViewData["Title"] = "Modifier";
+
+    List<SelectListItem> liste = new List<SelectListItem>();
+    for (double i = 10; i >= 0; i--)
+    {
+        liste.Add(new SelectListItem
+        {
+            Text = (DateTime.Now.Year - (i + 1)).ToString() + " - " + (DateTime.Now.Year - i).ToString(),
+            Value = (DateTime.Now.Year - (i + 1)).ToString() + " - " + (DateTime.Now.Year - i).ToString()
+        });
+    }
+    for (double i = 0; i < 10; i++)
+    {
+        liste.Add(new SelectListItem
+        {
+            Text = (DateTime.Now.Year + i).ToString() + " - " + (DateTime.Now.Year + (i + 1)).ToString(),
+            Value = (DateTime.Now.Year + i).ToString() + " - " + (DateTime.Now.Year + (i + 1)).ToString()
+        });
+    }
 }
 
 <h1>Modifier classe</h1>
@@ -46,6 +64,16 @@
                         <span asp-validation-for="Section" class="text-danger"></span>
                     </div>
 
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="AnneeScolaire"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <select class="form-control has-feedback-left" asp-for="AnneeScolaire" asp-items="@liste">
+                                <option value="">Selectionner l'année scolaire</option>
+                            </select>
+                            <span class="fa fa-bullseye form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="AnneeScolaire" class="text-danger"></span>
+                    </div>
                     <div class="ln_solid">
                         <div class="form-group">
                             <br /><br />

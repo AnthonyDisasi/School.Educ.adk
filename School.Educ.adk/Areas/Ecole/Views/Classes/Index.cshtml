@@ -40,6 +40,8 @@
                                 <thead>
                                     <tr>
                                         <th>@Html.DisplayNameFor(model => model.NomComplet)</th>
+                                        <th>Année scolaire</th>
+                                        <th>Elèves</th>
                                         <th>Cours</th>
                                         <th>Actions</th>
                                     </tr>
@@ -60,6 +62,10 @@
                                             <tr>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.NomComplet)
+                                                </td>
+                                                <td>@Html.DisplayFor(modelItem => item.AnneeScolaire)</td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Inscriptions.Count)
                                                 </td>
                                                 <td>
                                                     <a asp-area="Ecole" asp-controller="Cours" asp-action="Create" asp-route-idcla="@item.ID" class="btn btn-primary btn-xs">@item.Cours.Count() - <i class="fa fa-book"></i></a>

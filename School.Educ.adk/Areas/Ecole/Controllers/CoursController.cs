@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using School.Educ.adk.Areas.Ecole.Models;
 namespace School.Educ.adk.Areas.Ecole.Controllers
 {
     [Area("Ecole")]
+    [Authorize(Roles = "Directeur")]
     public class CoursController : Controller
     {
         private readonly DbEcole _context;
@@ -22,8 +24,19 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var dbEcole = _context.Cours.Include(c => c.Classe).Include(c => c.Professeur);
-            return View(await dbEcole.ToListAsync());
+            var dbEcole = _context.Cours
+                .Include(c => c.Classe)
+                .Include(p => p.Professeur)
+                .Where(pr => pr.Professeur.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID);
+         
+            if (dbEcole != null)
+            {
+                return View(await dbEcole.ToListAsync());
+            }
+            else
+            {
+                return RedirectToAction("Details", "Directeurs");
+            }
         }
 
         public async Task<IActionResult> Details(string id)
@@ -45,7 +58,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             return View(cours);
         }
 
-        public IActionResult Create(string idcla)
+        public IActionResult Create(string idcla, string profid)
         {
             if(idcla != null)
             {
@@ -53,16 +66,23 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             }
             else
             {
-                ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "NomComplet");
+                ViewData["ClasseID"] = new SelectList(_context.Classes.Where(i => i.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet");
+            }
+            if(profid != null)
+            {
+                ViewData["Professeur"] = profid;
+            }
+            else
+            {
+                ViewData["ProfesseurID"] = new SelectList(_context.Professeurs.Where(i => i.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet");
             }
             ViewData["Categorie"] = new SelectList(_context.categories, "Nom", "Nom");
-            ViewData["ProfesseurID"] = new SelectList(_context.Professeurs, "ID", "NomComplet");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,ClasseID,ProfesseurID,Intituler,Categorie")] Cours cours, string idcla)
+        public async Task<IActionResult> Create([Bind("ID,ClasseID,ProfesseurID,Intituler,Categorie")] Cours cours, string idcla, string profid)
         {
             if (ModelState.IsValid)
             {
@@ -76,10 +96,17 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             }
             else
             {
-                ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "NomComplet", cours.ClasseID);
+                ViewData["ClasseID"] = new SelectList(_context.Classes.Where(id => id.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet", cours.ClasseID);
+            }
+            if (profid != null)
+            {
+                ViewData["Professeur"] = profid;
+            }
+            else
+            {
+                ViewData["ProfesseurID"] = new SelectList(_context.Professeurs.Where(id => id.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet", cours.ProfesseurID);
             }
             ViewData["Categorie"] = new SelectList(_context.categories, "Nom", "Nom");
-            ViewData["ProfesseurID"] = new SelectList(_context.Professeurs, "ID", "NomComplet", cours.ProfesseurID);
             return View(cours);
         }
 
@@ -95,9 +122,9 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "NomComplet", cours.ClasseID);
+            ViewData["ClasseID"] = new SelectList(_context.Classes.Where(i => i.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet", cours.ClasseID);
             ViewData["Categorie"] = new SelectList(_context.categories, "Nom", "Nom");
-            ViewData["ProfesseurID"] = new SelectList(_context.Professeurs, "ID", "NomComplet", cours.ProfesseurID);
+            ViewData["ProfesseurID"] = new SelectList(_context.Professeurs.Where(i => i.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet", cours.ProfesseurID);
             return View(cours);
         }
 
@@ -130,9 +157,9 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClasseID"] = new SelectList(_context.Classes, "ID", "NomComplet", cours.ClasseID);
+            ViewData["ClasseID"] = new SelectList(_context.Classes.Where(i => i.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet", cours.ClasseID);
             ViewData["Categorie"] = new SelectList(_context.categories, "Nom", "Nom");
-            ViewData["ProfesseurID"] = new SelectList(_context.Professeurs, "ID", "NomComplet", cours.ProfesseurID);
+            ViewData["ProfesseurID"] = new SelectList(_context.Professeurs.Where(i => i.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet", cours.ProfesseurID);
             return View(cours);
         }
 

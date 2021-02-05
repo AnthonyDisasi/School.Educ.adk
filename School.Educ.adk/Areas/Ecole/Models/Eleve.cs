@@ -13,6 +13,7 @@ namespace School.Educ.adk.Areas.Ecole.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string ID { get; set; }
+        public string EcoleID { get; set; }
 
         [Required(ErrorMessage = "Le Nom est obligatoire")]
         public string Nom { get; set; }
@@ -39,5 +40,6 @@ namespace School.Educ.adk.Areas.Ecole.Models
         }
 
         public ICollection<Inscription> Inscriptions { get; set; }
+        public Ecole Ecole { get; set; }
     }
 }

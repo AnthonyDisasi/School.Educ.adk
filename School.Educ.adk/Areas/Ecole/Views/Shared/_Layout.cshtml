@@ -50,12 +50,7 @@
                             <h3>General</h3>
                             <ul class="nav side-menu">
                                 <li>
-                                    <a><i class="fa fa-users"></i> Rôle <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li>
-                                            <a asp-area="Ecole" asp-controller="RoleSchool" asp-action="Index">Les rôles</a>
-                                        </li>
-                                    </ul>
+                                    <a asp-area="Ecole" asp-controller="RoleSchool" asp-action="Index"><i class="fa fa-key"></i> Rôles</a>
                                 </li>
                                 <li>
                                     <a><i class="fa fa-users"></i> Professeur & Elève <span class="fa fa-chevron-down"></span></a>
@@ -85,8 +80,11 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-users"></i> Classe & Cours <span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-institution"></i> Ecole<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
+                                        <li>
+                                            <a asp-area="Ecole" asp-controller="Ecoles" asp-action="Index"><i class="fa fa-institution"></i> Ecoles</a>
+                                        </li>
                                         <li>
                                             <a>Classe<span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">
@@ -149,8 +147,8 @@
                                         @User.Identity.Name
                                     </a>
                                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="javascript:;"> Profile</a>
-                                        <a class="dropdown-item red" asp-controller="Account" asp-action="Logout"><i class="fa fa-sign-out red pull-right"></i> Log Out</a>
+                                        <a asp-area="Ecole" asp-controller="Directeurs" asp-action="Details" class="dropdown-item"> Profile</a>
+                                        <a class="dropdown-item red" asp-controller="Account" asp-action="Logout"><i class="fa fa-sign-out red pull-right"></i> Deconnexion</a>
                                     </div>
                                 </li>
                             </ul>

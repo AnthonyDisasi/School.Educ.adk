@@ -47,7 +47,7 @@ namespace School.Educ.adk.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = await userManager.FindByEmailAsync(details.Email);
+                ApplicationUser user = await userManager.FindByNameAsync(details.Matricule);
                 if (user != null)
                 {
                     await signInManager.SignOutAsync();
@@ -58,7 +58,7 @@ namespace School.Educ.adk.Controllers
                         return RedirectToAction("Index", "Home", new { id = user.Id });
                     }
                 }
-                ModelState.AddModelError(nameof(LoginModel.Email), "Le mot de passe ou le mail sont invalids");
+                ModelState.AddModelError(nameof(LoginModel.Matricule), "Le mot de passe ou le matricule sont invalids");
             }
 
             return View(details);

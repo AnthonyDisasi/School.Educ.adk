@@ -35,7 +35,7 @@ namespace School.Educ.adk.Infrastructure
                 }
             }
             output.Content.SetContent(names.Count == 0 ?
-            "No Users" : string.Join(", ", names));
+            "Aucun utilisateur" : string.Join(", ", names));
         }
     }
 }

@@ -2,30 +2,52 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using School.Educ.adk.Areas.Ecole.DataContext;
 using School.Educ.adk.Areas.Ecole.Models;
+using School.Educ.adk.Models;
 
 namespace School.Educ.adk.Areas.Ecole.Controllers
 {
     [Area("Ecole")]
+    [Authorize(Roles = "Directeur")]
     public class ProfesseursController : Controller
     {
         private readonly DbEcole _context;
+        private UserManager<ApplicationUser> userManager;
+        private IUserValidator<ApplicationUser> userValidator;
+        private IPasswordValidator<ApplicationUser> passwordValidator;
+        private IPasswordHasher<ApplicationUser> passwordHasher;
 
-        public ProfesseursController(DbEcole context)
+        public ProfesseursController(DbEcole context,
+            UserManager<ApplicationUser> usrMgr,
+            IUserValidator<ApplicationUser> userValid,
+            IPasswordValidator<ApplicationUser> passValid,
+            IPasswordHasher<ApplicationUser> passwordHash)
         {
             _context = context;
+            userManager = usrMgr;
+            userValidator = userValid;
+            passwordValidator = passValid;
+            passwordHasher = passwordHash;
         }
 
         public async Task<IActionResult> Index()
         {
-            var model = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name);
+            var model = _context.Directeurs
+                .Include(e => e.Ecole)
+                .FirstOrDefault(d => d.Matricule == User.Identity.Name);
             if (model.Ecole != null)
             {
-                var dbEcole = _context.Professeurs.Include(p => p.Ecole).Include(c => c.Cours);
+                var dbEcole = _context
+                    .Professeurs
+                    .Include(p => p.Ecole)
+                    .Include(c => c.Cours)
+                    .Where(id => id.EcoleID == model.Ecole.ID);
                 return View(await dbEcole.ToListAsync());
             }
             else
@@ -55,7 +77,9 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         public IActionResult Create()
         {
-            var model = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name);
+            var model = _context.Directeurs
+                .Include(e => e.Ecole)
+                .FirstOrDefault(d => d.Matricule == User.Identity.Name);
             if (model.Ecole != null)
             {
                 return View();
@@ -74,9 +98,27 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             
             if (ModelState.IsValid)
             {
-                _context.Add(professeur);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ApplicationUser user = new ApplicationUser
+                {
+                    UserName = professeur.Matricule,
+                    Email = professeur.Email
+                };
+                IdentityResult result = await userManager.CreateAsync(user, professeur.Password);
+                if (result.Succeeded)
+                {
+                    user = await userManager.FindByEmailAsync(professeur.Email);
+                    professeur.ID = user.Id;
+                    _context.Add(professeur);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    foreach (IdentityError error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
             }
             return View(professeur);
         }
@@ -89,11 +131,20 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             }
 
             var professeur = await _context.Professeurs.FindAsync(id);
-            if (professeur == null)
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            if (professeur == null && user == null)
             {
                 return NotFound();
             }
             return View(professeur);
+        }
+
+        private void AddErrorsFromResult(IdentityResult result)
+        {
+            foreach (IdentityError error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
         }
 
         [HttpPost]
@@ -105,26 +156,69 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 return NotFound();
             }
             professeur.EcoleID = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID;
-            if (ModelState.IsValid)
+
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            if (user != null)
             {
-                try
+                user.UserName = professeur.Matricule;
+                user.Email = professeur.Email;
+                IdentityResult ValidEmail = await userValidator.ValidateAsync(userManager, user);
+                if (!ValidEmail.Succeeded)
                 {
-                    _context.Update(professeur);
-                    await _context.SaveChangesAsync();
+                    AddErrorsFromResult(ValidEmail);
                 }
-                catch (DbUpdateConcurrencyException)
+                IdentityResult validPass = null;
+                if (!string.IsNullOrEmpty(professeur.Password))
                 {
-                    if (!ProfesseurExists(professeur.ID))
+                    validPass = await passwordValidator.ValidateAsync(userManager, user, professeur.Password);
+                    if (validPass.Succeeded)
                     {
-                        return NotFound();
+                        user.PasswordHash = passwordHasher.HashPassword(user, professeur.Password);
                     }
                     else
                     {
-                        throw;
+                        AddErrorsFromResult(validPass);
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                if ((ValidEmail.Succeeded && validPass == null) || (ValidEmail.Succeeded && professeur.Password != string.Empty && validPass.Succeeded))
+                {
+                    IdentityResult result = await userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        if (ModelState.IsValid)
+                        {
+                            try
+                            {
+                                _context.Update(professeur);
+                                await _context.SaveChangesAsync();
+                            }
+                            catch (DbUpdateConcurrencyException)
+                            {
+                                if (!ProfesseurExists(professeur.ID))
+                                {
+                                    return NotFound();
+                                }
+                                else
+                                {
+                                    throw;
+                                }
+                            }
+                            return RedirectToAction(nameof(Index));
+                        }
+                    }
+                    else
+                    {
+                        AddErrorsFromResult(result);
+                    }
+                }
+
             }
+            else
+            {
+                ModelState.AddModelError("", "Utilisateur non trouvé");
+            }
+
             return View(professeur);
         }
 
@@ -150,9 +244,30 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var professeur = await _context.Professeurs.FindAsync(id);
-            _context.Professeurs.Remove(professeur);
-            await _context.SaveChangesAsync();
+            ApplicationUser user = await userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                IdentityResult result = await userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    var professeur = await _context.Professeurs.Include(c => c.Cours).FirstOrDefaultAsync(pr => pr.ID == id);
+                    foreach (var item in professeur.Cours)
+                    {
+                        _context.Cours.Remove(item);
+                    }
+                    _context.Professeurs.Remove(professeur);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    AddErrorsFromResult(result);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Erreur non trouvée");
+            }
             return RedirectToAction(nameof(Index));
         }
 

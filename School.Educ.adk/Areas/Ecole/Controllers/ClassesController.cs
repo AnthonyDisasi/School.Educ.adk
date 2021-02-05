@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using School.Educ.adk.Areas.Ecole.Models;
 namespace School.Educ.adk.Areas.Ecole.Controllers
 {
     [Area("Ecole")]
+    [Authorize(Roles = "Directeur")]
     public class ClassesController : Controller
     {
         private readonly DbEcole _context;
@@ -49,12 +51,16 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             var model = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name);
             if (model.Ecole != null)
             {
-                var dbEcole = _context.Classes.Include(c => c.Ecole).Include(c => c.Cours).Include(i => i.Inscriptions);
+                var dbEcole = _context.Classes
+                    .Include(c => c.Ecole)
+                    .Include(c => c.Cours)
+                    .Include(i => i.Inscriptions)
+                    .Where(id => id.EcoleID == model.Ecole.ID);
                 return View(await dbEcole.ToListAsync());
             }
             else
             {
-                return RedirectToAction("Details", "Directeurs", new { id = model.ID });
+                return RedirectToAction("Details", "Directeurs");
             }
         }
 
@@ -91,13 +97,13 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             }
             else
             {
-                return RedirectToAction("Details", "Directeurs", new { id = model.ID });
+                return RedirectToAction("Details", "Directeurs");
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Niveau,Section")] Classe classe)
+        public async Task<IActionResult> Create([Bind("ID,Niveau,Section,AnneeScolaire")] Classe classe)
         {
             classe.EcoleID = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID;
             if (ModelState.IsValid)
@@ -130,7 +136,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,Niveau,Section")] Classe classe)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,Niveau,Section,AnneeScolaire")] Classe classe)
         {
 
             classe.EcoleID = _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID;
@@ -143,8 +149,28 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             {
                 try
                 {
-                    _context.Update(classe);
-                    await _context.SaveChangesAsync();
+                    if (_context.Classes.AsNoTracking().FirstOrDefault(i => i.ID == id).AnneeScolaire != classe.AnneeScolaire)
+                    {
+                        var model_ = _context.Classes.Include(c => c.Cours).FirstOrDefault(i => i.ID == id);
+                        Classe model = new Classe
+                        {
+                            Niveau = classe.Niveau,
+                            Section = classe.Section,
+                            AnneeScolaire = classe.AnneeScolaire,
+                            EcoleID = classe.EcoleID
+                        };
+                        foreach(var co in model_.Cours)
+                        {
+                            model.Cours.Add(co);
+                        }
+                        _context.Add(model);
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        _context.Update(classe);
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -194,7 +220,6 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             {
                 _context.Cours.Remove(item);
             }
-            _context.SaveChanges();
             _context.Classes.Remove(classe);
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));

@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
-
 <!-- Datatables -->
 
 <link href="~/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -8,7 +7,7 @@
 <link href="~/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
 <link href="~/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
-<h1>Les inspecteurs et directeurs</h1>
+<h1>Les professeurs et élèves</h1>
 <div class="row">
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel">
@@ -16,9 +15,6 @@
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
                         <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li>
-                        <a asp-action="Create" class="btn btn-outline-secondary btn-xs"><i class="fa fa-plus"></i>  nouveau rôle</a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>
@@ -53,27 +49,21 @@
                                         foreach (var role in Model)
                                         {
                                             <tr>
-                                                <td>@role.Id</td>
-                                                <td>@role.Name</td>
-                                                <td identity-role="@role.Id"></td>
-                                                @if (role.Name == "Inspecteur" || role.Name == "Directeur")
+                                                @if (role.Name == "Eleve" || role.Name == "Professeur")
                                                 {
-                                                    <td>
+                                                    <td>@role.Id</td>
+                                                    <td>@role.Name</td>
+                                                    <td identity-role="@role.Id"></td>
+                                                    <td style="text-align:center">
                                                         <form asp-action="Delete" asp-route-id="@role.Id" method="post">
                                                             <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-role_="@role.Name" asp-route-id="@role.Id">Affecter</a>
-                                                            <button type="submit" class="btn btn-sm btn-danger">Retirer</button>
                                                         </form>
                                                     </td>
                                                 }
                                                 else
                                                 {
-                                                    <td>
-                                                        <form asp-action="Delete" asp-route-id="@role.Id" method="post">
-                                                            <button type="submit" class="btn btn-sm btn-danger">Retirer</button>
-                                                        </form>
-                                                    </td>
+                                                    <td style="text-align:center" colspan="4">Vous n'avez aucun droit à assigner le rôle @role.Name à un élève ni un professeur</td>
                                                 }
-
                                             </tr>
                                         }
                                     }

@@ -31,7 +31,7 @@
                     else
                     {
                         <div class="field item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="ClasseID"></label>
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">Classe</label>
                             <div class="col-md-6 col-sm-6">
                                 <select class="form-control has-feedback-left" asp-for="ClasseID" asp-items="@ViewBag.ClasseID">
                                     <option value="">Selectionner la classe</option>
@@ -41,17 +41,23 @@
                             <span asp-validation-for="ClasseID" class="text-danger"></span>
                         </div>
                     }
-
-                    <div class="field item form-group">
-                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="ProfesseurID"></label>
-                        <div class="col-md-6 col-sm-6">
-                            <select class="form-control has-feedback-left" asp-for="ProfesseurID" asp-items="@ViewBag.ProfesseurID">
-                                <option value="">Selectionner le professeur</option>
-                            </select>
-                            <span class="fa fa-bullseye form-control-feedback left" aria-hidden="true"></span>
+                    @if (ViewBag.Professeur != null)
+                    {
+                        <input type="hidden" asp-for="ProfesseurID" value="@ViewBag.Professeur" />
+                    }
+                    else
+                    {
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">Professeur</label>
+                            <div class="col-md-6 col-sm-6">
+                                <select class="form-control has-feedback-left" asp-for="ProfesseurID" asp-items="@ViewBag.ProfesseurID">
+                                    <option value="">Selectionner le professeur</option>
+                                </select>
+                                <span class="fa fa-bullseye form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+                            <span asp-validation-for="ProfesseurID" class="text-danger"></span>
                         </div>
-                        <span asp-validation-for="ProfesseurID" class="text-danger"></span>
-                    </div>
+                    }
 
                     <div class="field item form-group">
                         <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Intituler"></label>
