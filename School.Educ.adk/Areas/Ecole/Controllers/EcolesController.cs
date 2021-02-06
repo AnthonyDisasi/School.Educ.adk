@@ -24,7 +24,11 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var dbEcole = _context.Ecoles.Include(e => e.Directeur);
+            var dbEcole = _context.Ecoles
+                .Include(e => e.Directeur)
+                .Include(c => c.Classes)
+                .Include(el => el.Eleves)
+                .Include(p => p.Professeurs);
             return View(await dbEcole.ToListAsync());
         }
 

@@ -1,28 +1,102 @@
 ﻿@model LoginModel
 <link rel="stylesheet" href="~/css/Form_Login.css" />
 
-<section class="get_in_touch">
+<section class="get_in_touch" style="background-color:whitesmoke">
     <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="x_panel">
+                    <div class="x_content">
+                        <form class="" asp-action="Create" method="post" novalidate>
 
-        <h1 class="title">Connexion</h1>
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div style="text-align:center">
+                                <span class="title">Connexion</span>
+                            </div>
+                            <br /><br />
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Matricule"></label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control has-feedback-left" asp-for="Matricule" />
+                                    <span class="fa fa-user form-control-feedback left" aria-hidden="true"></span>
+                                </div>
+                                <span asp-validation-for="Matricule" class="text-danger"></span>
+                            </div>
 
-        <form asp-action="Login" method="post">
-            <div class="contact-form row">
-                <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
-                <div class="form-field col-lg-6">
-                    <input class="input-text" asp-for="Matricule" />
-                    <label asp-for="Matricule" class="label">E - mail <span asp-validation-for="Matricule" class="text-danger"></span></label>
-                </div>
-                <div class="form-field col-lg-6">
-                    <input class="input-text" asp-for="Password" />
-                    <label asp-for="Password" class="label">Mot de passe <span asp-validation-for="Password" class="text-danger"></span></label>
-                </div>
-                <div class="form-field col-lg-12 text-center">
-                    <input type="submit" name="" class="submit-btn" value="Se connecter">
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Password"></label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="password" id="password1" asp-for="Password" />
+
+                                    <span style="position: absolute;right:15px;top:7px;" onclick="hideshow()">
+                                        <i id="slash" class="fa fa-eye"></i>
+                                        <i id="eye" class="fa fa-eye-slash"></i>
+                                    </span>
+                                </div>
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="ln_solid">
+                                <div class="form-group">
+                                    <br /><br />
+                                    <div class="col-md-6 offset-md-3 text-center">
+                                        <button type='submit' class="btn btn-primary">Enregistrer</button>
+                                        <button type='reset' class="btn btn-success">Recommencer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </section>
 
-<a asp-area="Admin" class="btn btn-outline-primary text-center" asp-controller="Inspecteurs" asp-action="Index">Administrateur</a>
+
+<!-- Javascript functions	-->
+<script>
+    function hideshow() {
+        var password = document.getElementById("password1");
+        var slash = document.getElementById("eye");
+        var eye = document.getElementById("slash");
+
+        if (password.type === 'password') {
+            password.type = "text";
+            slash.style.display = "block";
+            eye.style.display = "none";
+        }
+        else {
+            password.type = "password";
+            slash.style.display = "none";
+            eye.style.display = "block";
+        }
+
+    }
+</script>
+
+<script>
+    // initialize a validator instance from the "FormValidator" constructor.
+    // A "<form>" element is optionally passed as an argument, but is not a must
+    var validator = new FormValidator({
+        "events": ['blur', 'input', 'change']
+    }, document.forms[0]);
+    // on form "submit" event
+    document.forms[0].onsubmit = function (e) {
+        var submit = true,
+            validatorResult = validator.checkAll(this);
+        console.log(validatorResult);
+        return !!validatorResult.valid;
+    };
+    // on form "reset" event
+    document.forms[0].onreset = function (e) {
+        validator.reset();
+    };
+    // stuff related ONLY for this demo page:
+    $('.toggleValidationTooltips').change(function () {
+        validator.settings.alerts = !this.checked;
+        if (this.checked)
+            $('form .alert').remove();
+    }).prop('checked', false);
+
+</script>
