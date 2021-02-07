@@ -31,5 +31,6 @@ namespace School.Educ.adk.Areas.Admin.Models
         public DateTime Duree { get; set; }
 
         public ICollection<Question> Questions { get; set; }
+        public ICollection<Participant> Participants { get; set; }
     }
 }

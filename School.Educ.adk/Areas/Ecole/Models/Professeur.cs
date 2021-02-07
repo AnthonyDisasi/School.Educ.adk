@@ -41,6 +41,7 @@ namespace School.Educ.adk.Areas.Ecole.Models
         }
 
         public ICollection<Cours> Cours { get; set; }
+        //public ICollection<Areas.Professeur.Models.Epreuve> Epreuves { get; set; }
         public Ecole Ecole { get; set; }
     }
 }

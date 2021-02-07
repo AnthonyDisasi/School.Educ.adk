@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using School.Educ.adk.Areas.Professeur.Models;
+using School.Educ.adk.Areas.ProfeArea.Models;
 
 namespace School.Educ.adk.Areas.Inspection.Data
 {
@@ -16,6 +16,6 @@ namespace School.Educ.adk.Areas.Inspection.Data
             base.OnModelCreating(builder);
         }
 
-        public DbSet<School.Educ.adk.Areas.Professeur.Models.Echange> Echange { get; set; }
+        public DbSet<School.Educ.adk.Areas.ProfeArea.Models.Evaluer> Echange { get; set; }
     }
 }

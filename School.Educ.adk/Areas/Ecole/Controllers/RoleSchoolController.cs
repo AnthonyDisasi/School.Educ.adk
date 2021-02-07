@@ -60,7 +60,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             List<ApplicationUser> nonMembers = new List<ApplicationUser>();
             if (role_ == "Professeur")
             {
-                List<Models.Professeur> model = _context.Professeurs.ToList();
+                List<Models.Professeur> model = _context.Professeurs.Include(e => e.Ecole).Where(i_d => i_d.EcoleID == (_context.Directeurs.Include(e => e.Ecole).FirstOrDefault(id_ => id_.Matricule == User.Identity.Name)).Ecole.ID).ToList();
                 foreach (ApplicationUser user in userManager.Users)
                 {
                     foreach (Models.Professeur professeur in model)
@@ -75,7 +75,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             }
             if (role_ == "Eleve")
             {
-                List<Models.Eleve> model = _context.Eleves.ToList();
+                List<Models.Eleve> model = _context.Eleves.Include(e => e.Ecole).Where(i_d => i_d.EcoleID == (_context.Directeurs.Include(e => e.Ecole).FirstOrDefault(id_ => id_.Matricule == User.Identity.Name)).Ecole.ID).ToList();
                 foreach (ApplicationUser user in userManager.Users)
                 {
                     foreach (Models.Eleve eleve in model)
@@ -115,6 +115,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                         }
                     }
                 }
+
                 foreach (string userId in model.IdsToDelete ?? new string[] { })
                 {
                     ApplicationUser user = await userManager.FindByIdAsync(userId);

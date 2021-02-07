@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using School.Educ.adk.Areas.Admin.Data;
-using School.Educ.adk.Areas.Admin.Models;
 using School.Educ.adk.Areas.Ecole.DataContext;
-using School.Educ.adk.Areas.Ecole.Models;
 using School.Educ.adk.Models;
 
 namespace School.Educ.adk.Controllers
@@ -28,19 +22,19 @@ namespace School.Educ.adk.Controllers
         {
             if (inspecteurDb.Inspecteurs.Find(id) != null)
             {
-                return Redirect("/Inspection/Inspecteurs/Details?id=" + id);
+                return Redirect("/Inspection/Inspecteurs/Details");
             }
             else if (dbEcole.Directeurs.Find(id) != null)
             {
-                return Redirect("/Ecole/Directeurs/Details?id=" + id);
+                return Redirect("/Ecole/Directeurs/Details");
             }
             else if (dbEcole.Professeurs.Find(id) != null)
             {
-                return Redirect("/Professeur/Professeurs/Details?id=" + id);
+                return Redirect("/ProfeArea/Professeurs/Details");
             }
             else if (dbEcole.Eleves.Find(id) != null)
             {
-                return Redirect("/Eleve/Eleves/Details?id=" + id);
+                return Redirect("/Eleve/Eleves/Details");
             }
             else
             {

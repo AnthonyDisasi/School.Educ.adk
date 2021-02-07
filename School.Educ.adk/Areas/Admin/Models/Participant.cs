@@ -18,6 +18,6 @@ namespace School.Educ.adk.Areas.Admin.Models
         [Required(ErrorMessage = "La question est obligatoire"), Display(Name = "Question"), DataType(DataType.Date)]
         public DateTime DateExamen { get; set; }
 
-        public ICollection<Reponse> Reponses { get; set; }
+        public Examen Examen { get; set; }
     }
 }
