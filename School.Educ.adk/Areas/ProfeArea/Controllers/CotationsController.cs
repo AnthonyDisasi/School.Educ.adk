@@ -20,14 +20,12 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             _context = context;
         }
 
-        // GET: ProfeArea/Cotations
         public async Task<IActionResult> Index()
         {
             var profeAreaDb = _context.Cotations.Include(c => c.Eleve).Include(c => c.Epreuve);
             return View(await profeAreaDb.ToListAsync());
         }
 
-        // GET: ProfeArea/Cotations/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -47,7 +45,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(cotation);
         }
 
-        // GET: ProfeArea/Cotations/Create
         public IActionResult Create()
         {
             ViewData["EleveID"] = new SelectList(_context.Set<Ecole.Models.Eleve>(), "ID", "ID");
@@ -55,9 +52,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View();
         }
 
-        // POST: ProfeArea/Cotations/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,EpreuveID,EleveID,Point")] Cotation cotation)
@@ -73,7 +67,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(cotation);
         }
 
-        // GET: ProfeArea/Cotations/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -91,9 +84,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(cotation);
         }
 
-        // POST: ProfeArea/Cotations/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("ID,EpreuveID,EleveID,Point")] Cotation cotation)
@@ -128,7 +118,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(cotation);
         }
 
-        // GET: ProfeArea/Cotations/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -148,7 +137,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(cotation);
         }
 
-        // POST: ProfeArea/Cotations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

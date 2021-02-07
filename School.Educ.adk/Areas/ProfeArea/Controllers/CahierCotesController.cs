@@ -20,14 +20,12 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             _context = context;
         }
 
-        // GET: ProfeArea/CahierCotes
         public async Task<IActionResult> Index()
         {
             var profeAreaDb = _context.CahierCotes.Include(c => c.Cours);
             return View(await profeAreaDb.ToListAsync());
         }
 
-        // GET: ProfeArea/CahierCotes/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -46,16 +44,12 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(cahierCote);
         }
 
-        // GET: ProfeArea/CahierCotes/Create
         public IActionResult Create()
         {
             ViewData["CoursID"] = new SelectList(_context.Set<Ecole.Models.Cours>(), "ID", "ID");
             return View();
         }
 
-        // POST: ProfeArea/CahierCotes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,CoursID,Periode,Total")] CahierCote cahierCote)
@@ -70,7 +64,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(cahierCote);
         }
 
-        // GET: ProfeArea/CahierCotes/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -87,9 +80,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(cahierCote);
         }
 
-        // POST: ProfeArea/CahierCotes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("ID,CoursID,Periode,Total")] CahierCote cahierCote)
@@ -123,7 +113,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(cahierCote);
         }
 
-        // GET: ProfeArea/CahierCotes/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -142,7 +131,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(cahierCote);
         }
 
-        // POST: ProfeArea/CahierCotes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
