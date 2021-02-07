@@ -15,7 +15,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Data
         public DbSet<Cotation> Cotations { get; set; }
         public DbSet<Epreuve> Epreuves { get; set; }
         public DbSet<Lecon> Lecons { get; set; }
-        public DbSet<Evaluer> Evaluers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

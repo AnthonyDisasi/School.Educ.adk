@@ -11,23 +11,23 @@ using School.Educ.adk.Areas.ProfeArea.Models;
 namespace School.Educ.adk.Areas.ProfeArea.Controllers
 {
     [Area("ProfeArea")]
-    public class EvaluersController : Controller
+    public class LeconsController : Controller
     {
         private readonly ProfeAreaDb _context;
 
-        public EvaluersController(ProfeAreaDb context)
+        public LeconsController(ProfeAreaDb context)
         {
             _context = context;
         }
 
-        // GET: ProfeArea/Evaluers
+        // GET: ProfeArea/Lecons
         public async Task<IActionResult> Index()
         {
-            var profeAreaDb = _context.Evaluers.Include(e => e.Inpecteur).Include(e => e.Lecon);
+            var profeAreaDb = _context.Lecons.Include(l => l.Cours).Include(l => l.Professeur);
             return View(await profeAreaDb.ToListAsync());
         }
 
-        // GET: ProfeArea/Evaluers/Details/5
+        // GET: ProfeArea/Lecons/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -35,45 +35,45 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
                 return NotFound();
             }
 
-            var evaluer = await _context.Evaluers
-                .Include(e => e.Inpecteur)
-                .Include(e => e.Lecon)
+            var lecon = await _context.Lecons
+                .Include(l => l.Cours)
+                .Include(l => l.Professeur)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (evaluer == null)
+            if (lecon == null)
             {
                 return NotFound();
             }
 
-            return View(evaluer);
+            return View(lecon);
         }
 
-        // GET: ProfeArea/Evaluers/Create
+        // GET: ProfeArea/Lecons/Create
         public IActionResult Create()
         {
-            ViewData["InpecteurID"] = new SelectList(_context.Set<Inspecteur>(), "ID", "ID");
-            ViewData["LeconID"] = new SelectList(_context.Lecons, "ID", "ID");
+            ViewData["CoursID"] = new SelectList(_context.Set<Ecole.Models.Cours>(), "ID", "ID");
+            ViewData["ProfesseurID"] = new SelectList(_context.Set<Ecole.Models.Professeur>(), "ID", "ID");
             return View();
         }
 
-        // POST: ProfeArea/Evaluers/Create
+        // POST: ProfeArea/Lecons/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,LeconID,InpecteurID,Cotation,Remarque")] Evaluer evaluer)
+        public async Task<IActionResult> Create([Bind("ID,ProfesseurID,CoursID,LeconDonnee,DateLecon")] Lecon lecon)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(evaluer);
+                _context.Add(lecon);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["InpecteurID"] = new SelectList(_context.Set<Inspecteur>(), "ID", "ID", evaluer.InpecteurID);
-            ViewData["LeconID"] = new SelectList(_context.Lecons, "ID", "ID", evaluer.LeconID);
-            return View(evaluer);
+            ViewData["CoursID"] = new SelectList(_context.Set<Ecole.Models.Cours>(), "ID", "ID", lecon.CoursID);
+            ViewData["ProfesseurID"] = new SelectList(_context.Set<Ecole.Models.Professeur>(), "ID", "ID", lecon.ProfesseurID);
+            return View(lecon);
         }
 
-        // GET: ProfeArea/Evaluers/Edit/5
+        // GET: ProfeArea/Lecons/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -81,24 +81,24 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
                 return NotFound();
             }
 
-            var evaluer = await _context.Evaluers.FindAsync(id);
-            if (evaluer == null)
+            var lecon = await _context.Lecons.FindAsync(id);
+            if (lecon == null)
             {
                 return NotFound();
             }
-            ViewData["InpecteurID"] = new SelectList(_context.Set<Inspecteur>(), "ID", "ID", evaluer.InpecteurID);
-            ViewData["LeconID"] = new SelectList(_context.Lecons, "ID", "ID", evaluer.LeconID);
-            return View(evaluer);
+            ViewData["CoursID"] = new SelectList(_context.Set<Ecole.Models.Cours>(), "ID", "ID", lecon.CoursID);
+            ViewData["ProfesseurID"] = new SelectList(_context.Set<Ecole.Models.Professeur>(), "ID", "ID", lecon.ProfesseurID);
+            return View(lecon);
         }
 
-        // POST: ProfeArea/Evaluers/Edit/5
+        // POST: ProfeArea/Lecons/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,LeconID,InpecteurID,Cotation,Remarque")] Evaluer evaluer)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,ProfesseurID,CoursID,LeconDonnee,DateLecon")] Lecon lecon)
         {
-            if (id != evaluer.ID)
+            if (id != lecon.ID)
             {
                 return NotFound();
             }
@@ -107,12 +107,12 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             {
                 try
                 {
-                    _context.Update(evaluer);
+                    _context.Update(lecon);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EvaluerExists(evaluer.ID))
+                    if (!LeconExists(lecon.ID))
                     {
                         return NotFound();
                     }
@@ -123,12 +123,12 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["InpecteurID"] = new SelectList(_context.Set<Inspecteur>(), "ID", "ID", evaluer.InpecteurID);
-            ViewData["LeconID"] = new SelectList(_context.Lecons, "ID", "ID", evaluer.LeconID);
-            return View(evaluer);
+            ViewData["CoursID"] = new SelectList(_context.Set<Ecole.Models.Cours>(), "ID", "ID", lecon.CoursID);
+            ViewData["ProfesseurID"] = new SelectList(_context.Set<Ecole.Models.Professeur>(), "ID", "ID", lecon.ProfesseurID);
+            return View(lecon);
         }
 
-        // GET: ProfeArea/Evaluers/Delete/5
+        // GET: ProfeArea/Lecons/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -136,32 +136,32 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
                 return NotFound();
             }
 
-            var evaluer = await _context.Evaluers
-                .Include(e => e.Inpecteur)
-                .Include(e => e.Lecon)
+            var lecon = await _context.Lecons
+                .Include(l => l.Cours)
+                .Include(l => l.Professeur)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (evaluer == null)
+            if (lecon == null)
             {
                 return NotFound();
             }
 
-            return View(evaluer);
+            return View(lecon);
         }
 
-        // POST: ProfeArea/Evaluers/Delete/5
+        // POST: ProfeArea/Lecons/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var evaluer = await _context.Evaluers.FindAsync(id);
-            _context.Evaluers.Remove(evaluer);
+            var lecon = await _context.Lecons.FindAsync(id);
+            _context.Lecons.Remove(lecon);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EvaluerExists(string id)
+        private bool LeconExists(string id)
         {
-            return _context.Evaluers.Any(e => e.ID == id);
+            return _context.Lecons.Any(e => e.ID == id);
         }
     }
 }

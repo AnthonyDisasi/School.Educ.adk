@@ -15,7 +15,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Models
         public string LeconDonnee { get; set; }
         public DateTime DateLecon { get; set; }
 
-        public virtual Evaluer Evaluer { get; set; }
+        public virtual Inspection.Models.Evaluer Evaluer { get; set; }
         public virtual Ecole.Models.Professeur Professeur { get; set; }
         public virtual Ecole.Models.Cours Cours { get; set; }
     }

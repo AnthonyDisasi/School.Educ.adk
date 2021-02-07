@@ -1,4 +1,4 @@
-﻿@model IEnumerable<School.Educ.adk.Areas.ProfeArea.Models.Evaluer>
+﻿@model IEnumerable<School.Educ.adk.Areas.ProfeArea.Models.Lecon>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,16 +13,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Cotation)
+                @Html.DisplayNameFor(model => model.LeconDonnee)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Remarque)
+                @Html.DisplayNameFor(model => model.DateLecon)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Lecon)
+                @Html.DisplayNameFor(model => model.Professeur)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Inpecteur)
+                @Html.DisplayNameFor(model => model.Cours)
             </th>
             <th></th>
         </tr>
@@ -31,16 +31,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Cotation)
+                @Html.DisplayFor(modelItem => item.LeconDonnee)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Remarque)
+                @Html.DisplayFor(modelItem => item.DateLecon)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Lecon.ID)
+                @Html.DisplayFor(modelItem => item.Professeur.ID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Inpecteur.ID)
+                @Html.DisplayFor(modelItem => item.Cours.ID)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

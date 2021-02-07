@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace School.Educ.adk.Areas.ProfeArea.Models
+namespace School.Educ.adk.Areas.Inspection.Models
 {
     public class Evaluer
     {
@@ -15,7 +15,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Models
         public double Cotation { get; set; }
         public string Remarque { get; set; }
 
-        public Lecon Lecon { get; set; }
+        public ProfeArea.Models.Lecon Lecon { get; set; }
         public virtual Admin.Models.Inspecteur Inpecteur { get; set; }
     }
 }
