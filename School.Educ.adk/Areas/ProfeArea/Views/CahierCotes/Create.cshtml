@@ -1,7 +1,16 @@
-﻿@model School.Educ.adk.Areas.ProfeArea.Models.CahierCote
+﻿@model School.Educ.adk.Areas.Ecole.Models.CahierCote
 
 @{
     ViewData["Title"] = "Create";
+    List<SelectListItem> items = new List<SelectListItem>
+    {
+        new SelectListItem {Text = "Première période", Value = "Première période" },
+        new SelectListItem {Text = "Deuxième période", Value = "Deuxième période" },
+        new SelectListItem {Text = "Premier semestre", Value = "Première semestre" },
+        new SelectListItem {Text = "Troisième période", Value = "Troisième période" },
+        new SelectListItem {Text = "Quatrième période", Value = "Quatrième période" },
+        new SelectListItem {Text = "Deuxième semestre", Value = "Deuxième semestre" },
+    };
 }
 
 <h1>Create</h1>
@@ -14,11 +23,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="CoursID" class="control-label"></label>
-                <select asp-for="CoursID" class ="form-control" asp-items="ViewBag.CoursID"></select>
+                <select asp-for="CoursID" class="form-control" asp-items="ViewBag.CoursID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Periode" class="control-label"></label>
-                <input asp-for="Periode" class="form-control" />
+                <select asp-for="Periode" class="form-control" asp-items="@items"></select>
                 <span asp-validation-for="Periode" class="text-danger"></span>
             </div>
             <div class="form-group">

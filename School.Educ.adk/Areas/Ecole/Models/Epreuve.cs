@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace School.Educ.adk.Areas.ProfeArea.Models
+namespace School.Educ.adk.Areas.Ecole.Models
 {
     public class Epreuve
     {

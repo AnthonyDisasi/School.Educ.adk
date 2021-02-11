@@ -3,41 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Educ.adk.Areas.Ecole.DataContext;
 
 namespace School.Educ.adk.Migrations
 {
     [DbContext(typeof(DbEcole))]
-    partial class DbEcoleModelSnapshot : ModelSnapshot
+    [Migration("20210211115930_11_02_2021_1")]
+    partial class _11_02_2021_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.CahierCote", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CoursID")
-                        .IsRequired();
-
-                    b.Property<string>("Periode")
-                        .IsRequired();
-
-                    b.Property<double>("Total");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CoursID");
-
-                    b.ToTable("CahierCote");
-                });
 
             modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Categorie", b =>
                 {
@@ -72,27 +54,6 @@ namespace School.Educ.adk.Migrations
                     b.HasIndex("EcoleID");
 
                     b.ToTable("Classes");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Cotation", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("EleveID")
-                        .IsRequired();
-
-                    b.Property<string>("EpreuveID");
-
-                    b.Property<double>("Point");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("EleveID");
-
-                    b.HasIndex("EpreuveID");
-
-                    b.ToTable("Cotations");
                 });
 
             modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Cours", b =>
@@ -214,27 +175,6 @@ namespace School.Educ.adk.Migrations
                     b.ToTable("Eleves");
                 });
 
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Epreuve", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CahierCoteID");
-
-                    b.Property<DateTime>("DateEpreuve");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(50);
-
-                    b.Property<double>("Total");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CahierCoteID");
-
-                    b.ToTable("Epreuve");
-                });
-
             modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Inscription", b =>
                 {
                     b.Property<string>("ID")
@@ -253,28 +193,6 @@ namespace School.Educ.adk.Migrations
                     b.HasIndex("EleveId");
 
                     b.ToTable("Inscriptions");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Lecon", b =>
-                {
-                    b.Property<string>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CoursID");
-
-                    b.Property<DateTime>("DateLecon");
-
-                    b.Property<string>("LeconDonnee");
-
-                    b.Property<string>("ProfesseurID");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CoursID");
-
-                    b.HasIndex("ProfesseurID");
-
-                    b.ToTable("Lecons");
                 });
 
             modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Option", b =>
@@ -358,31 +276,11 @@ namespace School.Educ.adk.Migrations
                     b.ToTable("SousDivisions");
                 });
 
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.CahierCote", b =>
-                {
-                    b.HasOne("School.Educ.adk.Areas.Ecole.Models.Cours", "Cours")
-                        .WithMany()
-                        .HasForeignKey("CoursID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Classe", b =>
                 {
                     b.HasOne("School.Educ.adk.Areas.Ecole.Models.Ecole", "Ecole")
                         .WithMany("Classes")
                         .HasForeignKey("EcoleID");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Cotation", b =>
-                {
-                    b.HasOne("School.Educ.adk.Areas.Ecole.Models.Eleve", "Eleve")
-                        .WithMany()
-                        .HasForeignKey("EleveID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("School.Educ.adk.Areas.Ecole.Models.Epreuve", "Epreuve")
-                        .WithMany("Cotations")
-                        .HasForeignKey("EpreuveID");
                 });
 
             modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Cours", b =>
@@ -411,13 +309,6 @@ namespace School.Educ.adk.Migrations
                         .HasForeignKey("EcoleID");
                 });
 
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Epreuve", b =>
-                {
-                    b.HasOne("School.Educ.adk.Areas.Ecole.Models.CahierCote", "CahierCote")
-                        .WithMany("Epreuves")
-                        .HasForeignKey("CahierCoteID");
-                });
-
             modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Inscription", b =>
                 {
                     b.HasOne("School.Educ.adk.Areas.Ecole.Models.Classe", "Classe")
@@ -427,17 +318,6 @@ namespace School.Educ.adk.Migrations
                     b.HasOne("School.Educ.adk.Areas.Ecole.Models.Eleve", "Eleve")
                         .WithMany("Inscriptions")
                         .HasForeignKey("EleveId");
-                });
-
-            modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Lecon", b =>
-                {
-                    b.HasOne("School.Educ.adk.Areas.Ecole.Models.Cours", "Cours")
-                        .WithMany()
-                        .HasForeignKey("CoursID");
-
-                    b.HasOne("School.Educ.adk.Areas.Ecole.Models.Professeur", "Professeur")
-                        .WithMany()
-                        .HasForeignKey("ProfesseurID");
                 });
 
             modelBuilder.Entity("School.Educ.adk.Areas.Ecole.Models.Option", b =>

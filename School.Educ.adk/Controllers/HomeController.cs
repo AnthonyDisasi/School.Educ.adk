@@ -18,7 +18,8 @@ namespace School.Educ.adk.Controllers
             dbEcole = _dbEcole;
             inspecteurDb = _inspecteurDb;
         }
-        public ActionResult Index(string id)
+
+        public IActionResult Redirection_(string id)
         {
             if (inspecteurDb.Inspecteurs.Find(id) != null)
             {
@@ -40,6 +41,12 @@ namespace School.Educ.adk.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+        }
+
+        [AllowAnonymous]
+        public IActionResult Index()
+        {
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

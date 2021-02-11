@@ -1,38 +1,21 @@
 ﻿@using Microsoft.AspNetCore.Http;
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Accès refusé";
 }
 
 
 <link rel="stylesheet" href="~/vendors/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/Form_Login.css" />
-
+<br />
+<br />
+<br />
+<br />
 <section class="get_in_touch_danger">
-    <p class="title_red">Vous n'avez pas accès à la zone de travail choisie</p>
+    <h1 class="title_red">Vous n'avez pas accès à la plateforme, il vous faut un droit pour y acceder !</h1>
     <section class="get_in_touch_lien">
         <div class="container text-center">
-            <a asp-area="Admin" class="btn btn-outline-primary text-center" asp-controller="Inspecteurs" asp-action="Index">Administrateur</a>
-        </div>
-    </section>
-    <section class="get_in_touch_lien">
-        <div class="container text-center">
-            <a asp-area="Inspection" class="btn btn-outline-primary text-center" asp-controller="Inspecteurs" asp-action="Details" asp-route-id="@Context.Session.GetString("identifiant")">Inspecteur</a>
-        </div>
-    </section>
-    <section class="get_in_touch_lien">
-        <div class="container text-center">
-            <a asp-area="Ecole" class="btn btn-outline-primary text-center" asp-controller="Directeurs" asp-action="Details" asp-route-ID="@Context.Session.GetString("identifiant")">Directeurs</a>
-        </div>
-    </section>
-    <section class="get_in_touch_lien">
-        <div class="container text-center">
-            <a asp-area="Professeur" class="btn btn-outline-primary text-center" asp-controller="Directeurs" asp-action="Details" asp-route-ID="@Context.Session.GetString("identifiant")">Professeur</a>
-        </div>
-    </section>
-    <section class="get_in_touch_lien">
-        <div class="container text-center">
-            <a asp-area="Eleve" class="btn btn-outline-primary text-center" asp-controller="Directeurs" asp-action="Details" asp-route-ID="@Context.Session.GetString("identifiant")">Elève</a>
+            <a class="btn btn-outline-primary text-center" asp-controller="Account" asp-action="Logout">Se deconnecter</a>
         </div>
     </section>
 </section>

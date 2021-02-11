@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using School.Educ.adk.Areas.ProfeArea.Models;
 using School.Educ.adk.Areas.Inspection.Models;
 
 namespace School.Educ.adk.Areas.Inspection.Data

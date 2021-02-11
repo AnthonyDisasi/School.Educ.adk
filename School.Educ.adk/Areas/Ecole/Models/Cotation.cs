@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace School.Educ.adk.Areas.ProfeArea.Models
+namespace School.Educ.adk.Areas.Ecole.Models
 {
     public class Cotation
     {
@@ -23,6 +23,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Models
         public double Point { get; set; }
 
         public Epreuve Epreuve { get; set; }
-        public virtual Ecole.Models.Eleve Eleve { get; set; }
+        public virtual Eleve Eleve { get; set; }
     }
 }

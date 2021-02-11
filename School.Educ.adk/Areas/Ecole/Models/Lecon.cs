@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace School.Educ.adk.Areas.ProfeArea.Models
+namespace School.Educ.adk.Areas.Ecole.Models
 {
     public class Lecon
     {
@@ -15,8 +15,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Models
         public string LeconDonnee { get; set; }
         public DateTime DateLecon { get; set; }
 
-        public virtual Inspection.Models.Evaluer Evaluer { get; set; }
-        public virtual Ecole.Models.Professeur Professeur { get; set; }
-        public virtual Ecole.Models.Cours Cours { get; set; }
+        public virtual Professeur Professeur { get; set; }
+        public virtual Cours Cours { get; set; }
     }
 }

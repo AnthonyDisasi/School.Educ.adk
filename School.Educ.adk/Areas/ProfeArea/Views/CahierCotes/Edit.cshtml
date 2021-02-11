@@ -1,7 +1,17 @@
-﻿@model School.Educ.adk.Areas.ProfeArea.Models.CahierCote
+﻿@model School.Educ.adk.Areas.Ecole.Models.CahierCote
 
 @{
     ViewData["Title"] = "Edit";
+
+    List<SelectListItem> items = new List<SelectListItem>
+{
+        new SelectListItem {Text = "Première période", Value = "Première période" },
+        new SelectListItem {Text = "Deuxième période", Value = "Deuxième période" },
+        new SelectListItem {Text = "Premier semestre", Value = "Première semestre" },
+        new SelectListItem {Text = "Troisième période", Value = "Troisième période" },
+        new SelectListItem {Text = "Quatrième période", Value = "Quatrième période" },
+        new SelectListItem {Text = "Deuxième semestre", Value = "Deuxième semestre" },
+    };
 }
 
 <h1>Edit</h1>
@@ -20,7 +30,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Periode" class="control-label"></label>
-                <input asp-for="Periode" class="form-control" />
+                <select asp-for="Periode" class="form-control" asp-items="@items"></select>
                 <span asp-validation-for="Periode" class="text-danger"></span>
             </div>
             <div class="form-group">

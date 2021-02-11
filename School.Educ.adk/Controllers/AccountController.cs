@@ -55,7 +55,7 @@ namespace School.Educ.adk.Controllers
                     if (result.Succeeded)
                     {
                         HttpContext.Session.SetString("identifiant", user.Id);
-                        return RedirectToAction("Index", "Home", new { id = user.Id });
+                        return RedirectToAction("Redirection_", "Home", new { id = user.Id });
                     }
                 }
                 ModelState.AddModelError(nameof(LoginModel.Matricule), "Le mot de passe ou le matricule sont invalids");

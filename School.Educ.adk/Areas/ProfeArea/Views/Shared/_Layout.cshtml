@@ -50,70 +50,13 @@
                             <h3>General</h3>
                             <ul class="nav side-menu">
                                 <li>
-                                    <a asp-area="Ecole" asp-controller="RoleSchool" asp-action="Index"><i class="fa fa-key"></i> Rôles</a>
+                                    <a asp-area="ProfeArea" asp-controller="Professeurs" asp-action="DetailsEcole"><i class="fa fa-institution"></i> Ecole</a>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-users"></i> Professeur & Elève <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li>
-                                            <a>Professeur<span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li class="sub_menu">
-                                                    <a asp-area="Ecole" asp-controller="Professeurs" asp-action="Index">Professeurs</a>
-                                                </li>
-                                                <li>
-                                                    <a asp-area="Ecole" asp-controller="Professeurs" asp-action="Create">Nouveau</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a>Elève <span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li class="sub_menu">
-                                                    <a asp-area="Ecole" asp-controller="Eleves" asp-action="Index">Elèves</a>
-                                                </li>
-                                                <li>
-                                                    <a asp-area="Ecole" asp-controller="Eleves" asp-action="Create">Nouveau</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                    <a asp-area="ProfeArea" asp-controller="Lecons" asp-action="Index"><i class="fa fa-book"></i> Leçon</a>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-institution"></i> Ecole<span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li>
-                                            <a asp-area="Ecole" asp-controller="Ecoles" asp-action="Index"><i class="fa fa-institution"></i> Ecoles</a>
-                                        </li>
-                                        <li>
-                                            <a>Classe<span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li>
-                                                    <a asp-area="Ecole" asp-controller="Classes" asp-action="Index">Classes</a>
-                                                </li>
-                                                <li>
-                                                    <a asp-area="Ecole" asp-controller="Classes" asp-action="Create">Nouvelle</a>
-                                                </li>
-                                                <li>
-                                                    <a asp-area="Ecole" asp-controller="Sections" asp-action="Index">Sections</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a>Cours <span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li class="sub_menu">
-                                                    <a asp-area="Ecole" asp-controller="Cours" asp-action="Index">Cours</a>
-                                                </li>
-                                                <li>
-                                                    <a asp-area="Ecole" asp-controller="Cours" asp-action="Create">Nouveau</a>
-                                                </li>
-                                                <li>
-                                                    <a asp-area="Ecole" asp-controller="Categories" asp-action="Index">Categorie</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                    <a asp-area="ProfeArea" asp-controller="CahierCotes" asp-action="Index"><i class="fa fa-tasks"></i> Cahier des cotes</a>
                                 </li>
                             </ul>
                         </div>

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace School.Educ.adk.Areas.ProfeArea.Models
+namespace School.Educ.adk.Areas.Ecole.Models
 {
     public class CahierCote
     {
@@ -23,7 +23,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Models
         [Required(ErrorMessage = "Le total est obligatoire")]
         public double Total { get; set; }
 
-        public Ecole.Models.Cours Cours { get; set; }
+        public Cours Cours { get; set; }
         public ICollection<Epreuve> Epreuves { get; set; }
     }
 }

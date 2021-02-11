@@ -5,25 +5,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using School.Educ.adk.Areas.ProfeArea.Data;
-using School.Educ.adk.Areas.ProfeArea.Models;
+using School.Educ.adk.Areas.Ecole.DataContext;
+using School.Educ.adk.Areas.Ecole.Models;
 
 namespace School.Educ.adk.Areas.ProfeArea.Controllers
 {
     [Area("ProfeArea")]
     public class CahierCotesController : Controller
     {
-        private readonly ProfeAreaDb _context;
+        private readonly DbEcole _context;
 
-        public CahierCotesController(ProfeAreaDb context)
+        public CahierCotesController(DbEcole context)
         {
             _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
-            var profeAreaDb = _context.CahierCotes.Include(c => c.Cours);
-            return View(await profeAreaDb.ToListAsync());
+            var dbEcole = _context.CahierCote
+                .Include(c => c.Cours)
+                .ThenInclude(cl => cl.Classe)
+                .Include(e => e.Epreuves)
+                .Where(id => id.Cours.Professeur.Matricule == User.Identity.Name);
+            return View(await dbEcole.ToListAsync());
         }
 
         public async Task<IActionResult> Details(string id)
@@ -33,8 +37,10 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
                 return NotFound();
             }
 
-            var cahierCote = await _context.CahierCotes
+            var cahierCote = await _context.CahierCote
                 .Include(c => c.Cours)
+                .ThenInclude(cl => cl.Classe)
+                .Include(e => e.Epreuves)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (cahierCote == null)
             {
@@ -44,9 +50,10 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(cahierCote);
         }
 
+
         public IActionResult Create()
         {
-            ViewData["CoursID"] = new SelectList(_context.Set<Ecole.Models.Cours>(), "ID", "ID");
+            ViewData["CoursID"] = new SelectList(_context.Cours.Include(p => p.Professeur).Where(id => id.Professeur.Matricule == User.Identity.Name), "ID", "Intituler");
             return View();
         }
 
@@ -60,7 +67,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CoursID"] = new SelectList(_context.Set<Ecole.Models.Cours>(), "ID", "ID", cahierCote.CoursID);
+            ViewData["CoursID"] = new SelectList(_context.Cours.Include(p => p.Professeur).Where(id => id.Professeur.Matricule == User.Identity.Name), "ID", "Intituler", cahierCote.CoursID);
             return View(cahierCote);
         }
 
@@ -71,12 +78,12 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
                 return NotFound();
             }
 
-            var cahierCote = await _context.CahierCotes.FindAsync(id);
+            var cahierCote = await _context.CahierCote.FindAsync(id);
             if (cahierCote == null)
             {
                 return NotFound();
             }
-            ViewData["CoursID"] = new SelectList(_context.Set<Ecole.Models.Cours>(), "ID", "ID", cahierCote.CoursID);
+            ViewData["CoursID"] = new SelectList(_context.Cours.Include(p => p.Professeur).Where(i_d => i_d.Professeur.Matricule == User.Identity.Name), "ID", "Intituler", cahierCote.CoursID);
             return View(cahierCote);
         }
 
@@ -109,7 +116,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CoursID"] = new SelectList(_context.Set<Ecole.Models.Cours>(), "ID", "ID", cahierCote.CoursID);
+            ViewData["CoursID"] = new SelectList(_context.Cours.Include(p => p.Professeur).Where(i_d => i_d.Professeur.Matricule == User.Identity.Name), "ID", "Intituler", cahierCote.CoursID);
             return View(cahierCote);
         }
 
@@ -120,7 +127,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
                 return NotFound();
             }
 
-            var cahierCote = await _context.CahierCotes
+            var cahierCote = await _context.CahierCote
                 .Include(c => c.Cours)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (cahierCote == null)
@@ -135,15 +142,15 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var cahierCote = await _context.CahierCotes.FindAsync(id);
-            _context.CahierCotes.Remove(cahierCote);
+            var cahierCote = await _context.CahierCote.FindAsync(id);
+            _context.CahierCote.Remove(cahierCote);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CahierCoteExists(string id)
         {
-            return _context.CahierCotes.Any(e => e.ID == id);
+            return _context.CahierCote.Any(e => e.ID == id);
         }
     }
 }
