@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Create";
     List<SelectListItem> items = new List<SelectListItem>
-    {
+{
         new SelectListItem {Text = "Première période", Value = "Première période" },
         new SelectListItem {Text = "Deuxième période", Value = "Deuxième période" },
         new SelectListItem {Text = "Premier semestre", Value = "Première semestre" },
@@ -13,36 +13,68 @@
     };
 }
 
-<h1>Create</h1>
+<h1>Nouvelle Cotation</h1>
 
-<h4>CahierCote</h4>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CoursID" class="control-label"></label>
-                <select asp-for="CoursID" class="form-control" asp-items="ViewBag.CoursID"></select>
+    <div class="col-md-12 col-sm-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
             </div>
-            <div class="form-group">
-                <label asp-for="Periode" class="control-label"></label>
-                <select asp-for="Periode" class="form-control" asp-items="@items"></select>
-                <span asp-validation-for="Periode" class="text-danger"></span>
+            <div class="x_content">
+                <form class="" asp-action="Create" method="post" novalidate>
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <span class="section">Info sur la cotation</span>
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="CoursID"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <select class="form-control has-feedback-left" asp-for="CoursID" asp-items="@ViewBag.CoursID">
+                                <option value="">Selectionner le cours</option>
+                            </select>
+                            <span class="fa fa-bullseye form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="CoursID" class="text-danger"></span>
+                    </div>
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Periode"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <select class="form-control has-feedback-left" asp-for="Periode" asp-items="@items">
+                                <option value="">Selectionner la période</option>
+                            </select>
+                            <span class="fa fa-bullseye form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="Periode" class="text-danger"></span>
+                    </div>
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Total"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control has-feedback-left" asp-for="Total" />
+                            <span class="fa fa-info-circle form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="Total" class="text-danger"></span>
+                    </div>
+
+                    <div class="ln_solid">
+                        <div class="form-group">
+                            <br /><br />
+                            <div class="col-md-6 offset-md-3 text-center">
+                                <button type='submit' class="btn btn-primary">Enregistrer</button>
+                                <button type='reset' class="btn btn-success">Recommencer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Total" class="control-label"></label>
-                <input asp-for="Total" class="form-control" />
-                <span asp-validation-for="Total" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

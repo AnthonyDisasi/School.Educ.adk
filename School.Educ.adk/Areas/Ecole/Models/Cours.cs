@@ -24,5 +24,6 @@ namespace School.Educ.adk.Areas.Ecole.Models
 
         public Professeur Professeur { get; set; }
         public Classe Classe { get; set; }
+        public CahierCote CahierCote { get; set; }
     }
 }
