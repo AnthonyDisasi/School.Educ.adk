@@ -53,7 +53,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
 
         public IActionResult Create()
         {
-            ViewData["CoursID"] = new SelectList(_context.Cours.Include(p => p.Professeur).Where(id => id.Professeur.Matricule == User.Identity.Name), "ID", "Intituler");
+            ViewData["CoursID"] = new SelectList(_context.Cours.Include(p => p.Professeur).Where(id => id.Professeur.Matricule == User.Identity.Name).Include(c => c.CahierCote).Where(ca => ca.CahierCote == null), "ID", "Intituler");
             return View();
         }
 
@@ -67,7 +67,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CoursID"] = new SelectList(_context.Cours.Include(p => p.Professeur).Where(id => id.Professeur.Matricule == User.Identity.Name), "ID", "Intituler", cahierCote.CoursID);
+            ViewData["CoursID"] = new SelectList(_context.Cours.Include(p => p.Professeur).Where(id => id.Professeur.Matricule == User.Identity.Name).Include(c => c.CahierCote).Where(ca => ca.CahierCote == null), "ID", "Intituler", cahierCote.CoursID);
             return View(cahierCote);
         }
 
@@ -129,6 +129,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
 
             var cahierCote = await _context.CahierCote
                 .Include(c => c.Cours)
+                .ThenInclude(cl => cl.Classe)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (cahierCote == null)
             {

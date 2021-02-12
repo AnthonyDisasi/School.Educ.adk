@@ -4,39 +4,128 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Information de la cotatio</h1>
 
 <div>
-    <h4>CahierCote</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Cours.Classe)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Cours.Classe.NomComplet)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Periode)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Periode)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Total)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Total)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Cours)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Cours.Intituler)
-        </dd>
-    </dl>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a asp-action="Index" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+                    <h4>Informations</h4>
+                    <dl class="row">
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Cours.Classe)
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Cours.Classe.NomComplet)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Cours)
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Cours.Intituler)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Periode)
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Periode)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Total)
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Total)
+                        </dd>
+                    </dl>
+                    <div class="text-center">
+                        <a class="btn btn-outline-info" asp-action="Edit" asp-route-id="@Model.ID">Modification</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+
+<h1>Les épreuves</h1>
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li>
+                        <a asp-controller="Epreuves" asp-route-id="@Model.ID" asp-action="Create" class="btn btn-outline-success btn-xs"><i class="fa fa-plus"></i>  nouvelle</a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                            <p class="text-muted font-13 m-b-30">
+
+                            </p>
+                            <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Date de l'épreuve</th>
+                                        <th>Point total</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Epreuves.Count() == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="8">Aucune épreuve enregistrée!</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var item in Model.Epreuves)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Description)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DateEpreuve)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Total)
+                                                </td>
+                                                <td style="text-align:center">
+                                                    <a asp-area="ProfeArea" asp-controller="Epreuves" asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> </a>
+                                                    <a asp-area="ProfeArea" asp-controller="Epreuves" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> </a>
+                                                    <a asp-area="ProfeArea" asp-controller="Epreuves" asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
