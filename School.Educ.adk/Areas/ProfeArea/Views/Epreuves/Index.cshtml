@@ -36,7 +36,7 @@
                                         <td> @Html.DisplayFor(modelItem => item.Eleve.Matricule)</td>
                                         <td>
                                             <input type="hidden" name="EleveID" value="@item.EleveId" />
-                                            <input name="Point" value="0" required />
+                                            <input name="Point" class="form-control" style="border:none; background:none;" value="0" required />
                                         </td>
                                     </tr>
                                 }
