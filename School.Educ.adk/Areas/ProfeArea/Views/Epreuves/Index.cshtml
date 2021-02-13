@@ -1,53 +1,63 @@
-﻿@model IEnumerable<School.Educ.adk.Areas.Ecole.Models.Epreuve>
+﻿@model School.Educ.adk.Areas.Ecole.Models.Cotation
 
 @{
-    ViewData["Title"] = "Index";
+    List<Inscription> inscriptions = ViewBag.Inscriptions;
 }
 
-<h1>Index</h1>
+<h1>Les points</h1>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a asp-action="Details" asp-controller="Epreuves" asp-route-id="@ViewBag.IdEpreuve" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateEpreuve)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Total)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CahierCote)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateEpreuve)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Total)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CahierCote.ID)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+            <div class="x_content">
+                @if (inscriptions != null)
+                {
+                    <form asp-action="Save_epreuve" method="post">
+                        <input type="hidden" name="idEpreuve" value="@ViewBag.IdEpreuve" />
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <span class="section">Saisir les points de l'épreuve - @ViewBag.Description -</span>
+
+                        <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+                            <tbody>
+                                @foreach (var item in inscriptions)
+                                {
+                                    <tr>
+                                        <td> @Html.DisplayFor(modelItem => item.Eleve.NomComplet) </td>
+                                        <td> @Html.DisplayFor(modelItem => item.Eleve.Matricule)</td>
+                                        <td>
+                                            <input type="hidden" name="EleveID" value="@item.EleveId" />
+                                            <input name="Point" value="0" required />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                        <div class="ln_solid">
+                            <br />
+                            <div class="form-group text-center">
+                                <div class="col-md-6 offset-md-3">
+                                    <button type='submit' class="btn btn-primary">Enregistrer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <h5>Aucun élève n'existe dans cette classe</h5>
+                }
+            </div>
+        </div>
+    </div>
+</div>

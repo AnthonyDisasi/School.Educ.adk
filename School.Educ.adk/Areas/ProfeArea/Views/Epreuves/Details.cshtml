@@ -4,39 +4,129 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Information de l'épreuve</h1>
 
 <div>
-    <h4>Epreuve</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateEpreuve)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateEpreuve)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Total)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Total)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CahierCote)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CahierCote.ID)
-        </dd>
-    </dl>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a asp-area="ProfeArea" asp-controller="CahierCotes" asp-route-id="@Model.CahierCoteID" asp-action="Details" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> New</a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+                    <h4>Informations</h4>
+                    <dl class="row">
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.CahierCote.Cours)
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.CahierCote.Cours.Intituler)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Description)
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Description)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.DateEpreuve)
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.DateEpreuve)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Total)
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Total)
+                        </dd>
+                    </dl>
+                    <div class="text-center">
+                        <a class="btn btn-outline-info" asp-action="Edit" asp-route-id="@Model.ID">Modification</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+
+<h1>Les cotation</h1>
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li>
+                        <a asp-controller="Epreuves" asp-route-id="@Model.ID" asp-action="Create" class="btn btn-outline-success btn-xs"><i class="fa fa-plus"></i>  nouvelle</a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                            <p class="text-muted font-13 m-b-30">
+
+                            </p>
+                            <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Eleève</th>
+                                        <th>Cote obtenue</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Cotations.Count() == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="8" class="text-center">Aucune Cote n'a été enregistrée!</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="8" class="text-center">
+                                                <a asp-area="ProfeArea" asp-controller="Epreuves" asp-route-id="@Model.CahierCote.Cours.ClasseID" asp-route-idEpreuve="@Model.ID" asp-action="Index" class="btn btn-outline-success btn-xs"><i class="fa fa-plus"></i> Saisir les points des élèves</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var item in Model.Cotations)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Eleve.NomComplet)
+                                                </td>
+                                                <form asp-controller="Epreuves" asp-route-cote="@item.ID" asp-action="EditCotation" method="post">
+                                                    <td class="text-center">
+                                                        <input style="width:25px; border:none; background:none;" name="point" required value="@item.Point" />
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <input class="btn btn-outline-success" value="Enregistrer" type="submit" />
+                                                    </td>
+                                                </form>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -20,10 +20,39 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index(string id, string idEpreuve)
         {
-            var dbEcole = _context.Epreuve.Include(e => e.CahierCote);
-            return View(await dbEcole.ToListAsync());
+            ViewData["Inscriptions"] = _context.Inscriptions
+                .Include(c => c.Classe)
+                .Include(e => e.Eleve)
+                .Where(l => l.ClasseID == id)
+                .ToList();
+            ViewBag.IdEpreuve = idEpreuve;
+            ViewBag.Description = _context.Epreuve.Find(idEpreuve).Description;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Save_epreuve(string[] EleveID, double[] Point, string idEpreuve)
+        {
+            int nbr = EleveID.Length;
+            for(int i = 0; i < nbr; i++)
+            {
+                _context.Cotations.Add(new Cotation { EpreuveID = idEpreuve, EleveID = EleveID[i], Point = Point[i] });
+            }
+            _context.SaveChanges();
+            ViewBag.IdEpreuve = idEpreuve;
+            return RedirectToAction("Details", "Epreuves", new { id = idEpreuve });
+        }
+
+        [HttpPost]
+        public IActionResult EditCotation(string cote, string point)
+        {
+            var model = _context.Cotations.Find(cote);
+            model.Point = double.Parse(point);
+            _context.Update(model);
+            _context.SaveChanges();
+            return RedirectToAction("Details", "Epreuves", new { id = model.EpreuveID });
         }
 
         public async Task<IActionResult> Details(string id)
@@ -35,6 +64,9 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
 
             var epreuve = await _context.Epreuve
                 .Include(e => e.CahierCote)
+                .ThenInclude(o => o.Cours)
+                .Include(c => c.Cotations)
+                .ThenInclude(l => l.Eleve)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (epreuve == null)
             {
@@ -44,9 +76,9 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(epreuve);
         }
 
-        public IActionResult Create()
+        public IActionResult Create(string id)
         {
-            ViewData["CahierCoteID"] = new SelectList(_context.CahierCote, "ID", "ID");
+            ViewData["CahierCoteID"] = id;
             return View();
         }
 
@@ -58,9 +90,9 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             {
                 _context.Add(epreuve);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "CahierCotes", new { id = epreuve.CahierCoteID });
             }
-            ViewData["CahierCoteID"] = new SelectList(_context.CahierCote, "ID", "ID", epreuve.CahierCoteID);
+            ViewData["CahierCoteID"] = epreuve.CahierCoteID;
             return View(epreuve);
         }
 
@@ -76,7 +108,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             {
                 return NotFound();
             }
-            ViewData["CahierCoteID"] = new SelectList(_context.CahierCote, "ID", "ID", epreuve.CahierCoteID);
+            ViewData["CahierCoteID"] = epreuve.CahierCoteID;
             return View(epreuve);
         }
 
@@ -107,9 +139,9 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "CahierCotes", new { id = epreuve.CahierCoteID });
             }
-            ViewData["CahierCoteID"] = new SelectList(_context.CahierCote, "ID", "ID", epreuve.CahierCoteID);
+            ViewData["CahierCoteID"] = epreuve.CahierCoteID;
             return View(epreuve);
         }
 
@@ -122,6 +154,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
 
             var epreuve = await _context.Epreuve
                 .Include(e => e.CahierCote)
+                .ThenInclude(c => c.Cours)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (epreuve == null)
             {
@@ -138,7 +171,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             var epreuve = await _context.Epreuve.FindAsync(id);
             _context.Epreuve.Remove(epreuve);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "CahierCotes", new { id = epreuve.CahierCoteID });
         }
 
         private bool EpreuveExists(string id)
