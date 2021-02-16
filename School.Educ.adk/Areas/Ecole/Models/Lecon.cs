@@ -19,6 +19,7 @@ namespace School.Educ.adk.Areas.Ecole.Models
 
         [Required(ErrorMessage = "La leçon est obligatoire"), Display(Name = "Leçon")]
         public string LeconDonnee { get; set; }
+
         [Required(ErrorMessage = "La date est obligatoire"), Display(Name = "Date de leçon")]
         public DateTime DateLecon { get; set; }
 

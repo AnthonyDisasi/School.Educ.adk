@@ -22,8 +22,13 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var dbEcole = _context.Lecons.Include(l => l.Cours).Include(l => l.Professeur);
-            return View(await dbEcole.ToListAsync());
+            var dbEcole = _context.Lecons
+                .Include(o => o.Cours)
+                .Include(l => l.Professeur)
+                .AsNoTracking()
+                .Where(c => c.Professeur.Matricule == User.Identity.Name)
+                .ToList();
+            return View(dbEcole);
         }
 
         public async Task<IActionResult> Details(string id)
@@ -53,16 +58,16 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,ProfesseurID,CoursID,LeconDonnee,DateLecon")] Lecon lecon, string descr)
+        public async Task<IActionResult> Create([Bind("ID,ProfesseurID,CoursID,LeconDonnee,DateLecon")] Lecon lecon)
         {
             lecon.ProfesseurID = _context.Professeurs.FirstOrDefault(i_d => i_d.Matricule == User.Identity.Name).ID;
-            lecon.LeconDonnee = descr;
             if (ModelState.IsValid)
             {
                 _context.Add(lecon);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CoursID"] = new SelectList(_context.Cours.Where(d_i => d_i.Professeur.Matricule == User.Identity.Name), "ID", "Intituler", lecon.CoursID);
             return View(lecon);
         }
 
