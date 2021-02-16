@@ -19,12 +19,12 @@ namespace School.Educ.adk.Controllers
     {
         private UserManager<ApplicationUser> userManager;
         private SignInManager<ApplicationUser> signInManager;
-        private readonly DbEcole dbEcole;
+        private readonly EcoleDb dbEcole;
         private readonly InspecteurDb inspecteurDb;
 
         public AccountController(UserManager<ApplicationUser> userMgr,
         SignInManager<ApplicationUser> signinMgr,
-        DbEcole _dbEcole,
+        EcoleDb _dbEcole,
         InspecteurDb _inspecteurDb)
         {
             userManager = userMgr;

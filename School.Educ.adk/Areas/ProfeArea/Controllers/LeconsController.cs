@@ -13,14 +13,14 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
     [Area("ProfeArea")]
     public class LeconsController : Controller
     {
-        private readonly DbEcole _context;
+        private readonly EcoleDb _context;
 
-        public LeconsController(DbEcole context)
+        public LeconsController(EcoleDb context)
         {
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var dbEcole = _context.Lecons
                 .Include(o => o.Cours)

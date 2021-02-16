@@ -15,9 +15,9 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
     [Authorize(Roles = "Directeur")]
     public class CoursController : Controller
     {
-        private readonly DbEcole _context;
+        private readonly EcoleDb _context;
 
-        public CoursController(DbEcole context)
+        public CoursController(EcoleDb context)
         {
             _context = context;
         }

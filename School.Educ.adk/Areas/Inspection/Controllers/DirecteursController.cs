@@ -22,9 +22,9 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
         private IUserValidator<ApplicationUser> userValidator;
         private IPasswordValidator<ApplicationUser> passwordValidator;
         private IPasswordHasher<ApplicationUser> passwordHasher;
-        private readonly DbEcole _context;
+        private readonly EcoleDb _context;
 
-        public DirecteursController(DbEcole context,
+        public DirecteursController(EcoleDb context,
             UserManager<ApplicationUser> usrMgr,
             IUserValidator<ApplicationUser> userValid,
             IPasswordValidator<ApplicationUser> passValid,

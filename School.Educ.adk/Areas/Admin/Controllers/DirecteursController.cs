@@ -15,13 +15,13 @@ namespace School.Educ.adk.Areas.Admin.Controllers
     [Area("Admin")]
     public class DirecteursController : Controller
     {
-        private readonly DbEcole _context;
+        private readonly EcoleDb _context;
         private UserManager<ApplicationUser> userManager;
         private IUserValidator<ApplicationUser> userValidator;
         private IPasswordValidator<ApplicationUser> passwordValidator;
         private IPasswordHasher<ApplicationUser> passwordHasher;
 
-        public DirecteursController(DbEcole context,
+        public DirecteursController(EcoleDb context,
             UserManager<ApplicationUser> usrMgr,
             IUserValidator<ApplicationUser> userValid,
             IPasswordValidator<ApplicationUser> passValid,

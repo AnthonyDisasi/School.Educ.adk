@@ -13,9 +13,9 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
     [Area("ProfeArea")]
     public class EpreuvesController : Controller
     {
-        private readonly DbEcole _context;
+        private readonly EcoleDb _context;
 
-        public EpreuvesController(DbEcole context)
+        public EpreuvesController(EcoleDb context)
         {
             _context = context;
         }

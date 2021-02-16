@@ -13,9 +13,9 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
     [Area("ProfeArea")]
     public class CahierCotesController : Controller
     {
-        private readonly DbEcole _context;
+        private readonly EcoleDb _context;
 
-        public CahierCotesController(DbEcole context)
+        public CahierCotesController(EcoleDb context)
         {
             _context = context;
         }

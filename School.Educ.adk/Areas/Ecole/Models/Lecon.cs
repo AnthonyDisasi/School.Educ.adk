@@ -25,5 +25,6 @@ namespace School.Educ.adk.Areas.Ecole.Models
 
         public virtual Professeur Professeur { get; set; }
         public virtual Cours Cours { get; set; }
+        public virtual Inspection.Models.Evaluer Evaluer { get; set; }
     }
 }

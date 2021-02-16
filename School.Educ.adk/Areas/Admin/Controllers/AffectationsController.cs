@@ -15,9 +15,9 @@ namespace School.Educ.adk.Areas.Admin.Controllers
     public class AffectationsController : Controller
     {
         private readonly InspecteurDb _context;
-        private readonly DbEcole _cont;
+        private readonly EcoleDb _cont;
 
-        public AffectationsController(InspecteurDb context, DbEcole cont)
+        public AffectationsController(InspecteurDb context, EcoleDb cont)
         {
             _context = context;
             _cont = cont;

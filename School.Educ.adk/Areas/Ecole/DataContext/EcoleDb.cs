@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace School.Educ.adk.Areas.Ecole.DataContext
 {
-    public class DbEcole : DbContext
+    public class EcoleDb : DbContext
     {
-        public DbEcole(DbContextOptions<DbEcole> options) : base(options) { }
+        public EcoleDb(DbContextOptions<EcoleDb> options) : base(options) { }
 
         public DbSet<Categorie> categories { get; set; }
         public DbSet<Cours> Cours { get; set; }

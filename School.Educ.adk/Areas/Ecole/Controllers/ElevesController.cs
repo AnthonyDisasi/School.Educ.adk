@@ -17,13 +17,13 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
     [Authorize(Roles = "Directeur")]
     public class ElevesController : Controller
     {
-        private readonly DbEcole _context;
+        private readonly EcoleDb _context;
         private UserManager<ApplicationUser> userManager;
         private IUserValidator<ApplicationUser> userValidator;
         private IPasswordValidator<ApplicationUser> passwordValidator;
         private IPasswordHasher<ApplicationUser> passwordHasher;
 
-        public ElevesController(DbEcole context,
+        public ElevesController(EcoleDb context,
             UserManager<ApplicationUser> usrMgr,
             IUserValidator<ApplicationUser> userValid,
             IPasswordValidator<ApplicationUser> passValid,

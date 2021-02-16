@@ -13,9 +13,9 @@ namespace School.Educ.adk.Areas.Eleve.Controllers
     [Area("Eleve")]
     public class ElevesController : Controller
     {
-        private readonly DbEcole _context;
+        private readonly EcoleDb _context;
 
-        public ElevesController(DbEcole context)
+        public ElevesController(EcoleDb context)
         {
             _context = context;
         }

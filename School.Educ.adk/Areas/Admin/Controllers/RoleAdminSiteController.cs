@@ -20,12 +20,12 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         private RoleManager<IdentityRole> roleManager;
         private UserManager<ApplicationUser> userManager;
         private readonly InspecteurDb _context;
-        private readonly DbEcole _conte;
+        private readonly EcoleDb _conte;
 
         public RoleAdminSiteController(RoleManager<IdentityRole> _roleManager,
             UserManager<ApplicationUser> _userManager,
             InspecteurDb context,
-            DbEcole contet)
+            EcoleDb contet)
         {
             roleManager = _roleManager;
             userManager = _userManager;

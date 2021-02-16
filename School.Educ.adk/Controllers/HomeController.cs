@@ -10,10 +10,10 @@ namespace School.Educ.adk.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly DbEcole dbEcole;
+        private readonly EcoleDb dbEcole;
         private readonly InspecteurDb inspecteurDb;
 
-        public HomeController(InspecteurDb _inspecteurDb, DbEcole _dbEcole)
+        public HomeController(InspecteurDb _inspecteurDb, EcoleDb _dbEcole)
         {
             dbEcole = _dbEcole;
             inspecteurDb = _inspecteurDb;

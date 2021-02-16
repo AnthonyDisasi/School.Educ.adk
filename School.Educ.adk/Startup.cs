@@ -35,9 +35,9 @@ namespace School.Educ.adk
             services.AddMemoryCache();
             services.AddSession();
 
-            services.AddDbContext<DbEcole>(options => options.UseSqlServer(this.Configuration.GetConnectionString("EcoleDb_")));
             services.AddDbContext<ExamenDb>(options => options.UseSqlServer(this.Configuration.GetConnectionString("ExamenDb_")));
             services.AddDbContext<ProfeAreaDb>(options => options.UseSqlServer(this.Configuration.GetConnectionString("ProfesseurDb_")));
+            services.AddDbContext<EcoleDb>(options => options.UseSqlServer(this.Configuration.GetConnectionString("EcoleDb")));
             services.AddDbContext<InspecteurDb>(options => options.UseSqlServer(this.Configuration.GetConnectionString("InspecteurDb_")));
 
             services.AddTransient<IPasswordValidator<ApplicationUser>, CustomPasswordValidator>();

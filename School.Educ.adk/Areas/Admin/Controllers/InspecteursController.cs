@@ -21,14 +21,14 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         private IPasswordValidator<ApplicationUser> passwordValidator;
         private IPasswordHasher<ApplicationUser> passwordHasher;
         private readonly InspecteurDb _context;
-        private readonly DbEcole _cont;
+        private readonly EcoleDb _cont;
 
         public InspecteursController(UserManager<ApplicationUser> usrMgr,
         IUserValidator<ApplicationUser> userValid,
         IPasswordValidator<ApplicationUser> passValid,
         IPasswordHasher<ApplicationUser> passwordHash,
         InspecteurDb context,
-        DbEcole cont)
+        EcoleDb cont)
         {
             userManager = usrMgr;
             userValidator = userValid;

@@ -1,46 +1,66 @@
 ﻿@model School.Educ.adk.Areas.Ecole.Models.Lecon
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Modifier";
 }
 
-<h1>Edit</h1>
+<div class="col-md-12 col-sm-12 ">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Text areas<small>Sessions</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li>
+                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li>
+                    <a asp-action="Index" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
 
-<h4>Lecon</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+            <form class=""  asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <input type="hidden" asp-for="ID" />
-            <div class="form-group">
-                <label asp-for="ProfesseurID" class="control-label"></label>
-                <select asp-for="ProfesseurID" class="form-control" asp-items="ViewBag.ProfesseurID"></select>
-                <span asp-validation-for="ProfesseurID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CoursID" class="control-label"></label>
-                <select asp-for="CoursID" class="form-control" asp-items="ViewBag.CoursID"></select>
-                <span asp-validation-for="CoursID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LeconDonnee" class="control-label"></label>
-                <input asp-for="LeconDonnee" class="form-control" />
-                <span asp-validation-for="LeconDonnee" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateLecon" class="control-label"></label>
-                <input asp-for="DateLecon" class="form-control" />
-                <span asp-validation-for="DateLecon" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="field item form-group">
+                    <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="CoursID"></label>
+                    <div class="col-md-6 col-sm-6">
+                        <select class="form-control has-feedback-left" asp-for="CoursID" asp-items="@ViewBag.CoursID">
+                            <option value="">Selectionner le cours</option>
+                        </select>
+                        <span class="fa fa-bullseye form-control-feedback left" aria-hidden="true"></span>
+                    </div>
+                    <span asp-validation-for="CoursID" class="text-danger"></span>
+                </div>
+
+                <div class="field item form-group">
+                    <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="DateLecon"></label>
+                    <div class="col-md-6 col-sm-6">
+                        <input class="form-control" class='date' type="date" asp-for="DateLecon">
+                    </div>
+                    <span asp-validation-for="DateLecon" class="text-danger"></span>
+                </div>
+
+                <div class="form-group field item">
+                    <label class="col-form-label col-md-3 col-sm-3 label-align" asp-for="LeconDonnee"></label>
+                    <div class="col-md-6 col-sm-9 ">
+                        <textarea class="resizable_textarea form-control" asp-for="LeconDonnee"></textarea>
+                    </div>
+                </div>
+
+                <br />
+                <div class="ln_solid">
+                    <div class="form-group">
+                        <br /><br />
+                        <div class="col-md-6 offset-md-3 text-center">
+                            <button type='submit' class="btn btn-primary">Enregistrer</button>
+                            <button type='reset' class="btn btn-success">Recommencer</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-

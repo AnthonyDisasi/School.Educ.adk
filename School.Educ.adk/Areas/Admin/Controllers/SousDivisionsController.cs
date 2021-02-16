@@ -13,9 +13,9 @@ namespace School.Educ.adk.Areas.Admin.Controllers
     [Area("Admin")]
     public class SousDivisionsController : Controller
     {
-        private readonly DbEcole _context;
+        private readonly EcoleDb _context;
 
-        public SousDivisionsController(DbEcole context)
+        public SousDivisionsController(EcoleDb context)
         {
             _context = context;
         }

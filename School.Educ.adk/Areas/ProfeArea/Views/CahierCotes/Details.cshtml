@@ -16,6 +16,9 @@
                         <li>
                             <a asp-action="Index" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a>
                         </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
@@ -69,6 +72,9 @@
                     </li>
                     <li>
                         <a asp-controller="Epreuves" asp-route-id="@Model.ID" asp-action="Create" class="btn btn-outline-success btn-xs"><i class="fa fa-plus"></i>  nouvelle</a>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
                     </li>
                 </ul>
                 <div class="clearfix"></div>

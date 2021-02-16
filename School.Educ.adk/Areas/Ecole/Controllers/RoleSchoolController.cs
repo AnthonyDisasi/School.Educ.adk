@@ -17,10 +17,10 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
     {
         private RoleManager<IdentityRole> roleManager;
         private UserManager<ApplicationUser> userManager;
-        private readonly DbEcole _context;
+        private readonly EcoleDb _context;
         private readonly InspecteurDb _cont;
 
-        public RoleSchoolController(DbEcole context,
+        public RoleSchoolController(EcoleDb context,
             UserManager<ApplicationUser> _userManager,
             RoleManager<IdentityRole> _roleManager,
             InspecteurDb cont)
