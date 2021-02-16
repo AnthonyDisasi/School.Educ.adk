@@ -47,15 +47,16 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
 
         public IActionResult Create()
         {
-            ViewData["CoursID"] = new SelectList(_context.Cours, "ID", "ID");
-            ViewData["ProfesseurID"] = new SelectList(_context.Professeurs, "ID", "ID");
+            ViewData["CoursID"] = new SelectList(_context.Cours.Where(d_i => d_i.Professeur.Matricule == User.Identity.Name), "ID", "Intituler");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,ProfesseurID,CoursID,LeconDonnee,DateLecon")] Lecon lecon)
+        public async Task<IActionResult> Create([Bind("ID,ProfesseurID,CoursID,LeconDonnee,DateLecon")] Lecon lecon, string descr)
         {
+            lecon.ProfesseurID = _context.Professeurs.FirstOrDefault(i_d => i_d.Matricule == User.Identity.Name).ID;
+            lecon.LeconDonnee = descr;
             if (ModelState.IsValid)
             {
                 _context.Add(lecon);
@@ -78,8 +79,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             {
                 return NotFound();
             }
-            ViewData["CoursID"] = new SelectList(_context.Cours, "ID", "ID", lecon.CoursID);
-            ViewData["ProfesseurID"] = new SelectList(_context.Professeurs, "ID", "ID", lecon.ProfesseurID);
+            ViewData["CoursID"] = new SelectList(_context.Cours.Where(d_i => d_i.Professeur.Matricule == User.Identity.Name), "ID", "Intituler", lecon.CoursID);
             return View(lecon);
         }
 
@@ -95,6 +95,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
                 return NotFound();
             }
 
+            lecon.ProfesseurID = _context.Professeurs.FirstOrDefault(i_d => i_d.Matricule == User.Identity.Name).ID;
             if (ModelState.IsValid)
             {
                 try
@@ -115,8 +116,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CoursID"] = new SelectList(_context.Cours, "ID", "ID", lecon.CoursID);
-            ViewData["ProfesseurID"] = new SelectList(_context.Professeurs, "ID", "ID", lecon.ProfesseurID);
+            ViewData["CoursID"] = new SelectList(_context.Cours.Where(d_i => d_i.Professeur.Matricule == User.Identity.Name), "ID", "Intituler", lecon.CoursID);
             return View(lecon);
         }
 
@@ -154,6 +154,12 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
         private bool LeconExists(string id)
         {
             return _context.Lecons.Any(e => e.ID == id);
+        }
+
+        [HttpGet]
+        public string Ok(string descr)
+        {
+            return descr;
         }
     }
 }
