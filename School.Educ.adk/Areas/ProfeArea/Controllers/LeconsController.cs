@@ -66,7 +66,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(lecon);
         }
 
-        // GET: ProfeArea/Lecons/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -83,9 +82,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(lecon);
         }
 
-        // POST: ProfeArea/Lecons/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("ID,ProfesseurID,CoursID,LeconDonnee,DateLecon")] Lecon lecon)
@@ -120,7 +116,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(lecon);
         }
 
-        // GET: ProfeArea/Lecons/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -140,7 +135,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             return View(lecon);
         }
 
-        // POST: ProfeArea/Lecons/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -154,12 +148,6 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
         private bool LeconExists(string id)
         {
             return _context.Lecons.Any(e => e.ID == id);
-        }
-
-        [HttpGet]
-        public string Ok(string descr)
-        {
-            return descr;
         }
     }
 }
