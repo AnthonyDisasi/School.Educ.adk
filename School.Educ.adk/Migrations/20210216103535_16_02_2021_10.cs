@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace School.Educ.adk.Migrations.InspecteurDbMigrations
+namespace School.Educ.adk.Migrations
 {
-    public partial class _12_01_2021_1 : Migration
+    public partial class _16_02_2021_10 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -65,16 +65,22 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Participants",
+                name: "Inspecteurs",
                 columns: table => new
                 {
                     ID = table.Column<string>(nullable: false),
-                    IdentifiantEleve = table.Column<string>(nullable: false),
-                    DateExamen = table.Column<DateTime>(nullable: false)
+                    Nom = table.Column<string>(nullable: false),
+                    Postnom = table.Column<string>(nullable: false),
+                    Prenom = table.Column<string>(nullable: false),
+                    Genre = table.Column<int>(nullable: true),
+                    Matricule = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
+                    DateNaissance = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Participants", x => x.ID);
+                    table.PrimaryKey("PK_Inspecteurs", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,6 +190,26 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Participants",
+                columns: table => new
+                {
+                    ID = table.Column<string>(nullable: false),
+                    IdentifiantEleve = table.Column<string>(nullable: false),
+                    DateExamen = table.Column<DateTime>(nullable: false),
+                    ExamenID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Participants", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Participants_Examens_ExamenID",
+                        column: x => x.ExamenID,
+                        principalTable: "Examens",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Questions",
                 columns: table => new
                 {
@@ -191,6 +217,7 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
                     ExamenID = table.Column<string>(nullable: false),
                     Enoncer = table.Column<string>(nullable: true),
                     BonneReponse = table.Column<string>(nullable: true),
+                    Lettre = table.Column<string>(nullable: true),
                     Cote = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
@@ -202,6 +229,28 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
                         principalTable: "Examens",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Affectations",
+                columns: table => new
+                {
+                    ID = table.Column<string>(nullable: false),
+                    InspecteurID = table.Column<string>(nullable: true),
+                    IdEcole = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    PeriodeAffectectation = table.Column<string>(nullable: false),
+                    DateAffectation = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Affectations", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Affectations_Inspecteurs_InspecteurID",
+                        column: x => x.InspecteurID,
+                        principalTable: "Inspecteurs",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -251,6 +300,13 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Affectations_InspecteurID",
+                table: "Affectations",
+                column: "InspecteurID",
+                unique: true,
+                filter: "[InspecteurID] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -295,6 +351,11 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
                 column: "QuestionID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Participants_ExamenID",
+                table: "Participants",
+                column: "ExamenID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Questions_ExamenID",
                 table: "Questions",
                 column: "ExamenID");
@@ -312,6 +373,9 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Affectations");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -332,6 +396,9 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
 
             migrationBuilder.DropTable(
                 name: "Reponses");
+
+            migrationBuilder.DropTable(
+                name: "Inspecteurs");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

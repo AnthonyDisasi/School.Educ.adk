@@ -93,10 +93,10 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             List<ApplicationUser> nonMembers = new List<ApplicationUser>();
             if(role_ == "Inspecteur")
             {
-                List<Inspecteur> model = _context.Inspecteurs.ToList();
+                List<Inspecteur_> model = _context.Inspecteurs.ToList();
                 foreach (ApplicationUser user in userManager.Users)
                 {
-                    foreach (Inspecteur inspecteur in model)
+                    foreach (Models.Inspecteur_ inspecteur in model)
                     {
                         if (inspecteur.ID == user.Id)
                         {

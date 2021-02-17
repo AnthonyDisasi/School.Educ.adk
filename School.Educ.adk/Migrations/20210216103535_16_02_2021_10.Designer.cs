@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Educ.adk.Areas.Admin.Data;
 
-namespace School.Educ.adk.Migrations.InspecteurDbMigrations
+namespace School.Educ.adk.Migrations
 {
     [DbContext(typeof(InspecteurDb))]
-    [Migration("20210114182216_14_01_2021_2")]
-    partial class _14_01_2021_2
+    [Migration("20210216103535_16_02_2021_10")]
+    partial class _16_02_2021_10
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -236,10 +236,14 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
 
                     b.Property<DateTime>("DateExamen");
 
+                    b.Property<string>("ExamenID");
+
                     b.Property<string>("IdentifiantEleve")
                         .IsRequired();
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ExamenID");
 
                     b.ToTable("Participants");
                 });
@@ -257,6 +261,8 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
 
                     b.Property<string>("ExamenID")
                         .IsRequired();
+
+                    b.Property<string>("Lettre");
 
                     b.HasKey("ID");
 
@@ -400,6 +406,13 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
                         .HasForeignKey("QuestionID");
                 });
 
+            modelBuilder.Entity("School.Educ.adk.Areas.Admin.Models.Participant", b =>
+                {
+                    b.HasOne("School.Educ.adk.Areas.Admin.Models.Examen", "Examen")
+                        .WithMany("Participants")
+                        .HasForeignKey("ExamenID");
+                });
+
             modelBuilder.Entity("School.Educ.adk.Areas.Admin.Models.Question", b =>
                 {
                     b.HasOne("School.Educ.adk.Areas.Admin.Models.Examen", "Examen")
@@ -411,7 +424,7 @@ namespace School.Educ.adk.Migrations.InspecteurDbMigrations
             modelBuilder.Entity("School.Educ.adk.Areas.Admin.Models.Reponse", b =>
                 {
                     b.HasOne("School.Educ.adk.Areas.Admin.Models.Participant", "Participant")
-                        .WithMany("Reponses")
+                        .WithMany()
                         .HasForeignKey("ParticipantID")
                         .OnDelete(DeleteBehavior.Cascade);
 

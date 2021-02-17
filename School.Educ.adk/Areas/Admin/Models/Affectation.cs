@@ -23,6 +23,6 @@ namespace School.Educ.adk.Areas.Admin.Models
         [Display(Name = "Date d'affectation"), Required(ErrorMessage = "La date d'affectation est obligatoire"), DataType(DataType.Date)]
         public DateTime DateAffectation { get; set; }
 
-        public Inspecteur Inspecteur { get; set; }
+        public Inspecteur_ Inspecteur { get; set; }
     }
 }

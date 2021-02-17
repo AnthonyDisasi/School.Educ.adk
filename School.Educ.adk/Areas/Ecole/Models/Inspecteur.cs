@@ -6,13 +6,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace School.Educ.adk.Areas.Admin.Models
+namespace School.Educ.adk.Areas.Ecole.Models
 {
     public class Inspecteur
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string ID { get; set; }
+        public string EcoleID { get; set; }
 
         [Required(ErrorMessage = "Le Nom est obligatoire")]
         public string Nom { get; set; }
@@ -40,7 +41,6 @@ namespace School.Educ.adk.Areas.Admin.Models
             }
         }
 
-        public Affectation Affectation { get; set; }
+        public virtual Ecole Ecole { get; set; }
     }
 }
-

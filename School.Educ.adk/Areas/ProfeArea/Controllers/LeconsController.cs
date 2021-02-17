@@ -39,8 +39,9 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             }
 
             var lecon = await _context.Lecons
-                .Include(l => l.Cours)
+                .Include(c => c.Cours)
                 .Include(l => l.Professeur)
+                .Include(e => e.Evaluer)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (lecon == null)
             {
@@ -131,6 +132,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
             var lecon = await _context.Lecons
                 .Include(l => l.Cours)
                 .Include(l => l.Professeur)
+                .Include(l => l.Evaluer)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (lecon == null)
             {

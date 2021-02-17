@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace School.Educ.adk.Migrations.UserAuthentMigrations
 {
-    public partial class _init_user : Migration
+    public partial class _16_02_2021_11 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

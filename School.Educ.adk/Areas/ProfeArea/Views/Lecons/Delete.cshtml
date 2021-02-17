@@ -37,12 +37,27 @@
                         <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
                             @Html.DisplayFor(model => model.DateLecon)
                         </dd>
-                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
-                            @Html.DisplayNameFor(model => model.DateLecon)
-                        </dt>
-                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
-                            @Html.DisplayFor(model => model.DateLecon)
-                        </dd>
+                        @if (Model.Evaluer == null)
+                        {
+                            <dt class="col-form-label col-md-12 col-sm-12 text-right text-center">
+                                <p>Cette leçon n'a pas encore été coté</p>
+                            </dt>
+                        }
+                        else
+                        {
+                            <dt class="col-form-label col-md-7 col-sm-7 text-right label-align">
+                                @Html.DisplayNameFor(model => model.Evaluer.Remarque)
+                            </dt>
+                            <dd class="col-form-label col-md-7 col-sm-12 text-left label-align">
+                                @Html.DisplayFor(model => model.Evaluer.Remarque)
+                            </dd>
+                            <dt class="col-form-label col-md-7 col-sm-7 text-right label-align">
+                                @Html.DisplayNameFor(model => model.Evaluer.Cotation)
+                            </dt>
+                            <dd class="col-form-label col-md-7 col-sm-12 text-left label-align">
+                                @Html.DisplayFor(model => model.Evaluer.Cotation)
+                            </dd>
+                        }
                         <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
                             @Html.DisplayNameFor(model => model.LeconDonnee)
                         </dt>

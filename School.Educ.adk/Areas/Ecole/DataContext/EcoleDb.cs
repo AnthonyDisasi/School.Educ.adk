@@ -26,6 +26,7 @@ namespace School.Educ.adk.Areas.Ecole.DataContext
         public DbSet<Cotation> Cotations { get; set; }
         public DbSet<Epreuve> Epreuve { get; set; }
         public DbSet<CahierCote> CahierCote { get; set; }
+        public DbSet<Inspecteur> Inspecteurs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

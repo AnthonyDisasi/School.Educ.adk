@@ -14,7 +14,7 @@ using School.Educ.adk.Models;
 namespace School.Educ.adk.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class InspecteursController : Controller
+    public class InspecteursController_ : Controller
     {
         private UserManager<ApplicationUser> userManager;
         private IUserValidator<ApplicationUser> userValidator;
@@ -23,7 +23,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         private readonly InspecteurDb _context;
         private readonly EcoleDb _cont;
 
-        public InspecteursController(UserManager<ApplicationUser> usrMgr,
+        public InspecteursController_(UserManager<ApplicationUser> usrMgr,
         IUserValidator<ApplicationUser> userValid,
         IPasswordValidator<ApplicationUser> passValid,
         IPasswordHasher<ApplicationUser> passwordHash,
@@ -90,7 +90,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Email,Password,DateNaissance")] Inspecteur inspecteur)
+        public async Task<IActionResult> Create([Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Email,Password,DateNaissance")] Inspecteur_ inspecteur)
         {
             if (ModelState.IsValid)
             {
@@ -145,7 +145,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Email,Password,DateNaissance")] Inspecteur inspecteur)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Email,Password,DateNaissance")] Inspecteur_ inspecteur)
         {
             if (id != inspecteur.ID)
             {

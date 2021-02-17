@@ -16,6 +16,6 @@ namespace School.Educ.adk.Areas.Inspection.Models
         public string Remarque { get; set; }
 
         public Ecole.Models.Lecon Lecon { get; set; }
-        public virtual Admin.Models.Inspecteur Inpecteur { get; set; }
+        public virtual Admin.Models.Inspecteur_ Inpecteur { get; set; }
     }
 }

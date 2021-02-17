@@ -33,5 +33,6 @@ namespace School.Educ.adk.Areas.Ecole.Models
         public ICollection<Classe> Classes { get; set; }
         public ICollection<Professeur> Professeurs { get; set; }
         public ICollection<Eleve> Eleves { get; set; }
+        public virtual Inspecteur Inspecteur { get; set; }
     }
 }
