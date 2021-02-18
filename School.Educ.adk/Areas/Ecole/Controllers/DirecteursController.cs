@@ -23,7 +23,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Details()
+        public IActionResult Details()
         {
             var directeur = _context.Directeurs
                .Include(e => e.Ecole)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using School.Educ.adk.Areas.Ecole.Models;
 namespace School.Educ.adk.Areas.Inspection.Controllers
 {
     [Area("Inspection")]
+    [Authorize(Roles = "Inspecteur")]
     public class LeconsController : Controller
     {
         private readonly EcoleDb _context;

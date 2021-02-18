@@ -7,36 +7,91 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Lecon</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LeconDonnee)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LeconDonnee)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateLecon)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateLecon)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Professeur)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Professeur.ID)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cours)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cours.ID)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <dl class="row">
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.LeconDonnee)
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.LeconDonnee)
+                        </dd>
+                        <dt class="col-form-label col-md-6 col-sm-6  label-align">
+                            @Html.DisplayNameFor(model => model.DateLecon)
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.DateLecon)
+                        </dd>
+
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Professeur)
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Professeur.NomComplet)
+                        </dd>
+
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Cours)
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Cours.Intituler)
+                        </dd>
+
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Cours.Classe)
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Cours.Classe.NomComplet)
+                        </dd>
+
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            <h7>Nombre d'élève</h7>
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                            @Html.DisplayFor(model => model.Cours.Classe.Inscriptions.Count)
+                        </dd>
+
+                        @if (Model.Evaluer == null)
+                        {
+                            <dt class="text-center col-form-label col-md-12 col-md-12 label-align">
+                                <div style="border: 0;">
+                                    <p class="text">Vous n'avez pas encore évalué cette lécon</p>
+                                </div>
+                                <div class="text-center">
+                                    <a class="btn btn-outline-info" asp-controller="Evaluers" asp-action="Create" asp-route-leconID="@Model.ID">Evaluer</a>
+                                </div>
+                            </dt>
+                        }
+                        else
+                        {
+                            <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                                @Html.DisplayNameFor(model => model.Evaluer.Remarque)
+                            </dt>
+                            <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                                @Html.DisplayFor(model => model.Evaluer.Remarque)
+                            </dd>
+                            <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                                @Html.DisplayNameFor(model => model.Evaluer.Cotation)
+                            </dt>
+                            <dd class="col-form-label col-md-6 col-sm-12 text-left label-align">
+                                @Html.DisplayFor(model => model.Evaluer.Cotation) / 10
+                            </dd>
+                            <dt class="text-center col-form-label col-md-12 col-md-12 label-align">
+                                <div class="text-center">
+                                    <a class="btn btn-outline-info" asp-controller="Evaluers" asp-action="Edit" asp-route-id="@Model.Evaluer.ID">Modifier</a>
+                                </div>
+                            </dt>
+                        }
+
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

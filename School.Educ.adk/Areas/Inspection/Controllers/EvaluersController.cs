@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using School.Educ.adk.Areas.Inspection.Models;
 namespace School.Educ.adk.Areas.Inspection.Controllers
 {
     [Area("Inspection")]
+    [Authorize(Roles = "Inspecteur")]
     public class EvaluersController : Controller
     {
         private readonly EcoleDb _context;
@@ -20,41 +22,10 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Create(string leconID)
         {
-            var ecoleDb = _context.Evaluer
-                .Include(e => e.Inpecteur)
-                .Include(e => e.Lecon)
-                .ThenInclude(e => e.Cours)
-                .Where(e => e.Inpecteur.Matricule == User.Identity.Name);
-            return View(await ecoleDb.ToListAsync());
-        }
-
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var evaluer = await _context.Evaluer
-                .Include(e => e.Inpecteur)
-                .Include(e => e.Lecon)
-                .ThenInclude(e => e.Cours)
-                .Where(e => e.Inpecteur.Matricule == User.Identity.Name)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (evaluer == null)
-            {
-                return NotFound();
-            }
-
-            return View(evaluer);
-        }
-
-        public IActionResult Create()
-        {
-            ViewData["InpecteurID"] = new SelectList(_context.Inspecteurs, "ID", "ID");
-            ViewData["LeconID"] = new SelectList(_context.Lecons, "ID", "ID");
+            ViewData["Lecon"] = _context.Lecons.Find(leconID).LeconDonnee;
+            ViewData["LeconID"] = _context.Lecons.Find(leconID).ID;
             return View();
         }
 
@@ -62,14 +33,21 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,LeconID,InpecteurID,Cotation,Remarque")] Evaluer evaluer)
         {
+            evaluer.InpecteurID = _context.Inspecteurs.FirstOrDefault(i => i.Matricule == User.Identity.Name).ID;
             if (ModelState.IsValid)
             {
+                if((evaluer.Cotation > 10) || (evaluer.Cotation < 0))
+                {
+                    ModelState.AddModelError(nameof(Evaluer.Cotation), "La cotation doit être comprise entre 0 et 10.");
+                    return View(evaluer);
+                }
+
                 _context.Add(evaluer);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Lecons", new { id = evaluer.LeconID });
             }
-            ViewData["InpecteurID"] = new SelectList(_context.Inspecteurs, "ID", "ID", evaluer.InpecteurID);
-            ViewData["LeconID"] = new SelectList(_context.Lecons, "ID", "ID", evaluer.LeconID);
+            ViewData["Lecon"] = _context.Lecons.Find(evaluer.LeconID).LeconDonnee;
+            ViewData["LeconID"] = _context.Lecons.Find(evaluer.LeconID).ID;
             return View(evaluer);
         }
 
@@ -85,8 +63,8 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             {
                 return NotFound();
             }
-            ViewData["InpecteurID"] = new SelectList(_context.Inspecteurs, "ID", "ID", evaluer.InpecteurID);
-            ViewData["LeconID"] = new SelectList(_context.Lecons, "ID", "ID", evaluer.LeconID);
+            ViewData["Lecon"] = _context.Lecons.Find(evaluer.LeconID).LeconDonnee;
+            ViewData["LeconID"] = _context.Lecons.Find(evaluer.LeconID).ID;
             return View(evaluer);
         }
 
@@ -99,8 +77,15 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                 return NotFound();
             }
 
+            evaluer.InpecteurID = _context.Inspecteurs.FirstOrDefault(i => i.Matricule == User.Identity.Name).ID;
             if (ModelState.IsValid)
             {
+                if ((evaluer.Cotation > 10) || (evaluer.Cotation < 0))
+                {
+                    ModelState.AddModelError(nameof(Evaluer.Cotation), "La cotation doit être comprise entre 0 et 10.");
+                    return View(evaluer);
+                }
+
                 try
                 {
                     _context.Update(evaluer);
@@ -117,40 +102,11 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Lecons", new { id = evaluer.LeconID });
             }
-            ViewData["InpecteurID"] = new SelectList(_context.Inspecteurs, "ID", "ID", evaluer.InpecteurID);
-            ViewData["LeconID"] = new SelectList(_context.Lecons, "ID", "ID", evaluer.LeconID);
+            ViewData["Lecon"] = _context.Lecons.Find(evaluer.LeconID).LeconDonnee;
+            ViewData["LeconID"] = _context.Lecons.Find(evaluer.LeconID).ID;
             return View(evaluer);
-        }
-
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var evaluer = await _context.Evaluer
-                .Include(e => e.Inpecteur)
-                .Include(e => e.Lecon)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (evaluer == null)
-            {
-                return NotFound();
-            }
-
-            return View(evaluer);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var evaluer = await _context.Evaluer.FindAsync(id);
-            _context.Evaluer.Remove(evaluer);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool EvaluerExists(string id)
