@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using School.Educ.adk.Areas.Admin.Data;
-using School.Educ.adk.Areas.Admin.Models;
 using School.Educ.adk.Areas.Ecole.DataContext;
 using School.Educ.adk.Areas.Ecole.Models;
 using School.Educ.adk.Models;
@@ -15,19 +13,19 @@ using School.Educ.adk.Models;
 namespace School.Educ.adk.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class InspecteursController_ : Controller
+    public class InspecteursController : Controller
     {
+        private readonly EcoleDb _context;
         private UserManager<ApplicationUser> userManager;
         private IUserValidator<ApplicationUser> userValidator;
         private IPasswordValidator<ApplicationUser> passwordValidator;
         private IPasswordHasher<ApplicationUser> passwordHasher;
-        private readonly EcoleDb _context;
 
-        public InspecteursController_(UserManager<ApplicationUser> usrMgr,
-        IUserValidator<ApplicationUser> userValid,
-        IPasswordValidator<ApplicationUser> passValid,
-        IPasswordHasher<ApplicationUser> passwordHash,
-        EcoleDb context)
+        public InspecteursController(EcoleDb context,
+            UserManager<ApplicationUser> usrMgr,
+            IUserValidator<ApplicationUser> userValid,
+            IPasswordValidator<ApplicationUser> passValid,
+            IPasswordHasher<ApplicationUser> passwordHash)
         {
             userManager = usrMgr;
             userValidator = userValid;
@@ -38,16 +36,37 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var ecoleDb = _context.Inspecteurs.Include(i => i.Ecole).AsNoTracking().ToList();
+            return View(ecoleDb);
         }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var inspecteur = await _context.Inspecteurs
+                .Include(i => i.Ecole)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (inspecteur == null)
+            {
+                return NotFound();
+            }
+
+            return View(inspecteur);
+        }
+
         public IActionResult Create()
         {
+            ViewData["EcoleID"] = new SelectList(_context.Ecoles.Where(i => i.Inspecteur == null), "ID", "Nom");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Email,Password,DateNaissance")] Inspecteur inspecteur)
+        public async Task<IActionResult> Create([Bind("ID,EcoleID,Nom,Postnom,Prenom,Genre,Matricule,Email,Password,DateNaissance")] Inspecteur inspecteur)
         {
             if (ModelState.IsValid)
             {
@@ -73,6 +92,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                     }
                 }
             }
+            ViewData["EcoleID"] = new SelectList(_context.Ecoles.Where(i => i.Inspecteur == null), "ID", "Nom", inspecteur.EcoleID);
             return View(inspecteur);
         }
 
@@ -89,6 +109,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            ViewData["EcoleID"] = new SelectList(_context.Ecoles.Where(i => i.Inspecteur == null), "ID", "Nom", inspecteur.EcoleID);
             return View(inspecteur);
         }
 
@@ -102,12 +123,13 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,Nom,Postnom,Prenom,Genre,Matricule,Email,Password,DateNaissance")] Inspecteur inspecteur)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,EcoleID,Nom,Postnom,Prenom,Genre,Matricule,Email,Password,DateNaissance")] Inspecteur inspecteur)
         {
             if (id != inspecteur.ID)
             {
                 return NotFound();
             }
+
             ApplicationUser user = await userManager.FindByIdAsync(id);
             if (user != null)
             {
@@ -168,6 +190,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", "Utilisateur non trouvé");
             }
+            ViewData["EcoleID"] = new SelectList(_context.Ecoles.Where(i => i.Inspecteur == null), "ID", "Nom", inspecteur.EcoleID);
             return View(inspecteur);
         }
 
@@ -178,7 +201,9 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var inspecteur = await _context.Inspecteurs.FindAsync(id);
+            var inspecteur = await _context.Inspecteurs
+                .Include(i => i.Ecole)
+                .FirstOrDefaultAsync(m => m.ID == id);
             if (inspecteur == null)
             {
                 return NotFound();
@@ -213,7 +238,6 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-
 
         private bool InspecteurExists(string id)
         {

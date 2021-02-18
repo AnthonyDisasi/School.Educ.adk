@@ -14,8 +14,6 @@ namespace School.Educ.adk.Areas.Admin.Data
     {
         public InspecteurDb(DbContextOptions<InspecteurDb> options) : base(options) { }
 
-        public DbSet<Models.Inspecteur_> Inspecteurs { get; set; }
-        public DbSet<Affectation> Affectations { set; get; }
         public DbSet<Assertion> Assertions { get; set; }
         public DbSet<Examen> Examens { get; set; }
         public DbSet<Participant> Participants { get; set; }

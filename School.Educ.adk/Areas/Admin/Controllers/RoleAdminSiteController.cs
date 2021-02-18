@@ -19,18 +19,15 @@ namespace School.Educ.adk.Areas.Admin.Controllers
     {
         private RoleManager<IdentityRole> roleManager;
         private UserManager<ApplicationUser> userManager;
-        private readonly InspecteurDb _context;
-        private readonly EcoleDb _conte;
+        private readonly EcoleDb _context;
 
         public RoleAdminSiteController(RoleManager<IdentityRole> _roleManager,
             UserManager<ApplicationUser> _userManager,
-            InspecteurDb context,
-            EcoleDb contet)
+            EcoleDb context)
         {
             roleManager = _roleManager;
             userManager = _userManager;
             _context = context;
-            _conte = contet;
         }
 
         public IActionResult Index() => View(roleManager.Roles);
@@ -93,10 +90,10 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             List<ApplicationUser> nonMembers = new List<ApplicationUser>();
             if(role_ == "Inspecteur")
             {
-                List<Inspecteur_> model = _context.Inspecteurs.ToList();
+                List<Inspecteur> model = _context.Inspecteurs.ToList();
                 foreach (ApplicationUser user in userManager.Users)
                 {
-                    foreach (Models.Inspecteur_ inspecteur in model)
+                    foreach (Inspecteur inspecteur in model)
                     {
                         if (inspecteur.ID == user.Id)
                         {
@@ -108,7 +105,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             }
             if(role_ == "Directeur")
             {
-                List<Directeur> model = _conte.Directeurs.ToList();
+                List<Directeur> model = _context.Directeurs.ToList();
                 foreach(ApplicationUser user in userManager.Users)
                 {
                     foreach(Directeur directeur in model)

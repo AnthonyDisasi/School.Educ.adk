@@ -13,15 +13,14 @@ namespace School.Educ.adk.Controllers
         private readonly EcoleDb dbEcole;
         private readonly InspecteurDb inspecteurDb;
 
-        public HomeController(InspecteurDb _inspecteurDb, EcoleDb _dbEcole)
+        public HomeController(EcoleDb _dbEcole)
         {
             dbEcole = _dbEcole;
-            inspecteurDb = _inspecteurDb;
         }
 
         public IActionResult Redirection_(string id)
         {
-            if (inspecteurDb.Inspecteurs.Find(id) != null)
+            if (dbEcole.Inspecteurs.Find(id) != null)
             {
                 return Redirect("/Inspection/Inspecteurs/Details");
             }

@@ -1,10 +1,10 @@
-﻿@model School.Educ.adk.Areas.Admin.Models.Inspecteur
+﻿@model School.Educ.adk.Areas.Ecole.Models.Inspecteur
 
 @{
-    ViewData["Title"] = "Modifier";
+    ViewData["Title"] = "Nouveau";
 }
 
-<h1>Modifier les informations de l'inspecteur</h1>
+<h1>Nouveau inspecteur</h1>
 
 <hr />
 
@@ -20,11 +20,21 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <form class="" asp-action="Edit" method="post">
+                <form class="" asp-action="Create" method="post" novalidate>
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="ID" />
                     <span class="section">Info sur l'inspecteur</span>
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="EcoleID"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <select class="form-control has-feedback-left" asp-for="EcoleID" asp-items="@ViewBag.EcoleID">
+                                <option value="">Selectionner l'école</option>
+                            </select>
+                            <span class="fa fa-bullseye form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="EcoleID" class="text-danger"></span>
+                    </div>
 
                     <div class="field item form-group">
                         <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Nom"></label>
@@ -92,7 +102,7 @@
                     <div class="field item form-group">
                         <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Password"></label>
                         <div class="col-md-6 col-sm-6">
-                            <input class="form-control" id="password1" asp-for="Password" />
+                            <input class="form-control" type="password" id="password1" asp-for="Password" />
 
                             <span style="position: absolute;right:15px;top:7px;" onclick="hideshow()">
                                 <i id="slash" class="fa fa-eye-slash"></i>

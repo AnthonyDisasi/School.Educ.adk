@@ -1,12 +1,10 @@
-﻿@model School.Educ.adk.Areas.Admin.Models.Inspecteur
+﻿@model School.Educ.adk.Areas.Ecole.Models.Inspecteur
 
 @{
-    ViewData["Title"] = "Supprimer";
+    ViewData["Title"] = "Info";
 }
 
-<h1>Supprimer l'inspecteur</h1>
-
-<h3 class="text-danger">Etes vous sûr(e) de vouloir supprimer l'inspecteur du système ?</h3>
+<h1>Informations sur l'inspecteur</h1>
 
 <div>
     <hr />
@@ -22,9 +20,13 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-
-                    <h4>Informations</h4>
                     <dl class="row">
+                        <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
+                            @Html.DisplayNameFor(model => model.Ecole)
+                        </dt>
+                        <dd class="col-form-label col-md-6 col-sm-6 text-left label-align">
+                            @Html.DisplayFor(model => model.Ecole.Nom)
+                        </dd>
                         <dt class="col-form-label col-md-6 col-sm-6 text-right label-align">
                             @Html.DisplayNameFor(model => model.Nom)
                         </dt>
@@ -74,12 +76,10 @@
                             @Html.DisplayFor(model => model.DateNaissance)
                         </dd>
                     </dl>
-                </div>
-                <div class="text-center">
-                    <form asp-action="Delete">
-                        <input type="hidden" asp-for="ID" />
-                        <input type="submit" value="Delete" class="btn btn-outline-danger" />
-                    </form>
+
+                    <div class="text-center">
+                        <a class="btn btn-outline-info" asp-action="Edit" asp-route-id="@Model.ID">Modification</a>
+                    </div>
                 </div>
             </div>
         </div>
