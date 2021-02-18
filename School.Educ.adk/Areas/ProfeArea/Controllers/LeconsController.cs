@@ -24,6 +24,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
         {
             var dbEcole = _context.Lecons
                 .Include(o => o.Cours)
+                .Include(l => l.Evaluer)
                 .Include(l => l.Professeur)
                 .AsNoTracking()
                 .Where(c => c.Professeur.Matricule == User.Identity.Name)
@@ -42,6 +43,7 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
                 .Include(c => c.Cours)
                 .Include(l => l.Professeur)
                 .Include(e => e.Evaluer)
+                .ThenInclude(l => l.Inpecteur)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (lecon == null)
             {

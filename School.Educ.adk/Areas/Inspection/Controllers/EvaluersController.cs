@@ -47,7 +47,7 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
                 return RedirectToAction("Details", "Lecons", new { id = evaluer.LeconID });
             }
             ViewData["Lecon"] = _context.Lecons.Find(evaluer.LeconID).LeconDonnee;
-            ViewData["LeconID"] = _context.Lecons.Find(evaluer.LeconID).ID;
+            ViewData["LeconID"] = evaluer.LeconID;
             return View(evaluer);
         }
 

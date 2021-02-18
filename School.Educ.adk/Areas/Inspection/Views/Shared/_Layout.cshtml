@@ -51,46 +51,13 @@
                             <h3>General</h3>
                             <ul class="nav side-menu">
                                 <li>
-                                    <a><i class="fa fa-user"></i> Directeur <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a asp-area="Inspection" asp-controller="Directeurs" asp-action="Index">Directeurs</a></li>
-                                        <li><a asp-area="Inspection" asp-controller="Directeurs" asp-action="Create">Nouveau directeur</a></li>
-                                        <li><a asp-area="Inspection" asp-controller="RoleDirecteurs" asp-action="Index">Rôle</a></li>
-                                    </ul>
+                                    <a asp-area="Inspection" asp-controller="Directeurs" asp-action="Details"><i class="fa fa-user"></i> Directeur</a>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-institution"></i> Ecole <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a asp-area="Inspection" asp-controller="Ecoles" asp-action="Index">Ecoles</a></li>
-                                        <li><a asp-area="Inspection" asp-controller="Ecoles" asp-action="Create">Nouvelle école</a></li>
-                                    </ul>
+                                    <a asp-area="Inspection" asp-controller="Ecoles" asp-action="Details"><i class="fa fa-institution"></i> Ecole </a>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-edit"></i> Epreuves <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li>
-                                            <a>Examen<span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li class="sub_menu">
-                                                    <a asp-area="Inspection" asp-controller="Examen" asp-action="Index">Examens</a>
-                                                </li>
-                                                <li>
-                                                    <a asp-area="Inspection" asp-controller="Examen" asp-action="Create">Nouveau</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a>Participant <span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li class="sub_menu">
-                                                    <a asp-area="Inspection" asp-controller="Participants" asp-action="Index">Participants</a>
-                                                </li>
-                                                <li>
-                                                    <a asp-area="Inspection" asp-controller="Participants" asp-action="Create">Nouveau</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                    <a asp-area="Inspection" asp-controller="Lecons" asp-action="Index"><i class="fa fa-book"></i> Leçons et évaluation</a>
                                 </li>
                             </ul>
                         </div>

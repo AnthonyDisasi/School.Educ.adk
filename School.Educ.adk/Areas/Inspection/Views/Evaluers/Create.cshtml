@@ -1,43 +1,63 @@
 ﻿@model School.Educ.adk.Areas.Inspection.Models.Evaluer
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Nouvelle";
 }
 
-<h1>Create</h1>
+<h1>Evaluation</h1>
 
-<h4>Evaluer</h4>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="LeconID" value="@ViewBag.LeconID" />
+    <div class="col-md-12 col-sm-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a asp-controller="Lecons" asp-action="Details" asp-route-id="@ViewBag.LeconID" class="btn btn-outline-secondary btn-xs"><i class="fa fa-reply"></i> retour</a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <form class="" asp-action="Create" method="post" novalidate>
 
-            <div class="text-center">
-                <h6>La leçon</h6>
-                <p>@ViewBag.Lecon</p>
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="Cotation" class="control-label"></label>
-                <input asp-for="Cotation" class="form-control" placeholder=" .../ 1 0" />
-                <span asp-validation-for="Cotation" class="text-danger"></span>
-            </div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="LeconID" value="@ViewBag.LeconID" />
 
-            <div class="form-group">
-                <label asp-for="Remarque" class="control-label"></label>
-                <input asp-for="Remarque" class="form-control" />
-                <span asp-validation-for="Remarque" class="text-danger"></span>
+                    <div class="text-center">
+                        <h6>La leçon</h6>
+                        <p>@ViewBag.Lecon</p>
+                    </div>
+
+                    <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Cotation"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control has-feedback-left" asp-for="Cotation" placeholder=" .../ 1 0" />
+                            <span class="fa fa-info-circle form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="Cotation" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group field item">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" asp-for="Remarque"></label>
+                        <div class="col-md-6 col-sm-9 ">
+                            <textarea class="resizable_textarea form-control" asp-for="Remarque"></textarea>
+                        </div>
+                        <span asp-validation-for="Remarque" class="text-danger"></span>
+                    </div>
+
+                    <div class="ln_solid">
+                        <div class="form-group">
+                            <br /><br />
+                            <div class="col-md-6 offset-md-3 text-center">
+                                <button type='submit' class="btn btn-primary">Enregistrer</button>
+                                <button type='reset' class="btn btn-success">Recommencer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
