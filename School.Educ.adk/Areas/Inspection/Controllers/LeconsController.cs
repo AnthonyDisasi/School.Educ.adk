@@ -27,7 +27,6 @@ namespace School.Educ.adk.Areas.Inspection.Controllers
             var ecoleDb = _context.Lecons
                 .Include(l => l.Cours)
                 .Include(l => l.Professeur)
-                .ThenInclude(l => l.Ecole)
                 .Include(l => l.Evaluer)
                 .Where(l => l.Professeur.Ecole.Inspecteur.Matricule == User.Identity.Name);
             return View(await ecoleDb.ToListAsync());
