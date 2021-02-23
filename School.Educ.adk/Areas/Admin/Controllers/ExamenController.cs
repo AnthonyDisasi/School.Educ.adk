@@ -54,6 +54,11 @@ namespace School.Educ.adk.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Description,Periode,Serie,CodeAcces,DateExamen,Duree")] Examen examen)
         {
+            if((examen.DateExamen.Date <= DateTime.Now.Date) || (examen.DateExamen.Day <= (DateTime.Now.Day + 1)))
+            {
+                ModelState.AddModelError(nameof(Examen.DateExamen), "Veillez choisir une date plus ulterieure !");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(examen);

@@ -114,14 +114,6 @@
                                 </div>
 
                                 <div class="field item form-group">
-                                    <label class="col-form-label col-md-3 col-sm-3  label-align">Position de réponse</label>
-                                    <div class="col-md-6 col-sm-6">
-                                        <input class="form-control has-feedback-left" type="text" name="lettre" />
-                                        <span class="fa fa-pencil form-control-feedback left" aria-hidden="true"></span>
-                                    </div>
-                                </div>
-
-                                <div class="field item form-group">
                                     <label class="col-form-label col-md-3 col-sm-3  label-align">Cote de la réponse</label>
                                     <div class="col-md-6 col-sm-6">
                                         <input class="form-control has-feedback-left" type="number" name="cote" />
@@ -157,7 +149,6 @@
                                     <tr>
                                         <th>Enoncé</th>
                                         <th>Bonne réponse</th>
-                                        <th>Lettre</th>
                                         <th>Cote</th>
                                         <th>Assertions</th>
                                         <th>Actions</th>
@@ -182,9 +173,6 @@
                                                 </td>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.BonneReponse)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Lettre)
                                                 </td>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.Cote)

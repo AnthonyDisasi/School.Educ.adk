@@ -39,17 +39,17 @@ namespace School.Educ.adk.Areas.Admin.Controllers
             return View(question);
         }
 
-        public IActionResult Create(string idExamen, string enoncer, string bonneReponse, string cote, string lettre)
+        [HttpGet]
+        public IActionResult Create(string idExamen, string enoncer, string bonneReponse, string cote)
         {
-            if ((enoncer != null) & (bonneReponse != null) & (cote != null) & (lettre != null))
+            if ((enoncer != null) & (bonneReponse != null) & (cote != null))
             {
                 Question model = new Question
                 {
                     ExamenID = idExamen,
                     Enoncer = enoncer,
                     BonneReponse = bonneReponse,
-                    Cote = double.Parse(cote),
-                    Lettre = lettre
+                    Cote = double.Parse(cote)
                 };
                 if (ModelState.IsValid)
                 {
@@ -79,7 +79,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,ExamenID,Enoncer,BonneReponse,Lettre,Cote")] Question question)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,ExamenID,Enoncer,BonneReponse,Cote")] Question question)
         {
             if (id != question.ID)
             {

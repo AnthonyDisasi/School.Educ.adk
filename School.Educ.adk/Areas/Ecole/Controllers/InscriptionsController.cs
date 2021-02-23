@@ -32,7 +32,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,EleveId,ClasseID,DateInscription")] Inscription inscription, string id)
+        public async Task<IActionResult> Create([Bind("ID,EleveId,ClasseID,DateInscription")] Inscription inscription, string idEleve)
         {
             int model = (from i in _context.Inscriptions where i.ClasseID == inscription.ClasseID & i.EleveId == inscription.EleveId select i).Count();
             if (model > 0)
@@ -40,7 +40,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
                 ModelState.AddModelError("", "Un élève ne peut être inscrit dans une classe et une même année scolaire !");
                 ViewData["ClasseID"] = new SelectList(_context.Classes.Where(i => i.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet", inscription.ClasseID);
                 ViewData["Eleve"] = _context.Eleves.Find(inscription.EleveId).NomComplet;
-                ViewData["EleveId"] = id;
+                ViewData["EleveId"] = idEleve;
                 return View(inscription);
             }
             if (ModelState.IsValid)
@@ -74,9 +74,9 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,EleveId,ClasseID,DateInscription")] Inscription inscription)
+        public async Task<IActionResult> Edit(string idEleve, [Bind("ID,EleveId,ClasseID,DateInscription")] Inscription inscription)
         {
-            if (id != inscription.ID)
+            if (idEleve != inscription.ID)
             {
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace School.Educ.adk.Areas.Ecole.Controllers
             }
             ViewData["ClasseID"] = new SelectList(_context.Classes.Where(i => i.EcoleID == _context.Directeurs.Include(e => e.Ecole).FirstOrDefault(d => d.Matricule == User.Identity.Name).Ecole.ID), "ID", "NomComplet", inscription.ClasseID);
             ViewData["Eleve"] = _context.Eleves.Find(inscription.EleveId).NomComplet;
-            ViewData["EleveId"] = id;
+            ViewData["EleveId"] = idEleve;
             return View(inscription);
         }
 
