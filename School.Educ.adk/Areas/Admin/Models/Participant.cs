@@ -15,8 +15,6 @@ namespace School.Educ.adk.Areas.Admin.Models
 
         [Required(ErrorMessage = "L'identifiant de l'élève est obligatoire"), Display(Name = "Identifiant de l'élève")]
         public string IdentifiantEleve { get; set; }
-        [Required(ErrorMessage = "La question est obligatoire"), Display(Name = "Question"), DataType(DataType.Date)]
-        public DateTime DateExamen { get; set; }
 
         public Examen Examen { get; set; }
     }
