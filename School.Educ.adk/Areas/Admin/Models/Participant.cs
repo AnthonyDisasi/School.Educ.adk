@@ -16,6 +16,11 @@ namespace School.Educ.adk.Areas.Admin.Models
         [Required(ErrorMessage = "L'identifiant de l'élève est obligatoire"), Display(Name = "Identifiant de l'élève")]
         public string IdentifiantEleve { get; set; }
 
+        //Celui sera remplit lorsque l'utilisateur aura commencer l'epreuve
+        public bool Voir { get; set; }
+        //Celui sera remplit quand l'utilisateur sera connecté et aura vu le message à l'invitation pour l'epreuve
+        public bool Lecture { get; set; }
+
         public Examen Examen { get; set; }
     }
 }
