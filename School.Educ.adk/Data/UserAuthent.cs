@@ -11,6 +11,9 @@ namespace School.Educ.adk.Data
     public class UserAuthent : IdentityDbContext<ApplicationUser>
     {
         public UserAuthent(DbContextOptions<UserAuthent> options) : base(options) { }
+
+        public DbSet<Notification> Notifications { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

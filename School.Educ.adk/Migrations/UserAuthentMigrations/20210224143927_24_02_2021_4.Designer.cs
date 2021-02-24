@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Educ.adk.Data;
 
 namespace School.Educ.adk.Migrations.UserAuthentMigrations
 {
     [DbContext(typeof(UserAuthent))]
-    partial class UserAuthentModelSnapshot : ModelSnapshot
+    [Migration("20210224143927_24_02_2021_4")]
+    partial class _24_02_2021_4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
