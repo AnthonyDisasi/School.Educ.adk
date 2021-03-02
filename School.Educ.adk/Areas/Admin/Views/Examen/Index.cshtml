@@ -40,11 +40,9 @@
                                     <tr>
                                         <th>@Html.DisplayNameFor(model => model.Description)</th>
                                         <th>@Html.DisplayNameFor(model => model.Periode)</th>
-                                        <th>@Html.DisplayNameFor(model => model.Serie)</th>
-                                        <th>@Html.DisplayNameFor(model => model.CodeAcces)</th>
                                         <th>@Html.DisplayNameFor(model => model.DateExamen)</th>
-                                        <th>@Html.DisplayNameFor(model => model.Duree)</th>
-                                        <th>Question</th>
+                                        <th>Questions</th>
+                                        <th>Participants</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -69,25 +67,37 @@
                                                     @Html.DisplayFor(modelItem => item.Periode)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.Serie)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.CodeAcces)
-                                                </td>
-                                                <td>
                                                     @Html.DisplayFor(modelItem => item.DateExamen)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.Duree)
+                                                    @Html.DisplayFor(modelItem => item.Questions.Count)
                                                 </td>
-                                                <td>
-                                                   @Html.DisplayFor(modelItem => item.Questions.Count)
-                                                </td>
-                                                <td style="text-align:center">
-                                                    <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> </a>
-                                                    <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> </a>
-                                                    <a  asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
-                                                </td>
+                                                @if (item.Participants.Count() == 0)
+                                                {
+                                                    <td class="text-center">
+                                                        <a asp-controller="Participants" asp-action="ListeEcoles" asp-route-id="@item.ID" class="btn btn-success btn-xs">Ajouter <i class="fa fa-group"></i> </a>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-center">
+                                                        <a asp-controller="Participants" asp-action="ListeEcoles" asp-route-id="@item.ID" class="btn btn-primary btn-xs">Modifier <i class="fa fa-group"></i> </a>
+                                                    </td>
+                                                }
+                                                @if (item.DateExamen < DateTime.Now)
+                                                {
+                                                    <td class="text-center">
+                                                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> </a>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="text-align:center">
+                                                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> </a>
+                                                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> </a>
+                                                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
+                                                    </td>
+                                                }
                                             </tr>
                                         }
                                     }

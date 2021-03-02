@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using School.Educ.adk.Areas.Ecole.DataContext;
 
 namespace School.Educ.adk.Migrations.EcoleDbMigrations
 {
     [DbContext(typeof(EcoleDb))]
-    partial class EcoleDbModelSnapshot : ModelSnapshot
+    [Migration("20210302081444_02_03_2021_1")]
+    partial class _02_03_2021_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,13 +169,13 @@ namespace School.Educ.adk.Migrations.EcoleDbMigrations
                     b.Property<string>("EcoleLongitude")
                         .IsRequired();
 
-                    b.Property<double>("Niveau");
-
                     b.Property<string>("Nom")
                         .IsRequired();
 
                     b.Property<string>("SousDivision")
                         .IsRequired();
+
+                    b.Property<double>("niveau");
 
                     b.HasKey("ID");
 

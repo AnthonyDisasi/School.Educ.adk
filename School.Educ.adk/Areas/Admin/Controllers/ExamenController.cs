@@ -22,7 +22,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Examens.Include(q => q.Questions).ToListAsync());
+            return View(await _context.Examens.Include(q => q.Questions).Include(e => e.Participants).ToListAsync());
         }
 
         public async Task<IActionResult> Details(string id)
@@ -36,6 +36,7 @@ namespace School.Educ.adk.Areas.Admin.Controllers
                 .Examens
                 .Include(q => q.Questions)
                 .ThenInclude(a => a.Assertions)
+                .Include(e => e.Participants)
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (examen == null)
             {

@@ -29,6 +29,8 @@ namespace School.Educ.adk.Areas.Ecole.Models
         [Display(Name = "Date de création"), DataType(DataType.Date), Required(ErrorMessage = "La date de création est obligatoire")]
         public DateTime DateCreate { get; set; }
 
+        public double Niveau { get; set; }
+
         public virtual Directeur Directeur { get; set; }
         public ICollection<Classe> Classes { get; set; }
         public ICollection<Professeur> Professeurs { get; set; }

@@ -1,0 +1,32 @@
+﻿@model IEnumerable<School.Educ.adk.Areas.Ecole.Models.Ecole>
+
+<div class="row">
+    <div class="x_panel">
+        <div class="x_content">
+            <div class="clearfix"></div>
+            @foreach (School.Educ.adk.Areas.Ecole.Models.Ecole item in Model)
+            {
+                <div class="col-md-4 col-sm-4  profile_details">
+                    <div class="well profile_view">
+                        <div class="col-sm-12">
+                            <h4 class="brief text-center"><i>@item.Nom</i></h4>
+                            <div class="left col-md-12 col-sm-12">
+                                <h2><strong>Directeur : </strong> @item.Directeur.NomComplet</h2>
+                                <p><strong>Nomre des classes : </strong> @item.Classes.Count </p>
+                            </div>
+                        </div>
+                        <div class=" profile-bottom text-center">
+                            <div class=" col-sm-12 emphasis">
+                                <a asp-action="ListeClasses" asp-route-idExamen="@ViewBag.IdExamen" asp-route-idEcole="@item.ID" class="btn btn-success btn-sm">
+                                    <i class="fa fa-user">
+                                    </i> <i class="fa fa-comments-o"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

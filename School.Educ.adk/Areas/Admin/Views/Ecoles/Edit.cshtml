@@ -46,6 +46,14 @@
                         <span asp-validation-for="Nom" class="text-danger"></span>
                     </div>
                     <div class="field item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="Niveau"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <input type="number" class="form-control has-feedback-left" asp-for="Niveau" />
+                            <span class="fa fa-pencil form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                        <span asp-validation-for="Niveau" class="text-danger"></span>
+                    </div>
+                    <div class="field item form-group">
                         <label class="col-form-label col-md-3 col-sm-3  label-align" asp-for="EcoleLatitude"></label>
                         <div class="col-md-6 col-sm-6">
                             <input class="form-control has-feedback-left" asp-for="EcoleLatitude" />

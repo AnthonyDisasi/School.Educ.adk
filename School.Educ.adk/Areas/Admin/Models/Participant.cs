@@ -12,6 +12,7 @@ namespace School.Educ.adk.Areas.Admin.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string ID { get; set; }
+        public string ExamenID { get; set; }
 
         [Required(ErrorMessage = "L'identifiant de l'élève est obligatoire"), Display(Name = "Identifiant de l'élève")]
         public string IdentifiantEleve { get; set; }

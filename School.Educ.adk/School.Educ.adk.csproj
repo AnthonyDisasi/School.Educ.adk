@@ -6,6 +6,13 @@
     <UserSecretsId>37824870-49c8-4bf8-af22-89ac052cbdf0</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="wwwroot\Vendor\**" />
+    <Content Remove="wwwroot\Vendor\**" />
+    <EmbeddedResource Remove="wwwroot\Vendor\**" />
+    <None Remove="wwwroot\Vendor\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
@@ -22,11 +29,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="wwwroot\Vendor\" />
   </ItemGroup>
 
 </Project>

@@ -28,81 +28,139 @@
                 </ul>
                 <div class="clearfix"></div>
             </div>
-            <div class="x_content">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="card-box table-responsive">
-                            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-                            <p class="text-muted font-13 m-b-30">
+            <div class="row">
+                <div class="x_panel">
+                    <div class="x_content">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-4 col-sm-4  profile_details">
+                                <div class="well profile_view">
+                                    <div class="col-sm-12">
+                                        <h4 class="brief text-center"><i>@item.Nom</i></h4>
+                                        <div class="left">
+                                            @if(item.Directeur == null)
+                                            {
+                                                <h2>Directeur : <strong><i class="fa fa-user"></i></strong></h2>
+                                            }
+                                            else 
+                                            {
+                                                <h2>Directeur : <strong>@item.Directeur.NomComplet</strong></h2>
+                                            }
+                                            <p>Sous-division : <strong>@item.SousDivision </strong></p>
+                                            <ul class="list-unstyled">
+                                                <li><i class="fa fa-users"></i>  Professeurs : @item.Professeurs.Count</li>
+                                                <li><i class="fa fa-institution"></i>  Classes : @item.Classes.Count</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="profile-bottom text-center">
+                                        <div class="text-center col-sm-5 emphasis">
 
-                            </p>
-                            <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>@Html.DisplayNameFor(model => model.Nom)</th>
-                                        <th>@Html.DisplayNameFor(model => model.EcoleLatitude)</th>
-                                        <th>@Html.DisplayNameFor(model => model.EcoleLongitude)</th>
-                                        <th>@Html.DisplayNameFor(model => model.SousDivision)</th>
-                                        <th>@Html.DisplayNameFor(model => model.DateCreate)</th>
-                                        <th>@Html.DisplayNameFor(model => model.Directeur)</th>
-                                        <th>Nombre des classes</th>
-                                        <th>Nombre des Professeurs</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-
-
-                                <tbody>
-                                    @if (Model.Count() == 0)
-                                    {
-                                        <tr>
-                                            <td colspan="9">Aucune école n'est enregistrée!</td>
-                                        </tr>
-                                    }
-                                    else
-                                    {
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Nom)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.EcoleLatitude)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.EcoleLongitude)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.SousDivision)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.DateCreate)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Directeur.NomComplet)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Classes.Count)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Professeurs.Count)
-                                                </td>
-                                                <td style="text-align:center">
-                                                    <a asp-area="Admin" asp-controller="Ecoles" asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> </a>
-                                                    <a asp-area="Admin" asp-controller="Ecoles" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> </a>
-                                                    <a asp-area="Admin" asp-controller="Ecoles" asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
-
-                        </div>
+                                            <p class="ratings text-center">
+                                                @if (item.Niveau == 0)
+                                                {
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                }
+                                                else if (item.Niveau == 10)
+                                                {
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                }
+                                                else if (item.Niveau == 1)
+                                                {
+                                                    <i class="fa fa-star-half-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                }
+                                                else if (item.Niveau == 2)
+                                                {
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                }
+                                                else if (item.Niveau == 3)
+                                                {
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-half-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                }
+                                                else if (item.Niveau == 4)
+                                                {
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                }
+                                                else if (item.Niveau == 5)
+                                                {
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-half-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                }
+                                                else if (item.Niveau == 6)
+                                                {
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                }
+                                                else if (item.Niveau == 7)
+                                                {
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-half-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                }
+                                                else if (item.Niveau == 8)
+                                                {
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                }
+                                                else if (item.Niveau == 9)
+                                                {
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-half-o"></i>
+                                                }
+                                            </p>
+                                        </div>
+                                        <div class="btn-group center-margin btn-group-sm col-sm-7 emphasis">
+                                            <a asp-area="Admin" asp-controller="Ecoles" asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> </a>
+                                            <a asp-area="Admin" asp-controller="Ecoles" asp-action="Edit" asp-route-id="@item.ID" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> </a>
+                                            <a asp-area="Admin" asp-controller="Ecoles" asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> </a>
+                                        </div>
+                                    </div>
+                                    <div><br/></div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

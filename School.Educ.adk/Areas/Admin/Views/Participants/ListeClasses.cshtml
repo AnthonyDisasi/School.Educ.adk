@@ -1,0 +1,40 @@
+﻿@model IEnumerable<School.Educ.adk.Areas.Ecole.Models.Classe>
+
+<div class="row">
+    <div class="x_panel">
+        <div class="x_content">
+            @foreach (School.Educ.adk.Areas.Ecole.Models.Classe item in Model)
+            {
+                <div class="col-md-4 col-sm-4  profile_details">
+                    <div class="well profile_view">
+                        <div class="left col-sm-12">
+                            <h4 class="brief text-center"><i>@item.NomComplet</i></h4>
+                            <div class="left col-md-12 col-sm-12">
+                                <h2><strong>Année-scolaire : </strong> @item.AnneeScolaire</h2>
+                                <p><strong>Nomre des élèves : </strong> @item.Inscriptions.Count </p>
+                            </div>
+                        </div>
+                        <div class=" profile-bottom text-center">
+                            <div class=" col-sm-12 emphasis">
+                                @if (ViewBag.modife == 1)
+                                {
+                                    <button asp-controller="Participants" asp-action="ClasseChosen" asp-route-idExamen="@ViewBag.IdExamen" asp-route-idClasse="@item.ID" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-user">
+                                        </i> <i class="fa fa-comments-o"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <a asp-action="ClasseChosen" asp-route-idExamen="@ViewBag.IdExamen" asp-route-idClasse="@item.ID" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-user">
+                                        </i> <i class="fa fa-comments-o"></i>
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

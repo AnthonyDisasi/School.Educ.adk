@@ -88,13 +88,16 @@ namespace School.Educ.adk.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ID,DirecteurID,Nom,EcoleLatitude,EcoleLongitude,SousDivision,DateCreate")] Ecole.Models.Ecole ecole)
+        public async Task<IActionResult> Edit(string id, [Bind("ID,DirecteurID,Nom,EcoleLatitude,EcoleLongitude,SousDivision,DateCreate,Niveau")] Ecole.Models.Ecole ecole)
         {
             if (id != ecole.ID)
             {
                 return NotFound();
             }
-
+            if(ecole.Niveau < 0 || ecole.Niveau > 10)
+            {
+                ModelState.AddModelError(nameof(ecole.Niveau), "La valeur doit être comprise entre 0 et 10.");
+            }
             if (ModelState.IsValid)
             {
                 try
