@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using School.Educ.adk.Areas.Ecole.DataContext;
 using School.Educ.adk.Areas.Ecole.Models;
+using School.Educ.adk.Data;
 
 namespace School.Educ.adk.Areas.ProfeArea.Controllers
 {
@@ -16,10 +17,12 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
     public class EpreuvesController : Controller
     {
         private readonly EcoleDb _context;
+        private readonly UserAuthent userNotif;
 
-        public EpreuvesController(EcoleDb context)
+        public EpreuvesController(EcoleDb context, UserAuthent userNotif)
         {
             _context = context;
+            this.userNotif = userNotif;
         }
 
         public IActionResult Index(string id, string idEpreuve)
@@ -38,10 +41,38 @@ namespace School.Educ.adk.Areas.ProfeArea.Controllers
         public IActionResult Save_epreuve(string[] EleveID, double[] Point, string idEpreuve)
         {
             int nbr = EleveID.Length;
+            var model = _context.Epreuve
+                .Include(e => e.CahierCote)
+                .ThenInclude(e => e.Cours)
+                .FirstOrDefault(e => e.ID == idEpreuve);
+            var direct = _context.Professeurs
+                .Include(e => e.Ecole)
+                .ThenInclude(p => p.Directeur)
+                .FirstOrDefault(e => e.Matricule == User.Identity.Name)
+                .Ecole.Directeur.Matricule;
             for(int i = 0; i < nbr; i++)
             {
                 _context.Cotations.Add(new Cotation { EpreuveID = idEpreuve, EleveID = EleveID[i], Point = Point[i] });
+                if(Point[i] < (model.Total / 2))
+                {
+                    var eleve = _context.Eleves.Find(EleveID[i]).Matricule;
+                    userNotif.Notifications.Add(new Models.Notification
+                    {
+                        Destinataire = direct,
+                        DateMessage = System.DateTime.Now,
+                        Expediteur = User.Identity.Name,
+                        Message = "L'élève dont le matricule est " + eleve + " a eu une cote inferieure à la moyenne dans le cours de " + model.CahierCote.Cours.Intituler + " à l'épreuve de " + model.Description,
+                    });
+                    userNotif.Notifications.Add(new Models.Notification
+                    {
+                        Destinataire = eleve,
+                        DateMessage = System.DateTime.Now,
+                        Expediteur = User.Identity.Name,
+                        Message = "La cote obtenue à l'épreuve de " + model.Description + " du cours de " + model.CahierCote.Cours.Intituler + " est inferieure à la moyenne",
+                    });
+                }
             }
+            userNotif.SaveChanges();
             _context.SaveChanges();
             ViewBag.IdEpreuve = idEpreuve;
             return RedirectToAction("Details", "Epreuves", new { id = idEpreuve });

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using School.Educ.adk.Areas.Ecole.DataContext;
 using School.Educ.adk.Areas.Ecole.Models;
+using School.Educ.adk.Data;
 
 namespace School.Educ.adk.Areas.ProfeArea.Controllers
 {

@@ -19,8 +19,10 @@ namespace School.Educ.adk.Models
         public string Destinataire { get; set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime MyProperty { get; set; }
+        public DateTime DateMessage { get; set; }
 
         public string Message { get; set; }
+
+        public bool Lu { get; set; }
     }
 }

@@ -14,7 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>School.Educ.adk - Professeur - @ViewData["Title"]</title>
+    <title>School.Educ.adk - Elève - @ViewData["Title"]</title>
 
     <!-- Bootstrap -->
     <link href="cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
@@ -56,7 +56,7 @@
 
                     <!-- menu profile quick info -->
                     <div class="profile clearfix" style="text-align:center">
-                        <h2>Professeur</h2>
+                        <h2>Elève</h2>
                     </div>
                     <!-- /menu profile quick info -->
 
@@ -68,7 +68,7 @@
                             <h3>General</h3>
                             <ul class="nav side-menu">
                                 <li>
-                                    <a asp-area="ProfeArea" asp-controller="Professeurs" asp-action="DetailsEcole"><i class="fa fa-institution"></i> Ecole</a>
+                                    <a asp-area="Eleve" asp-controller="Monitors" asp-action="Index"><i class="fa fa-institution"></i> Monitor</a>
                                 </li>
                                 <li>
                                     <a asp-area="ProfeArea" asp-controller="Lecons" asp-action="Index"><i class="fa fa-book"></i> Leçon</a>

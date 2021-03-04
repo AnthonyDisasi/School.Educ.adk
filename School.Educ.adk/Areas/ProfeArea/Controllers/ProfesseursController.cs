@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using School.Educ.adk.Areas.Ecole.DataContext;
+using School.Educ.adk.Data;
 
 namespace School.Educ.adk.Areas.ProfeArea.Controllers
 {
