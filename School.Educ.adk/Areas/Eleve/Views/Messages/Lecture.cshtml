@@ -1,0 +1,54 @@
+﻿@model IEnumerable<School.Educ.adk.Models.Notification>
+
+<div class="page-title">
+    <div class="title_left">
+        <h3>Cotes des epreuves</h3>
+    </div>
+</div>
+
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Cote <small>de l'élève</small></h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="col-md-12 col-sm-12 ">
+                    <!-- start recent activity -->
+                    <ul class="messages">
+                        @foreach(var item)
+                        <li>
+                            <img src="images/img.jpg" class="avatar" alt="Avatar">
+                            <div class="message_date">
+                                <h3 class="date text-info">24</h3>
+                                <p class="month">May</p>
+                            </div>
+                            <div class="message_wrapper">
+                                <h4 class="heading">Desmond Davison</h4>
+                                <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
+                                <br />
+                                <p class="url">
+                                    <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                                    <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
+                                </p>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <!-- end recent activity -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
